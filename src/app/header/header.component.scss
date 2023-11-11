@@ -1,0 +1,22 @@
+#header-wrapper {
+   width: 100%;
+   background-color: rgb(244, 147, 63);
+   text-align: center;
+
+   h1 {
+      font-size: 3rem;
+      margin: 0;
+      padding: 2rem;
+   }
+
+   nav {
+      padding: 1rem;
+      user-select: none;
+
+      button {
+         border-radius: 0;
+         padding: 0.5rem;
+         width: 20%;
+      }
+   }
+}

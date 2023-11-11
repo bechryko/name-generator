@@ -1,0 +1,8 @@
+<div id="header-wrapper">
+   <h1>Unnamed Name Generator</h1>
+   <nav>
+      @for (item of navMenuItems; track $index) {
+         <button mat-stroked-button (click)="navigateTo(item.path)" [disabled]="!item.path">{{ item.label }}</button>
+      }
+   </nav>
+</div>
