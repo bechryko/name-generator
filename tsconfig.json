@@ -25,6 +25,8 @@
     ],
     "baseUrl": "./src",
     "paths": {
+      "@core/*": ["app/core/*"],
+      "@generation/*": ["app/generation/*"],
       "@header/*": ["app/header/*"],
     }
   },

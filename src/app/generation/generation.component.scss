@@ -1,0 +1,22 @@
+#generation-wrapper {
+   height: 100%;
+   display: grid;
+   grid-template-columns: 1fr 4fr;
+}
+
+ngen-sidenav {
+   height: 100%;
+   background-color: #8a8a8a;
+}
+
+ngen-generation-config {
+   height: 50%; // TODO: responsive height in ts (service with observables for each component)
+   display: block;
+   background-color: rgb(255, 255, 146);
+}
+
+ngen-generation-output {
+   height: 25%;
+   display: block;
+   background-color: sandybrown;
+}

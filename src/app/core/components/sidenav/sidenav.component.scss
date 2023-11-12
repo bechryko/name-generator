@@ -1,0 +1,11 @@
+#sidenav-wrapper {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+
+   #placeholder {
+      font-size: 1.4rem;
+      text-align: center;
+      width: 70%;
+   }
+}

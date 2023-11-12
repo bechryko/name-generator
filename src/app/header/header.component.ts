@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
+import { RouteUrls } from '@core/enums';
 
 interface NavMenuItem {
   label: string;
@@ -13,7 +14,7 @@ interface NavMenuItem {
 })
 export class HeaderComponent {
   public readonly navMenuItems: NavMenuItem[] = [
-    { label: 'Generation', path: '' },
+    { label: 'Generation', path: RouteUrls.GENERATION },
     { label: 'Name Database', path: '' },
     { label: 'About', path: '' }
   ];

@@ -1,0 +1,11 @@
+<div id="generation-wrapper">
+   <ngen-sidenav 
+      [selectableList]="GENERATORS" 
+      (select)="selectGenerator($event)"
+      placeholderText="No generation algorithms!"
+   ></ngen-sidenav>
+   <div>
+      <ngen-generation-config [selectedGenerator]="selectedGenerator"></ngen-generation-config>
+      <ngen-generation-output [generatedNames]="[]"></ngen-generation-output>
+   </div>
+</div>
