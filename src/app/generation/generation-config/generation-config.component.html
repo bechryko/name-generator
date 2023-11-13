@@ -1,3 +1,18 @@
-<div id="generation-config-wrapper">
-   <p>gen config works!</p>
-</div>
+<form id="generation-config-wrapper" 
+   [formGroup]="configForm" 
+   (ngSubmit)="onGenerate()"
+>
+   @for (field of configFields; track $index) {
+      @if (generatorConfigFields[field.name]) {
+         <mat-form-field>
+            <mat-label>{{ field.label }}</mat-label>
+            <input matInput
+               [type]="field.type"
+               [formControlName]="field.name"
+               (blur)="correctFieldValue(field.name)">
+         </mat-form-field>
+         <br>
+      }
+   }
+   <button mat-raised-button color="primary" type="submit">Generate Names</button>
+</form>

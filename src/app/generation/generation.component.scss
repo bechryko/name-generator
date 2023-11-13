@@ -2,6 +2,11 @@
    height: 100%;
    display: grid;
    grid-template-columns: 1fr 4fr;
+   background-color: rgb(255, 255, 146);
+
+   h2 {
+      text-align: center;
+   }
 }
 
 ngen-sidenav {
@@ -12,7 +17,6 @@ ngen-sidenav {
 ngen-generation-config {
    height: 50%; // TODO: responsive height in ts (service with observables for each component)
    display: block;
-   background-color: rgb(255, 255, 146);
 }
 
 ngen-generation-output {
