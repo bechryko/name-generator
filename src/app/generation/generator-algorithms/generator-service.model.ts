@@ -1,7 +1,6 @@
-import { Name } from "@core/names";
-import { GenerationConfig } from "@generation/models";
+import { Name } from "@ngen-core/names";
+import { GenerationConfig } from "@ngen-generation/models";
 
 export interface GeneratorService {
-   generateName: (config: GenerationConfig) => Name;
-   completeConfig: (config: GenerationConfig) => GenerationConfig;
+   generateName(config: GenerationConfig): Name;
 }

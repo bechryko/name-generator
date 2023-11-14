@@ -1,18 +1,18 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
-import { GenerationConfig } from '@generation/models/generation-config';
+import { ErrorService } from '@ngen-core/error-handling';
+import { GenerationConfig } from '@ngen-generation/models/generation-config';
+import isEqual from 'lodash.isequal';
 import { Generators } from '../enums';
 import { GeneratorConfigFields } from './model';
-import { GenerationConfigUtils } from './utils';
-import isEqual from 'lodash.isequal';
-import { ErrorService } from '@core/error-handling';
+import { GenerationConfigUtils, InputFormatUtils } from './utils';
 
 type FieldName = keyof GenerationConfig;
 
 interface ConfigField {
   name: FieldName;
   label: string;
-  type: 'number';
+  type: 'number' | 'text' | 'checkbox';
   defaultValue: {};
 }
 
@@ -25,10 +25,7 @@ export class GenerationConfigComponent {
   @Input() selectedGenerator?: Generators;
   @Output() generate: EventEmitter<GenerationConfig> = new EventEmitter<GenerationConfig>();
 
-  public configForm = this.fb.group({
-    minLength: [2],
-    maxLength: [4]
-  });
+  public readonly configForm;
 
   public configFields: ConfigField[] = [
     {
@@ -41,42 +38,82 @@ export class GenerationConfigComponent {
       label: "Maximum length",
       type: 'number',
       defaultValue: 4
+    }, {
+      name: 'excludedLetters',
+      label: "Excluded letters",
+      type: 'text',
+      defaultValue: ""
+    }, {
+      name: 'includedLetters',
+      label: "Included letters",
+      type: 'text',
+      defaultValue: ""
+    }, {
+      name: 'ignoreVoicedUnvoicedPairs',
+      label: "Ignore voiced-unvoiced neighbors",
+      type: 'checkbox',
+      defaultValue: false
+    }, {
+      name: 'regularNameStart',
+      label: "Start of the name (regular)",
+      type: 'text',
+      defaultValue: ""
+    }, {
+      name: 'regularNameEnd',
+      label: "End of the name (regular)",
+      type: 'text',
+      defaultValue: ""
+    }, {
+      name: 'regularNameBase',
+      label: "Regular skeleton of the name",
+      type: 'text',
+      defaultValue: ""
     }
   ];
 
   constructor(
     private readonly fb: NonNullableFormBuilder,
     private readonly errorService: ErrorService
-  ) { }
+  ) {
+    const formGroupObject: Record<FieldName, {}> = {} as Record<FieldName, {}>;
+    for (const field of this.configFields) {
+      formGroupObject[field.name] = [field.defaultValue];
+    }
+    this.configForm = this.fb.group(formGroupObject);
+  }
 
   public correctFieldValue(fieldName: keyof GeneratorConfigFields): void {
+    if(this.configObject[fieldName] === undefined) {
+      this.configForm.controls[fieldName].reset();
+    }
+    
     if(fieldName === 'minLength') {
-      if(!this.configObject.minLength) {
-        this.configForm.controls.minLength.reset();
+      if(this.configObject.minLength < this.getBounds('length')!.min!) {
+        this.setFormFieldValue('minLength', this.getBounds('length')!.min!);
       }
-      if(this.configObject.minLength) {
-        if(this.configObject.minLength < this.getBounds('length')!.min!) {
-          this.setFormFieldValue('minLength', this.getBounds('length')!.min!);
-        }
-        if(this.configObject.minLength > this.configObject.maxLength) {
-          this.swapFieldValues('minLength', 'maxLength');
-          this.correctFieldValue('maxLength');
-        }
+      if(this.configObject.minLength > this.configObject.maxLength) {
+        this.swapFieldValues('minLength', 'maxLength');
+        this.correctFieldValue('maxLength');
       }
     }
 
     if(fieldName === 'maxLength') {
-      if(!this.configObject.maxLength) {
-        this.configForm.controls.maxLength.reset();
+      if(this.configObject.maxLength > this.getBounds('length')!.max!) {
+        this.setFormFieldValue('maxLength', this.getBounds('length')!.max!);
       }
-      if(this.configObject.maxLength) {
-        if(this.configObject.maxLength > this.getBounds('length')!.max!) {
-          this.setFormFieldValue('maxLength', this.getBounds('length')!.max!);
-        }
-        if(this.configObject.minLength > this.configObject.maxLength) {
-          this.swapFieldValues('minLength', 'maxLength');
-          this.correctFieldValue('minLength');
-        }
+      if(this.configObject.minLength > this.configObject.maxLength) {
+        this.swapFieldValues('minLength', 'maxLength');
+        this.correctFieldValue('minLength');
+      }
+    }
+
+    if(fieldName === 'excludedLetters' || fieldName === 'includedLetters') {
+      this.setFormFieldValue(fieldName, InputFormatUtils.formatInput(this.configObject[fieldName]));
+      if(this.configObject.excludedLetters) {
+        this.configForm.controls.includedLetters.setErrors({ excludedLetters: true }); //TODO: show error on custom input
+        this.configForm.controls.includedLetters.markAsTouched();
+      } else {
+        this.configForm.controls.includedLetters.setErrors(null);
       }
     }
   }
@@ -90,7 +127,7 @@ export class GenerationConfigComponent {
     if(isEqual(oldValue, this.configObject)) {
       this.generate.emit(this.configObject);
     } else {
-      this.errorService.popupError("Generation", "Name generation failed due to invalid config values!");
+      this.errorService.popupError('generation', 'INVALID_CONFIG_VALUES');
     }
   }
 

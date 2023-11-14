@@ -25,9 +25,9 @@
     ],
     "baseUrl": "./src",
     "paths": {
-      "@core/*": ["app/core/*"],
-      "@generation/*": ["app/generation/*"],
-      "@header/*": ["app/header/*"],
+      "@ngen-core/*": ["app/core/*"],
+      "@ngen-generation/*": ["app/generation/*"],
+      "@ngen-header/*": ["app/header/*"],
     }
   },
   "angularCompilerOptions": {

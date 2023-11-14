@@ -1,6 +1,12 @@
 const fields = [
    "minLength",
-   "maxLength"
+   "maxLength",
+   "excludedLetters",
+   "includedLetters",
+   "ignoreVoicedUnvoicedPairs",
+   "regularNameStart",
+   "regularNameEnd",
+   "regularNameBase"
 ] as const;
 
 export type GeneratorConfigFields = Partial<Record<typeof fields[number], boolean>>;

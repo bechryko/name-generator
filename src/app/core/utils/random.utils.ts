@@ -1,27 +1,28 @@
+import { NgenArray } from "@ngen-core/models";
+
 export class RandomUtils {
    private static randomNumber(): number {
       return Math.random();
    }
 
-   public static between(min: number, max: number, includeMax = true): number {
-      return Math.floor(this.randomNumber() * (max - min + Number(includeMax))) + min;
+   public static between(min: number, max: number): number {
+      return this.randomNumber() * (max - min) + min;
    }
 
    public static randomIndex<T>(array: T[]): T {
-      return array[this.between(0, array.length - 1)];
+      return array[Math.floor(this.between(0, array.length))];
    }
 
    public static randomIndexWeighted<T>(array: T[], weights: number[]): T {
-      let totalWeight = 0;
-      weights.forEach(weight => totalWeight += weight);
+      const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
       const randomWeight = this.between(0, totalWeight);
       let weightSum = 0;
-      for (let i = 0; i < array.length; i++) {
-            weightSum += weights[i];
-            if (randomWeight <= weightSum) {
-               return array[i];
-            }
+      for(let i = 0; i < array.length; i++) {
+         weightSum += weights[i];
+         if(randomWeight < weightSum) {
+            return array[i];
+         }
       }
-      return array[array.length - 1];
+      return (array as NgenArray<T>).last();
    }
 }

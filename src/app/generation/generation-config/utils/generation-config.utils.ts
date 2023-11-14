@@ -1,4 +1,4 @@
-import { Generators } from "@generation/enums";
+import { Generators } from "@ngen-generation/enums";
 import { GeneratorConfigFields } from "../model";
 
 interface PropertyBounds {
@@ -13,6 +13,14 @@ export class GenerationConfigUtils {
             return {
                minLength: true,
                maxLength: true
+            };
+         case Generators.SYLLABIC:
+            return {
+               minLength: true,
+               maxLength: true,
+               excludedLetters: true,
+               includedLetters: true,
+               ignoreVoicedUnvoicedPairs: true
             };
          default:
             return {};

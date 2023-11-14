@@ -2,9 +2,7 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { SidenavComponent } from '@core/components';
+import { InputComponent, SidenavComponent } from '@ngen-core/components';
 import { GenerationConfigComponent } from './generation-config/generation-config.component';
 import { GenerationOutputComponent } from './generation-output/generation-output.component';
 import { GenerationRoutingModule } from './generation-routing.module';
@@ -20,9 +18,8 @@ import { GeneratorAlgorithmsModule } from './generator-algorithms/generator-algo
   imports: [
     CommonModule,
     GenerationRoutingModule,
-    MatFormFieldModule,
-    MatInputModule,
     ReactiveFormsModule,
+    InputComponent,
     MatButtonModule,
     SidenavComponent,
     GeneratorAlgorithmsModule

@@ -4,13 +4,12 @@
 >
    @for (field of configFields; track $index) {
       @if (generatorConfigFields[field.name]) {
-         <mat-form-field>
-            <mat-label>{{ field.label }}</mat-label>
-            <input matInput
-               [type]="field.type"
-               [formControlName]="field.name"
-               (blur)="correctFieldValue(field.name)">
-         </mat-form-field>
+         <ngen-input
+            [label]="field.label"
+            [type]="field.type"
+            formControlName="{{ field.name }}"
+            (blur)="correctFieldValue(field.name)"
+         ></ngen-input>
          <br>
       }
    }

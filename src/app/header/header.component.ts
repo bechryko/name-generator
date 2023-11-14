@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { RouteUrls } from '@core/enums';
+import { RouteUrls } from '@ngen-core/enums';
 
 interface NavMenuItem {
   label: string;

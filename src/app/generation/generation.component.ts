@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
-import { Name } from '@core/names';
-import { JapaneseGeneratorService } from '@generation/generator-algorithms/japanese/japanese-generator.service';
+import { Name } from '@ngen-core/names';
 import { Generators } from './enums';
+import { JapaneseGeneratorService, SyllabicGeneratorService } from './generator-algorithms';
 import { GeneratorService } from './generator-algorithms/generator-service.model';
-import { GenerationConfig } from './models/generation-config';
+import { GenerationConfig } from './models';
 
 @Component({
   selector: 'ngen-generation',
@@ -17,7 +17,8 @@ export class GenerationComponent {
   public generatedNames: Name[] = [];
 
   private generatorServices: Record<Generators, GeneratorService> = {
-    [Generators.JAPANESE]: inject(JapaneseGeneratorService)
+    [Generators.JAPANESE]: inject(JapaneseGeneratorService),
+    [Generators.SYLLABIC]: inject(SyllabicGeneratorService)
   };
 
   constructor() {
@@ -30,7 +31,7 @@ export class GenerationComponent {
     this.generatedNames = [];
     const service = this.generatorServices[this.selectedGenerator];
     for(let i = 0; i < this.GENERATION_TIMES; i++) {
-      this.generatedNames.push(service.generateName(service.completeConfig(config)));
+      this.generatedNames.push(service.generateName(config));
     }
   }
 

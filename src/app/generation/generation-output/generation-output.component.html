@@ -1,7 +1,10 @@
 <div id="generation-output-wrapper">
    <div id="outputs">
-      @for (name of displayNames; track $index) {
-         <p>{{ name }}</p>
+      @for (displayName of displayNames; track $index) {
+         <p>{{ displayName.name }}</p>
+         @for (prop of displayName.props; track $index) {
+            <p>{{ prop.propName }}: {{ prop.propValue }}</p>
+         }
       }
    </div>
 </div>

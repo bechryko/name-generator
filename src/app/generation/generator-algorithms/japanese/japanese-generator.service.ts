@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { JapaneseName } from '@core/names';
-import { NameFormatUtils, RandomUtils } from '@core/utils';
-import { GenerationConfig } from '@generation/models';
+import { JapaneseName } from '@ngen-core/names';
+import { NameFormatUtils, RandomUtils } from '@ngen-core/utils';
+import { GenerationConfig } from '@ngen-generation/models';
 import { GeneratorAlgorithmsModule } from '../generator-algorithms.module';
 import { GeneratorService } from '../generator-service.model';
 import { JapaneseLetter } from './japanese-letter';
@@ -19,10 +19,6 @@ export class JapaneseGeneratorService implements GeneratorService {
     }
     name.romaji = NameFormatUtils.capitalizeName(name.romaji);
     return name;
-  }
-
-  public completeConfig(config: GenerationConfig): GenerationConfig {
-    return config; //TODO
   }
 
   private appendToName(name: JapaneseName, letter: JapaneseLetter): JapaneseName {
