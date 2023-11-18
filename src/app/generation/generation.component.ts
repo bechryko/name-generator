@@ -1,7 +1,11 @@
 import { Component, inject } from '@angular/core';
 import { Name } from '@ngen-core/names';
 import { Generators } from './enums';
-import { JapaneseGeneratorService, SyllabicGeneratorService } from './generator-algorithms';
+import {
+  JapaneseGeneratorService,
+  RegularGeneratorService,
+  SyllabicGeneratorService
+} from './generator-algorithms';
 import { GeneratorService } from './generator-algorithms/generator-service.model';
 import { GenerationConfig } from './models';
 
@@ -18,7 +22,8 @@ export class GenerationComponent {
 
   private generatorServices: Record<Generators, GeneratorService> = {
     [Generators.JAPANESE]: inject(JapaneseGeneratorService),
-    [Generators.SYLLABIC]: inject(SyllabicGeneratorService)
+    [Generators.SYLLABIC]: inject(SyllabicGeneratorService),
+    [Generators.REGULAR]: inject(RegularGeneratorService)
   };
 
   constructor() {

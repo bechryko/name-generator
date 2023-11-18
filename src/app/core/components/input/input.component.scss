@@ -1,0 +1,11 @@
+#ngen-input-wrapper {
+   width: 100%;
+
+   & > * {
+      width: 100%;
+   }
+
+   mat-label {
+      user-select: none;
+   }
+}

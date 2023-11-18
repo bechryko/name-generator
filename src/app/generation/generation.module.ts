@@ -7,7 +7,7 @@ import { GenerationConfigComponent } from './generation-config/generation-config
 import { GenerationOutputComponent } from './generation-output/generation-output.component';
 import { GenerationRoutingModule } from './generation-routing.module';
 import { GenerationComponent } from './generation.component';
-import { GeneratorAlgorithmsModule } from './generator-algorithms/generator-algorithms.module';
+import { GeneratorAlgorithmsModule } from './generator-algorithms';
 
 @NgModule({
   declarations: [

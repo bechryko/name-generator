@@ -1,23 +1,28 @@
 import { LetterUtils } from "./letter.utils";
 
 export class RegularUtils {
-    private static readonly basic = ['+', '-', '*'] as const;
-    private static readonly numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'] as const;
+    public static readonly symbols = {
+        vowel: '+',
+        consonant: '-',
+        reference: '&',
+        wildcard: '*'
+    } as const;
 
     public static isRegular(letter: string): boolean {
-        return this.basic.includes(letter as any) || this.isReference(letter);
+        return this.isBasicRegular(letter) || this.isReference(letter);
+    }
+
+    public static isBasicRegular(letter: string): boolean {
+        for(const key in this.symbols) {
+            if(this.symbols[key as keyof typeof this.symbols] === letter) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static isReference(letter: string): boolean {
-        return this.numbers.includes(letter as any);
-    }
-
-    public static dereference(name: string, reference: typeof this.numbers[number]): string {
-        const index = Number(reference);
-        if(name.length < index) {
-            throw new Error("invalid regular reference");
-        }
-        return name[index];
+        return !isNaN(Number(letter));
     }
 
     public static matchRegular(regular: string, pureRegularToMatch: string): boolean {
@@ -26,7 +31,7 @@ export class RegularUtils {
             if(pureRegular[i] === pureRegularToMatch[i]) {
                 continue;
             }
-            if(pureRegular[i] === '*' || pureRegularToMatch[i] === '*') {
+            if(pureRegular[i] === this.symbols.wildcard || pureRegularToMatch[i] === this.symbols.wildcard) {
                 continue;
             }
             return false;
@@ -38,19 +43,15 @@ export class RegularUtils {
         let pureRegular = "";
         for(let i = 0; i < regular.length; i++) {
             if(this.isReference(regular[i])) {
-                pureRegular += this.dereference(pureRegular, regular[i] as any);
+                pureRegular += pureRegular[Number(regular[i])];
             } else if(LetterUtils.is('vowel', regular[i])) {
-                pureRegular += '+';
+                pureRegular += this.symbols.vowel;
             } else if(LetterUtils.is('consonant', regular[i])) {
-                pureRegular += '-';
+                pureRegular += this.symbols.consonant;
             } else {
                 pureRegular += regular[i];
             } 
         }
         return pureRegular;
-    }
-
-    public static get allSymbols() {
-        return [...this.basic, ...this.numbers];
     }
 }

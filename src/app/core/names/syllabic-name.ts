@@ -1,7 +1,8 @@
 import { NgenArray } from "@ngen-core/models";
-import { RegularName } from "./regular-name";
 
-export interface SyllabicName extends RegularName {
+export interface SyllabicName {
+    name: string;
+    regularBase: string;
     syllabic: string[];
     regularSyllabic: NgenArray<string>; 
 }

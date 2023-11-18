@@ -1,10 +1,6 @@
 import { NgenArray } from "@ngen-core/models";
 
 export class RandomUtils {
-   private static randomNumber(): number {
-      return Math.random();
-   }
-
    public static between(min: number, max: number): number {
       return this.randomNumber() * (max - min) + min;
    }
@@ -24,5 +20,13 @@ export class RandomUtils {
          }
       }
       return (array as NgenArray<T>).last();
+   }
+
+   public static byChance(chance: number): boolean {
+      return this.randomNumber() < chance;
+   }
+
+   private static randomNumber(): number {
+      return Math.random();
    }
 }

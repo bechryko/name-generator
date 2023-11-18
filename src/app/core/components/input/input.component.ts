@@ -28,6 +28,9 @@ import { InputType } from './input-type';
 export class InputComponent implements ControlValueAccessor {
   @Input() label: string = "";
   @Input() type: InputType = 'text';
+  @Input() set ngenDisabled(disabled: boolean) {
+    this.disabled = disabled;
+  }
   @Output() blur: EventEmitter<void> = new EventEmitter<void>();
   private _value: any;
   public onChange = (value: any) => {};

@@ -50,6 +50,12 @@ export class LetterUtils {
         );
     }
 
+    public static getVowelChance(excludedLetters = "", includedLetters = ""): number {
+        const usableVowels = this.vowel.filter(v => !excludedLetters.includes(v.letter) && includedLetters.includes(v.letter));
+        const usableLetters = this.letter.filter(l => !excludedLetters.includes(l.letter) && includedLetters.includes(l.letter));
+        return usableVowels.reduce((acc, v) => acc + v.weight, 0) / usableLetters.reduce((acc, l) => acc + l.weight, 0);
+    }
+
     public static numberOf(type: LetterType, name?: string): number {
         if(!name) {
             return this[type].length;

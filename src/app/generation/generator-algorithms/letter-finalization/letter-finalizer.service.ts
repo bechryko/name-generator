@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { ErrorMessageId, ErrorService } from '@ngen-core/error-handling';
+import { replaceLetter } from '@ngen-core/functions';
 import { RandomUtils } from '@ngen-core/utils';
 import { GenerationConfig } from '@ngen-generation/models';
-import { nameEndings } from '../name-endings';
 import { RandomLetterConfig } from './models';
 import { LetterUtils, RegularUtils, VoicedUnvoicedPairsUtils } from './utils';
 
@@ -14,29 +14,15 @@ export class LetterFinalizerService {
     private readonly errorService: ErrorService
   ) { }
 
-  public finalizeRegularLetters(regular: string, config: GenerationConfig, matchNameEnding = true): string {
+  public finalizeRegularLetters(regular: string, config: GenerationConfig, doMatchNameEnding = true): string {
+    regular = this.finalizeWildcardRegulars(regular, config);
+
     let name = "";
-
-    if(matchNameEnding) {
-      const matchingEndings: string[] = [];
-      for(const ending of nameEndings) {
-        if(RegularUtils.matchRegular(ending, regular.substring(regular.length - ending.length))) {
-          matchingEndings.push(ending);
-        }
-      }
-      if(matchingEndings.length) {
-        const chosenEnding = RandomUtils.randomIndex(matchingEndings);
-        regular = regular.substring(0, regular.length - chosenEnding.length) + chosenEnding;
-      }
-    }
-
     for(let i = 0; i < regular.length; i++) {
-      if(regular[i] === '+') {
+      if(regular[i] === RegularUtils.symbols.vowel) {
         name += LetterUtils.random('vowel', this.getRandomLetterConfig(config));
-      } else if(regular[i] === '-') {
-        name += LetterUtils.random('consonant', this.getRandomLetterConfig(config, name[i-1])); //TODO: handle consonant doubling
-      } else if(RegularUtils.isReference(regular[i])) {
-        name += RegularUtils.dereference(name, regular[i] as any);
+      } else if(regular[i] === RegularUtils.symbols.consonant) {
+        name += LetterUtils.random('consonant', this.getRandomLetterConfig(config, name[i-1]));
       } else {
         name += regular[i];
       }
@@ -48,6 +34,42 @@ export class LetterFinalizerService {
     }
     
     return name;
+  }
+
+  private finalizeWildcardRegulars(regular: string, config: GenerationConfig): string {
+    for(let i = 0; i < regular.length; i++) {
+      if(regular[i] !== RegularUtils.symbols.wildcard) {
+        continue;
+      }
+      let vowelsInRange = 0, consonantsInRange = 0;
+      for(let j = -2; j <= 2; j++) {
+        if(regular[i + j] === RegularUtils.symbols.vowel) {
+          vowelsInRange++;
+        } else if(regular[i + j] === RegularUtils.symbols.consonant) {
+          consonantsInRange++;
+        }
+      }
+      if(vowelsInRange === consonantsInRange) {
+        if(vowelsInRange === 2) {
+          if(regular[i + 1] === regular[i - 1]) {
+            regular = replaceLetter(regular, i, this.vowelIf(regular[i - 1] === RegularUtils.symbols.consonant));
+          } else {
+            regular = replaceLetter(regular, i, this.vowelIf(RandomUtils.byChance(LetterUtils.getVowelChance(config.excludedLetters, config.includedLetters))));
+          }
+        } else if(vowelsInRange === 1) {
+          regular = replaceLetter(regular, i, this.vowelIf(regular[i - 1] === RegularUtils.symbols.consonant));
+        } else {
+          regular = replaceLetter(regular, i, this.vowelIf(RandomUtils.byChance(LetterUtils.getVowelChance(config.excludedLetters, config.includedLetters))));
+        }
+      } else {
+        if(i === regular.length - 2 && regular[i + 1] === RegularUtils.symbols.consonant) {
+          regular = replaceLetter(regular, i, RegularUtils.symbols.vowel);
+        } else {
+          regular = replaceLetter(regular, i, this.vowelIf(consonantsInRange > vowelsInRange));
+        }
+      }
+    }
+    return regular;
   }
 
   private getRandomLetterConfig(config: GenerationConfig, latestLetter?: string): RandomLetterConfig {
@@ -81,5 +103,9 @@ export class LetterFinalizerService {
     }
 
     return randConfig;
+  }
+
+  private vowelIf(condition: boolean): string {
+    return condition ? RegularUtils.symbols.vowel : RegularUtils.symbols.consonant;
   }
 }

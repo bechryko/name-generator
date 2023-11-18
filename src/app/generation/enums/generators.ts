@@ -1,4 +1,5 @@
 export enum Generators {
    JAPANESE = "Japanese",
-   SYLLABIC = "Syllabic"
+   SYLLABIC = "Syllabic",
+   REGULAR = "Regular"
 }

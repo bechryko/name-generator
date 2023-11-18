@@ -6,6 +6,7 @@ import { GenerationConfig } from '@ngen-generation/models';
 import { GeneratorAlgorithmsModule } from '../generator-algorithms.module';
 import { GeneratorService } from '../generator-service.model';
 import { LetterFinalizerService } from '../letter-finalization/letter-finalizer.service';
+import { matchNameEnding } from '../name-endings';
 
 @Injectable({
   providedIn: GeneratorAlgorithmsModule
@@ -38,6 +39,8 @@ export class SyllabicGeneratorService implements GeneratorService {
       this.appendRegularSyllable(name, syllableSize);
       lastSyllable = name.regularSyllabic.last();
     }
+
+    name.regularBase = matchNameEnding(name.regularBase);
 
     try {
       name.name = this.letterFinalizerService.finalizeRegularLetters(name.regularBase, config);

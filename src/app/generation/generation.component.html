@@ -6,7 +6,7 @@
    ></ngen-sidenav>
    <div>
       <h2>{{ selectedGenerator }} Name Generation</h2>
-      <ngen-generation-config [selectedGenerator]="selectedGenerator" (generate)="generateName($event)"></ngen-generation-config>
+      <ngen-generation-config [generator]="selectedGenerator" (generate)="generateName($event)"></ngen-generation-config>
       <ngen-generation-output [generatedNames]="generatedNames"></ngen-generation-output>
    </div>
 </div>

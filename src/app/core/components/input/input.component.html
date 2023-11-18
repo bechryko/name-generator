@@ -6,6 +6,7 @@
             [type]="type"
             (blur)="onInputBlur()"
             [value]="value"
+            [disabled]="disabled"
             (change)="onInputValueChange($event)"
          >
       </mat-form-field>
@@ -13,6 +14,7 @@
       <mat-checkbox
          (blur)="onInputBlur()"
          [checked]="value"
+         [disabled]="disabled"
          (change)="onCheckboxValueChange($event)"
       >{{ label }}</mat-checkbox>
    }

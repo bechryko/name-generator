@@ -1,17 +1,19 @@
 <form id="generation-config-wrapper" 
    [formGroup]="configForm" 
    (ngSubmit)="onGenerate()"
+   autocomplete="off"
 >
    @for (field of configFields; track $index) {
       @if (generatorConfigFields[field.name]) {
          <ngen-input
+            formControlName="{{ field.name }}"
             [label]="field.label"
             [type]="field.type"
-            formControlName="{{ field.name }}"
-            (blur)="correctFieldValue(field.name)"
+            [ngenDisabled]="field.disabled ?? false"
+            (blur)="correctFieldValue(field)"
          ></ngen-input>
          <br>
       }
    }
-   <button mat-raised-button color="primary" type="submit">Generate Names</button>
+   <button mat-raised-button color="primary" type="submit" class="submit-button">Generate Names</button>
 </form>
