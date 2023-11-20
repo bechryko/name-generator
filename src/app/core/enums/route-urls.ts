@@ -1,3 +1,4 @@
 export enum RouteUrls {
-   GENERATION = 'generation'
+   GENERATION = 'generation',
+   ABOUT = 'about'
 }

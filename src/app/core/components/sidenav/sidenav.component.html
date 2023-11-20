@@ -1,6 +1,9 @@
 <div id="sidenav-wrapper">
    @for (item of selectableList; track $index) {
-      <button mat-button (click)="onSelect(item.value)">{{ item.label }}</button>
+      <button mat-button 
+         (click)="onSelect(item.value)"
+         matTooltip="{{ item.description }}"
+      >{{ item.label }}</button>
    } @empty {
       <p id="placeholder">{{ placeholderText }}</p>
    }

@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-
-interface NgenSidebarSelectable<T> {
-  label: string;
-  value: T;
-}
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { NgenSidebarSelectable } from '@ngen-core/models';
 
 @Component({
   selector: 'ngen-sidenav',
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss',
-  standalone: true
+  standalone: true,
+  imports: [
+    MatTooltipModule
+  ]
 })
 export class SidenavComponent<T> {
   @Input() selectableList: NgenSidebarSelectable<T>[] = [];

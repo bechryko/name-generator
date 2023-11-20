@@ -16,7 +16,7 @@ export class HeaderComponent {
   public readonly navMenuItems: NavMenuItem[] = [
     { label: 'Generation', path: RouteUrls.GENERATION },
     { label: 'Name Database', path: '' },
-    { label: 'About', path: '' }
+    { label: 'About', path: RouteUrls.ABOUT }
   ];
 
   constructor(

@@ -12,6 +12,15 @@ const routes: Routes = [
     path: RouteUrls.GENERATION, 
     loadChildren: () => import('./generation/generation.module').then(m => m.GenerationModule)
   },
+  { 
+    path: RouteUrls.ABOUT, 
+    children: [
+      {
+        path: '',
+        loadChildren: () => import('./about/about.module').then(m => m.AboutModule)
+      }
+    ]
+  },
   {
     path: '**',
     redirectTo: RouteUrls.GENERATION

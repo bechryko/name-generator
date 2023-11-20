@@ -1,0 +1,55 @@
+@use '../../../assets/styles/mixins';
+
+section.content-grid {
+   @include mixins.content-grid(2rem, 50rem, 60rem);
+   overflow-y: auto;
+   height: calc(100dvh - 187px);
+
+   & > *:last-child {
+      margin-bottom: 3.5rem;
+   }
+
+   $version-name-date-gap: 0.2rem;
+   
+   * {
+      line-height: auto;
+   }
+   h2 {
+      text-align: center;
+      font-size: 2.2rem;
+   }
+   h3 {
+      font-size: 1.9rem;
+   }
+   h4 {
+      font-size: 1.6rem;
+   }
+   p {
+      text-align: justify;
+      font-size: 1.3rem;
+   }
+   li {
+      font-size: 1.2rem;
+   }
+   a {
+      text-decoration: none !important;
+      color: rgb(164, 107, 0) !important;
+
+      &:visited {
+         color: orangered !important;
+      }
+   }
+   .version-details {
+      h3, h4 {
+         margin-bottom: $version-name-date-gap;
+      }
+      p {
+         font-size: 1.1rem;
+         margin-top: $version-name-date-gap;
+      }
+   }
+
+   code {
+      background-color: rgba(140, 140, 140, 0.5);
+   }
+}
