@@ -1,12 +1,12 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
-
 import { SidenavComponent } from '@ngen-core/components';
+import { NgLetModule } from 'ng-let';
 import { AboutRoutingModule } from './about-routing.module';
 import { AboutComponent } from './about.component';
-import { IntroductionComponent } from './introduction/introduction.component';
-import { GeneratorInfoComponent } from './generator-info/generator-info.component';
 import { DevelopmentInfoComponent } from './development-info/development-info.component';
+import { GeneratorInfoComponent } from './generator-info/generator-info.component';
+import { IntroductionComponent } from './introduction/introduction.component';
 import { VersionHistoryComponent } from './version-history/version-history.component';
 
 
@@ -21,7 +21,8 @@ import { VersionHistoryComponent } from './version-history/version-history.compo
   imports: [
     CommonModule,
     AboutRoutingModule,
-    SidenavComponent
+    SidenavComponent,
+    NgLetModule
   ]
 })
 export class AboutModule { }

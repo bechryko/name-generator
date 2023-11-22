@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Name } from '@ngen-core/names';
+import { PageStateHandlerService } from '@ngen-core/services';
+import { Observable } from 'rxjs';
 import { Generators } from './enums';
 import {
   JapaneseGeneratorService,
@@ -17,7 +19,7 @@ import { GenerationConfig } from './models';
 export class GenerationComponent {
   private readonly GENERATION_TIMES = 1;
   public readonly GENERATORS: { label: string; value: Generators }[] = [];
-  public selectedGenerator: Generators = Generators.JAPANESE;
+  public selectedGenerator$: Observable<Generators>;
   public generatedNames: Name[] = [];
 
   private generatorServices: Record<Generators, GeneratorService> = {
@@ -26,21 +28,24 @@ export class GenerationComponent {
     [Generators.REGULAR]: inject(RegularGeneratorService)
   };
 
-  constructor() {
+  constructor(
+    private readonly pageStateHandlerService: PageStateHandlerService
+  ) {
+    this.selectedGenerator$ = this.pageStateHandlerService.generator$;
     for(const generator of Object.values(Generators)) {
       this.GENERATORS.push({ label: generator, value: generator });
     }
   }
 
-  public generateName(config: GenerationConfig): void {
+  public generateName(generator: Generators, config: GenerationConfig): void {
     this.generatedNames = [];
-    const service = this.generatorServices[this.selectedGenerator];
+    const service = this.generatorServices[generator];
     for(let i = 0; i < this.GENERATION_TIMES; i++) {
       this.generatedNames.push(service.generateName(config));
     }
   }
 
   public selectGenerator(generator: Generators): void {
-    this.selectedGenerator = generator;
+    this.pageStateHandlerService.setGenerator(generator);
   }
 }

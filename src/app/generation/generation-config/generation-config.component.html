@@ -10,7 +10,7 @@
             [label]="field.label"
             [type]="field.type"
             [ngenDisabled]="field.disabled ?? false"
-            (blur)="correctFieldValue(field)"
+            (blur)="onBlur(field)"
          ></ngen-input>
          <br>
       }

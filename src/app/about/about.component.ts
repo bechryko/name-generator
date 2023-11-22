@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { NgenSidebarSelectable } from '@ngen-core/models';
+import { PageStateHandlerService } from '@ngen-core/services';
 import { AboutSubpages } from './about-subpages';
 
 @Component({
@@ -30,10 +32,19 @@ export class AboutComponent {
   ];
 
   constructor(
-    private readonly router: Router
-  ) { }
+    private readonly router: Router,
+    private readonly pageStateHandlerService: PageStateHandlerService
+  ) {
+    this.pageStateHandlerService.aboutSubpage$.pipe(
+      takeUntilDestroyed()
+    ).subscribe(subpage => this.navigate(subpage));
+  }
 
-  public navigate(subpage: AboutSubpages): void {
+  public selectSubpage(subpage: AboutSubpages): void {
+    this.pageStateHandlerService.setAboutSubpage(subpage);
+  }
+
+  private navigate(subpage: AboutSubpages): void {
     this.router.navigateByUrl(`/about/${subpage}`);
   }
 }

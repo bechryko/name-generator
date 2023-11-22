@@ -1,7 +1,7 @@
 <div id="about-wrapper">
    <ngen-sidenav 
       [selectableList]="subpages" 
-      (select)="navigate($event)"
+      (select)="selectSubpage($event)"
    ></ngen-sidenav>
    <router-outlet></router-outlet>
 </div>

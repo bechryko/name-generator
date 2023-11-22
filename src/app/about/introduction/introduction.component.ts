@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { AboutSubpages } from '../about-subpages';
+import { AboutSubpages } from '@ngen-about/about-subpages';
 
 @Component({
   selector: 'ngen-introduction',

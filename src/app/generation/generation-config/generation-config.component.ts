@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { NonNullableFormBuilder } from '@angular/forms';
 import { ErrorService } from '@ngen-core/error-handling';
 import { GenerationConfig } from '@ngen-generation/models/generation-config';
+import { ConfigurationStoreService } from '@ngen-generation/services';
 import isEqual from 'lodash.isequal';
 import { Generators } from '../enums';
 import { BoundedConfigProperty, GeneratorConfigFields, PropertyBounds } from './model';
@@ -27,7 +28,8 @@ export class GenerationConfigComponent {
   public selectedGenerator: Generators = Generators.JAPANESE;
   @Input() set generator(value: Generators) {
     this.selectedGenerator = value;
-    for(const field of this.configFields.filter(field => this.generatorConfigFields[field.name])) {
+    this.setConfigValue(this.configStoreService.loadConfig(value));
+    for(const field of this.configFields) {
       this.correctFieldValue(field);
     }
   }
@@ -86,7 +88,8 @@ export class GenerationConfigComponent {
 
   constructor(
     private readonly fb: NonNullableFormBuilder,
-    private readonly errorService: ErrorService
+    private readonly errorService: ErrorService,
+    private readonly configStoreService: ConfigurationStoreService
   ) {
     const formGroupObject: Record<FieldName, {}> = {} as Record<FieldName, {}>;
     for (const field of this.configFields) {
@@ -95,7 +98,37 @@ export class GenerationConfigComponent {
     this.configForm = this.fb.group(formGroupObject);
   }
 
-  public correctFieldValue(field: ConfigField): void {
+  public onGenerate(): void {
+    if(!this.selectedGenerator) return;
+    const oldValue = { ...this.configObject };
+    for(const field of this.configFields) {
+      this.correctFieldValue(field);
+    }
+    if(isEqual(oldValue, this.configObject)) {
+      this.generate.emit(this.configObject);
+    } else {
+      this.errorService.popupError('generation', 'INVALID_CONFIG_VALUES');
+    }
+  }
+
+  public onBlur(field: ConfigField): void {
+    this.correctFieldValue(field);
+    this.configStoreService.saveConfig(this.selectedGenerator, this.configObject);
+  }
+
+  public getBounds(property: BoundedConfigProperty): Partial<PropertyBounds> {
+    return GenerationConfigUtils.getConfigPropertyBounds(property);
+  }
+
+  get configObject(): GenerationConfig {
+    return this.configForm.value as GenerationConfig;
+  }
+
+  get generatorConfigFields(): GeneratorConfigFields {
+    return GenerationConfigUtils.getConfig(this.selectedGenerator);
+  }
+
+  private correctFieldValue(field: ConfigField): void {
     if(!this.configObject[field.name]) {
       this.configForm.controls[field.name].reset();
     } else if(field.formatter) {
@@ -141,36 +174,15 @@ export class GenerationConfigComponent {
     }
   }
 
-  public onGenerate(): void {
-    if(!this.selectedGenerator) return;
-    const oldValue = { ...this.configObject };
-    for(const field of this.configFields) {
-      this.correctFieldValue(field);
-    }
-    if(isEqual(oldValue, this.configObject)) {
-      this.generate.emit(this.configObject);
-    } else {
-      this.errorService.popupError('generation', 'INVALID_CONFIG_VALUES');
-    }
-  }
-
-  public getBounds(property: BoundedConfigProperty): Partial<PropertyBounds> {
-    return GenerationConfigUtils.getConfigPropertyBounds(property);
-  }
-
-  get configObject(): GenerationConfig {
-    return this.configForm.value as GenerationConfig;
-  }
-
-  get generatorConfigFields(): GeneratorConfigFields {
-    return GenerationConfigUtils.getConfig(this.selectedGenerator);
-  }
-
   private setFormFieldValue(fieldName: FieldName, value: GenerationConfig[FieldName]): void {
     this.configForm.setValue({
       ...this.configObject,
       [fieldName]: value
     }, { emitEvent: false });
+  }
+
+  private setConfigValue(newConfig: GenerationConfig): void {
+    this.configForm.setValue(newConfig, { emitEvent: false });
   }
 
   private swapFieldValues(field1: FieldName, field2: FieldName): void {

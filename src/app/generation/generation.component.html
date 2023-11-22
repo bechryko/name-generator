@@ -1,12 +1,17 @@
-<div id="generation-wrapper">
-   <ngen-sidenav 
-      [selectableList]="GENERATORS" 
-      (select)="selectGenerator($event)"
-      placeholderText="No generation algorithms!"
-   ></ngen-sidenav>
-   <div>
-      <h2>{{ selectedGenerator }} Name Generation</h2>
-      <ngen-generation-config [generator]="selectedGenerator" (generate)="generateName($event)"></ngen-generation-config>
-      <ngen-generation-output [generatedNames]="generatedNames"></ngen-generation-output>
+<ng-container *ngLet="(selectedGenerator$ | async) as selectedGenerator">
+   <div id="generation-wrapper">
+      <ngen-sidenav 
+         [selectableList]="GENERATORS" 
+         (select)="selectGenerator($event)"
+         placeholderText="No generation algorithms!"
+      ></ngen-sidenav>
+      <div>
+         <h2>{{ selectedGenerator }} Name Generation</h2>
+         <ngen-generation-config 
+            [generator]="selectedGenerator!" 
+            (generate)="generateName(selectedGenerator!, $event)"
+         ></ngen-generation-config>
+         <ngen-generation-output [generatedNames]="generatedNames"></ngen-generation-output>
+      </div>
    </div>
-</div>
+</ng-container>
