@@ -1,8 +1,8 @@
 import { Generators } from "@ngen-generation/enums";
 import { GenerationConfig } from "@ngen-generation/models";
 import { MemoizedSelector } from "@ngrx/store";
-import { configurationFeature } from "./configuration-feature";
-import { ConfigurationState } from "./configuration-state";
+import { configurationFeature } from "./configuration.feature";
+import { ConfigurationState } from "./configuration.state";
 
 export const configurationSelectors: Record<
    Generators,

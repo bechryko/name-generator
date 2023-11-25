@@ -15,7 +15,7 @@ interface NavMenuItem {
 export class HeaderComponent {
   public readonly navMenuItems: NavMenuItem[] = [
     { label: 'Generation', path: RouteUrls.GENERATION },
-    { label: 'Name Database', path: '' },
+    { label: 'Database', path: RouteUrls.DATABASE },
     { label: 'About', path: RouteUrls.ABOUT }
   ];
 

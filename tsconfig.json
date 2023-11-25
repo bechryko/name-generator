@@ -27,6 +27,7 @@
     "paths": {
       "@ngen-about/*": ["app/about/*"],
       "@ngen-core/*": ["app/core/*"],
+      "@ngen-database/*": ["app/database/*"],
       "@ngen-generation/*": ["app/generation/*"],
       "@ngen-header/*": ["app/header/*"],
     }

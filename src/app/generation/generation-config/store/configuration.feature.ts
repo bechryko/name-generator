@@ -1,8 +1,8 @@
 import { Generators } from "@ngen-generation/enums";
 import { GenerationConfig } from "@ngen-generation/models";
 import { createFeature, createReducer, on } from "@ngrx/store";
-import { configurationActions } from "./configuration-actions";
-import { ConfigurationState } from "./configuration-state";
+import { configurationActions } from "./configuration.actions";
+import { ConfigurationState } from "./configuration.state";
 
 const basicGenerationConfig: GenerationConfig = {
    minLength: 1,

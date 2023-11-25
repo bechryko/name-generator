@@ -8,7 +8,7 @@ $width: 1.3rem;
 }
 ::-webkit-scrollbar-thumb {
    background: linear-gradient(orange, yellow);
-   border-radius: $width / 2;
+   border-radius: calc($width / 2);
 }
 ::-webkit-scrollbar-thumb:hover {
    background: linear-gradient(rgb(220, 143, 0) , rgb(218, 218, 0));

@@ -13,6 +13,10 @@ const routes: Routes = [
     loadChildren: () => import('./generation/generation.module').then(m => m.GenerationModule)
   },
   { 
+    path: RouteUrls.DATABASE, 
+    loadChildren: () => import('./database/database.module').then(m => m.DatabaseModule) 
+  },
+  { 
     path: RouteUrls.ABOUT, 
     children: [
       {

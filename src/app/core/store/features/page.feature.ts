@@ -1,8 +1,8 @@
 import { AboutSubpages } from '@ngen-about/about-subpages';
 import { Generators } from '@ngen-generation/enums';
 import { createFeature, createReducer, on } from '@ngrx/store';
+import { pageActions } from '../actions/page.actions';
 import { PageState } from '../states';
-import { pageActions } from './../actions/page-actions';
 
 const initialState: PageState = {
    generator: Generators.JAPANESE,
