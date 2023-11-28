@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DatabaseTableHeader } from './database-table/models';
 import { GeneratedName } from './models';
+import { NameDatabaseTableHeader } from './name-database-table/models';
 import { NameDatabaseService } from './services';
 
 @Component({
@@ -10,7 +10,7 @@ import { NameDatabaseService } from './services';
   styleUrl: './database.component.scss'
 })
 export class DatabaseComponent {
-  public readonly nameDatabaseHeaders: DatabaseTableHeader<GeneratedName>[] = [
+  public readonly nameDatabaseHeaders: NameDatabaseTableHeader[] = [
     {
       label: "Name",
       key: 'name',

@@ -17,10 +17,9 @@ import { GenerationConfig } from './models';
   styleUrl: './generation.component.scss'
 })
 export class GenerationComponent {
-  private readonly GENERATION_TIMES = 1;
   public readonly GENERATORS: { label: string; value: Generators }[] = [];
   public selectedGenerator$: Observable<Generators>;
-  public generatedNames: Name[] = [];
+  public generatedName?: Name;
 
   private generatorServices: Record<Generators, GeneratorService> = {
     [Generators.JAPANESE]: inject(JapaneseGeneratorService),
@@ -38,11 +37,7 @@ export class GenerationComponent {
   }
 
   public generateName(generator: Generators, config: GenerationConfig): void {
-    this.generatedNames = [];
-    const service = this.generatorServices[generator];
-    for(let i = 0; i < this.GENERATION_TIMES; i++) {
-      this.generatedNames.push(service.generateName(config));
-    }
+    this.generatedName = this.generatorServices[generator].generateName(config);
   }
 
   public selectGenerator(generator: Generators): void {

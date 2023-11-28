@@ -4,14 +4,14 @@ import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { NameDatabaseService } from '@ngen-database/services';
 import { DatabaseRoutingModule } from './database-routing.module';
-import { DatabaseTableComponent } from './database-table/database-table.component';
 import { DatabaseComponent } from './database.component';
+import { NameDatabaseTableComponent } from './name-database-table/name-database-table.component';
 
 
 @NgModule({
   declarations: [
     DatabaseComponent,
-    DatabaseTableComponent
+    NameDatabaseTableComponent
   ],
   imports: [
     CommonModule,

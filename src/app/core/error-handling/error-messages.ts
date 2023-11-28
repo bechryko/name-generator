@@ -8,5 +8,10 @@ export const ErrorMessages = {
       DUPLICATE_NAME: "This name is already saved!",
       DELETE_FAILURE: "Failed to delete name from cloud database!",
       SYNC_FAILURE: "Failed to sync names with cloud!"
+   },
+   auth: {
+      LOGIN_FAILURE_INVALID_PASSWORD: "Invalid password!",
+      LOGIN_FAILURE_TOO_MANY_ATTEMPTS: "Too many failed login attempts! If you are not a developer, don't try to log in!",
+      LOGOUT_FAILURE: "Failed to logout!"
    }
 } as const;

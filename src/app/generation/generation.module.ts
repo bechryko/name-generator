@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { InputComponent, SidenavComponent } from '@ngen-core/components';
+import { InteractiveIconComponent } from '@ngen-core/components/interactive-icon/interactive-icon.component';
 import { StoreModule } from '@ngrx/store';
 import { NgLetModule } from 'ng-let';
 import { GenerationConfigComponent } from './generation-config/generation-config.component';
@@ -28,7 +29,8 @@ import { ConfigurationStoreService } from './services';
     SidenavComponent,
     GeneratorAlgorithmsModule,
     StoreModule.forFeature(configurationFeature),
-    NgLetModule
+    NgLetModule,
+    InteractiveIconComponent
   ],
   providers: [
     ConfigurationStoreService

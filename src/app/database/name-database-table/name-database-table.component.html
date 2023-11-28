@@ -8,5 +8,9 @@
       </ng-container>
    }
    <tr mat-header-row *matHeaderRowDef="headerKeys()"></tr>
-   <tr mat-row *matRowDef="let row; columns: headerKeys();"></tr>
+   <tr mat-row 
+      *matRowDef="let row; columns: headerKeys();"
+      (click)="onRowClick(row)"
+      [ngClass]="{ 'deletable': deleteMode$ | async }"
+   ></tr>
 </table>

@@ -8,9 +8,23 @@
       margin: auto;
       padding: 1rem;
 
-      p {
-         font-size: 2rem;
-         margin: 0.25rem;
+      .displayName {
+         float: left;
+
+         p {
+            font-size: 2rem;
+            margin: 0.25rem;
+         }
+      }
+
+      .icons {
+         float: right;
+         display: flex;
+         flex-direction: column;
+      }
+
+      .clear {
+         clear: both;
       }
    }
 }

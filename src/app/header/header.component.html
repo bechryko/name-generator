@@ -1,5 +1,10 @@
 <div id="header-wrapper">
    <h1>Unnamed Name Generator</h1>
+   @if(isDeveloperLoggedIn$ | async) {
+      <p class="developer-status">Logged in as developer</p>
+   } @else {
+      <p class="developer-status">Not logged in as developer</p>
+   }
    <nav>
       @for (item of navMenuItems; track $index) {
          <button mat-stroked-button (click)="navigateTo(item.path)" [disabled]="!item.path">{{ item.label }}</button>

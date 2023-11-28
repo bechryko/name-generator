@@ -11,7 +11,7 @@
             [generator]="selectedGenerator!" 
             (generate)="generateName(selectedGenerator!, $event)"
          ></ngen-generation-config>
-         <ngen-generation-output [generatedNames]="generatedNames"></ngen-generation-output>
+         <ngen-generation-output [generatedName]="generatedName ?? null"></ngen-generation-output>
       </div>
    </div>
 </ng-container>
