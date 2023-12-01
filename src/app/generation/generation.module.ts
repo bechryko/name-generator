@@ -15,25 +15,25 @@ import { GeneratorAlgorithmsModule } from './generator-algorithms';
 import { ConfigurationStoreService } from './services';
 
 @NgModule({
-  declarations: [
-    GenerationComponent,
-    GenerationConfigComponent,
-    GenerationOutputComponent
-  ],
-  imports: [
-    CommonModule,
-    GenerationRoutingModule,
-    ReactiveFormsModule,
-    InputComponent,
-    MatButtonModule,
-    SidenavComponent,
-    GeneratorAlgorithmsModule,
-    StoreModule.forFeature(configurationFeature),
-    NgLetModule,
-    InteractiveIconComponent
-  ],
-  providers: [
-    ConfigurationStoreService
-  ]
+   declarations: [
+      GenerationComponent,
+      GenerationConfigComponent,
+      GenerationOutputComponent
+   ],
+   imports: [
+      CommonModule,
+      GenerationRoutingModule,
+      ReactiveFormsModule,
+      InputComponent,
+      MatButtonModule,
+      SidenavComponent,
+      GeneratorAlgorithmsModule,
+      StoreModule.forFeature(configurationFeature),
+      NgLetModule,
+      InteractiveIconComponent
+   ],
+   providers: [
+      ConfigurationStoreService
+   ]
 })
 export class GenerationModule { }

@@ -7,32 +7,32 @@ import { Store } from '@ngrx/store';
 import { Observable, map } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+   providedIn: 'root'
 })
 export class NameDatabaseService {
-  public readonly names$: Observable<GeneratedName[]>;
+   public readonly names$: Observable<GeneratedName[]>;
 
-  constructor(
-    private readonly store: Store
-  ) {
-    this.names$ = this.store.select(nameDatabaseFeature.selectEntities).pipe(
-      map(entities => Object.values(entities) as GeneratedName[])
-    );
-  }
+   constructor(
+      private readonly store: Store
+   ) {
+      this.names$ = this.store.select(nameDatabaseFeature.selectEntities).pipe(
+         map(entities => Object.values(entities) as GeneratedName[])
+      );
+   }
 
-  public syncNames(): void {
-    this.store.dispatch(nameDatabaseActions.syncNames());
-  }
+   public syncNames(): void {
+      this.store.dispatch(nameDatabaseActions.syncNames());
+   }
 
-  public addName(name: string, generationAlgorithm: Generators): void {
-    this.store.dispatch(nameDatabaseActions.addName({
-      name,
-      generationAlgorithm,
-      version: APP_VERSION
-    }));
-  }
+   public addName(name: string, generationAlgorithm: Generators): void {
+      this.store.dispatch(nameDatabaseActions.addName({
+         name,
+         generationAlgorithm,
+         version: APP_VERSION
+      }));
+   }
 
-  public deleteName(name: string): void {
-    this.store.dispatch(nameDatabaseActions.deleteName({ name }));
-  }
+   public deleteName(name: string): void {
+      this.store.dispatch(nameDatabaseActions.deleteName({ name }));
+   }
 }

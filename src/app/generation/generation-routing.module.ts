@@ -5,7 +5,7 @@ import { GenerationComponent } from './generation.component';
 const routes: Routes = [{ path: '', component: GenerationComponent }];
 
 @NgModule({
-  imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+   imports: [RouterModule.forChild(routes)],
+   exports: [RouterModule]
 })
 export class GenerationRoutingModule { }

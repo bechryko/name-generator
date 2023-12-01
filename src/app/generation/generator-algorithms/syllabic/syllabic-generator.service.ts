@@ -9,66 +9,66 @@ import { LetterFinalizerService } from '../letter-finalization/letter-finalizer.
 import { matchNameEnding } from '../name-endings';
 
 @Injectable({
-  providedIn: GeneratorAlgorithmsModule
+   providedIn: GeneratorAlgorithmsModule
 })
 export class SyllabicGeneratorService implements GeneratorService {
-  private readonly syllableLengthWeights = [.1, .35, .5, .05];
+   private readonly syllableLengthWeights = [.1, .35, .5, .05];
 
-  constructor(
-    private readonly letterFinalizerService: LetterFinalizerService
-  ) { }
+   constructor(
+      private readonly letterFinalizerService: LetterFinalizerService
+   ) { }
 
-  public generateName(config: GenerationConfig): SyllabicName {
-    const length = RandomUtils.between(config.minLength, config.maxLength);
-    const name: SyllabicName = {
-      name: "",
-      regularBase: "",
-      syllabic: [],
-      regularSyllabic: [] as any as NgenArray<string>
-    };
+   public generateName(config: GenerationConfig): SyllabicName {
+      const length = RandomUtils.between(config.minLength, config.maxLength);
+      const name: SyllabicName = {
+         name: "",
+         regularBase: "",
+         syllabic: [],
+         regularSyllabic: [] as any as NgenArray<string>
+      };
 
-    let lastSyllable = "";
-    for(let i = 0; i < length; i++) {
-      const weights = [...this.syllableLengthWeights];
-      if(lastSyllable.length <= 2) {
-        weights[0] = weights[0] / (weights[0] + weights[1]);
-      } else {
-        weights[0] = 0;
+      let lastSyllable = "";
+      for (let i = 0; i < length; i++) {
+         const weights = [...this.syllableLengthWeights];
+         if (lastSyllable.length <= 2) {
+            weights[0] = weights[0] / (weights[0] + weights[1]);
+         } else {
+            weights[0] = 0;
+         }
+         const syllableSize = RandomUtils.randomIndexWeighted([1, 2, 3, 4], weights);
+         this.appendRegularSyllable(name, syllableSize);
+         lastSyllable = name.regularSyllabic.last();
       }
-      const syllableSize = RandomUtils.randomIndexWeighted([1, 2, 3, 4], weights);
-      this.appendRegularSyllable(name, syllableSize);
-      lastSyllable = name.regularSyllabic.last();
-    }
 
-    name.regularBase = matchNameEnding(name.regularBase);
+      name.regularBase = matchNameEnding(name.regularBase);
 
-    try {
-      name.name = this.letterFinalizerService.finalizeRegularLetters(name.regularBase, config);
-    } catch(e) {
-      console.error("error while finalizing name", name.regularBase, e); //TODO: handling
-    }
+      try {
+         name.name = this.letterFinalizerService.finalizeRegularLetters(name.regularBase, config);
+      } catch (e) {
+         console.error("error while finalizing name", name.regularBase, e); //TODO: handling
+      }
 
-    let index = 0;
-    for(let i = 0; i < name.regularSyllabic.length; i++) {
-      name.syllabic.push(name.name.substring(index, index + name.regularSyllabic[i].length));
-      index += name.regularSyllabic[i].length;
-    }
+      let index = 0;
+      for (let i = 0; i < name.regularSyllabic.length; i++) {
+         name.syllabic.push(name.name.substring(index, index + name.regularSyllabic[i].length));
+         index += name.regularSyllabic[i].length;
+      }
 
-    name.name = NameFormatUtils.capitalizeName(name.name);
-    name.syllabic[0] = NameFormatUtils.capitalizeName(name.syllabic[0]);
-    return name;
-  }
+      name.name = NameFormatUtils.capitalizeName(name.name);
+      name.syllabic[0] = NameFormatUtils.capitalizeName(name.syllabic[0]);
+      return name;
+   }
 
-  private appendRegularSyllable(name: SyllabicName, syllableSize: number): void {
-    let regular = "";
-    if(syllableSize > 1) {
-      regular += "-";
-    }
-    regular += "+";
-    for(let j = 2; j < syllableSize; j++) {
-        regular += "-";
-    }
-    name.regularBase += regular;
-    name.regularSyllabic.push(regular);
-  }
+   private appendRegularSyllable(name: SyllabicName, syllableSize: number): void {
+      let regular = "";
+      if (syllableSize > 1) {
+         regular += "-";
+      }
+      regular += "+";
+      for (let j = 2; j < syllableSize; j++) {
+         regular += "-";
+      }
+      name.regularBase += regular;
+      name.regularSyllabic.push(regular);
+   }
 }

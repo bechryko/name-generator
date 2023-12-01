@@ -1,6 +1,6 @@
 import { RegularNameObject } from "@ngen-generation/models";
 
 export interface RegularName {
-    name: string;
-    regularBase: RegularNameObject;
+   name: string;
+   regularBase: RegularNameObject;
 }

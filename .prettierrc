@@ -1,0 +1,17 @@
+{
+  "tabWidth": 3,
+  "useTabs": false,
+  "bracketSpacing": true,
+  "semi": true,
+  "bracketSameLine": false,
+  "arrowParens": "always",
+  "singleAttributePerLine": true,
+  "overrides": [
+    {
+      "files": "*.json",
+      "options": {
+        "tabWidth": 2
+      }
+    }
+  ]
+}

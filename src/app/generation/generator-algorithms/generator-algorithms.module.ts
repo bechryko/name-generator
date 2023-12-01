@@ -4,15 +4,15 @@ import { LetterFinalizerService } from './letter-finalization/letter-finalizer.s
 import { VoicedUnvoicedPairsUtils } from './letter-finalization/utils';
 
 @NgModule({
-  providers: [
-    LetterFinalizerService
-  ],
-  imports: [
-    CommonModule
-  ]
+   providers: [
+      LetterFinalizerService
+   ],
+   imports: [
+      CommonModule
+   ]
 })
 export class GeneratorAlgorithmsModule {
-  constructor() {
-    VoicedUnvoicedPairsUtils.initPairs();
-  }
+   constructor() {
+      VoicedUnvoicedPairsUtils.initPairs();
+   }
 }

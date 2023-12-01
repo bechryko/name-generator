@@ -14,7 +14,7 @@ export class NameDatabaseEffects {
          ofType(nameDatabaseActions.addName),
          map(name => this.getPureName(name)),
          exhaustMap((name) => this.firestoreService.addName(name).pipe(
-            map(successfulAction => successfulAction 
+            map(successfulAction => successfulAction
                ? nameDatabaseActions.addNameSuccess(name)
                : nameDatabaseActions.duplicateNameFailure({ name: name.name })
             ),
@@ -48,7 +48,7 @@ export class NameDatabaseEffects {
       this.actions$.pipe(
          ofType(nameDatabaseActions.addNameFailure),
          tap(({ error }) => this.errorService.popupError('database', 'ADD_FAILURE'))
-      ), 
+      ),
       { dispatch: false }
    );
 

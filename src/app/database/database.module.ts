@@ -9,21 +9,21 @@ import { NameDatabaseTableComponent } from './name-database-table/name-database-
 
 
 @NgModule({
-  declarations: [
-    DatabaseComponent,
-    NameDatabaseTableComponent
-  ],
-  imports: [
-    CommonModule,
-    DatabaseRoutingModule,
-    MatTableModule,
-    MatSortModule
-  ]
+   declarations: [
+      DatabaseComponent,
+      NameDatabaseTableComponent
+   ],
+   imports: [
+      CommonModule,
+      DatabaseRoutingModule,
+      MatTableModule,
+      MatSortModule
+   ]
 })
 export class DatabaseModule {
-  constructor(
-    private readonly nameDatabaseService: NameDatabaseService
-  ) {
-    this.nameDatabaseService.syncNames();
-  }
+   constructor(
+      private readonly nameDatabaseService: NameDatabaseService
+   ) {
+      this.nameDatabaseService.syncNames();
+   }
 }

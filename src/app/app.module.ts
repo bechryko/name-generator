@@ -14,29 +14,29 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HeaderModule,
-    NgenStoreModule,
-    provideFirebaseApp(() => initializeApp(environment.firebase)),
-    provideAuth(() => getAuth()),
-    provideFirestore(() => getFirestore())
-  ],
-  providers: [
-    MatSnackBar
-  ],
-  bootstrap: [AppComponent]
+   declarations: [
+      AppComponent
+   ],
+   imports: [
+      BrowserModule,
+      BrowserAnimationsModule,
+      AppRoutingModule,
+      HeaderModule,
+      NgenStoreModule,
+      provideFirebaseApp(() => initializeApp(environment.firebase)),
+      provideAuth(() => getAuth()),
+      provideFirestore(() => getFirestore())
+   ],
+   providers: [
+      MatSnackBar
+   ],
+   bootstrap: [AppComponent]
 })
 export class AppModule {
-  constructor(
-    private readonly authService: AuthService
-  ) {
-    AppInitializationUtils.all();
-    this.authService.onApplicationStart();
-  }
+   constructor(
+      private readonly authService: AuthService
+   ) {
+      AppInitializationUtils.all();
+      this.authService.onApplicationStart();
+   }
 }

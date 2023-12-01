@@ -12,19 +12,19 @@ import { VersionHistoryComponent } from './version-history/version-history.compo
 
 
 @NgModule({
-  declarations: [
-    AboutComponent,
-    IntroductionComponent,
-    GeneratorInfoComponent,
-    DevelopmentInfoComponent,
-    VersionHistoryComponent
-  ],
-  imports: [
-    CommonModule,
-    AboutRoutingModule,
-    SidenavComponent,
-    NgLetModule,
-    DeveloperLoginComponent
-  ]
+   declarations: [
+      AboutComponent,
+      IntroductionComponent,
+      GeneratorInfoComponent,
+      DevelopmentInfoComponent,
+      VersionHistoryComponent
+   ],
+   imports: [
+      CommonModule,
+      AboutRoutingModule,
+      SidenavComponent,
+      NgLetModule,
+      DeveloperLoginComponent
+   ]
 })
 export class AboutModule { }
