@@ -12,6 +12,8 @@ import { matchNameEnding } from '../name-endings';
    providedIn: GeneratorAlgorithmsModule
 })
 export class SyllabicGeneratorService implements GeneratorService {
+   public readonly version = "1.0" as const;
+   
    private readonly syllableLengthWeights = [.1, .35, .5, .05];
 
    constructor(

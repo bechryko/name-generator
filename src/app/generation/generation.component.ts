@@ -43,4 +43,8 @@ export class GenerationComponent {
    public selectGenerator(generator: Generators): void {
       this.pageStateHandlerService.setGenerator(generator);
    }
+
+   public getGeneratorVersion(generator: Generators): string {
+      return this.generatorServices[generator].version;
+   }
 }

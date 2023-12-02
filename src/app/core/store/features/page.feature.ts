@@ -1,11 +1,11 @@
 import { AboutSubpages } from '@ngen-about/about-subpages';
-import { Generators } from '@ngen-generation/enums';
+import { generatorFlags } from '@ngen-generation/constants';
 import { createFeature, createReducer, on } from '@ngrx/store';
 import { pageActions } from '../actions/page.actions';
 import { PageState } from '../states';
 
 const initialState: PageState = {
-   generator: Generators.JAPANESE,
+   generator: generatorFlags.best,
    aboutSubpage: AboutSubpages.INTRODUCTION
 };
 

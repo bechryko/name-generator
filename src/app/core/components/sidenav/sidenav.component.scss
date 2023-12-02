@@ -1,7 +1,48 @@
+$button-height: 4rem;
+$button-highlight-gap: 2px;
+$button-total-height: calc($button-height + $button-highlight-gap);
+
 #sidenav-wrapper {
    display: flex;
-   justify-content: center;
-   align-items: center;
+   flex-direction: column;
+   padding-top: 25%;
+   
+   button {
+      width: 100%;
+      height: $button-height;
+      font-size: 1.5rem;
+      background-color: transparent;
+      border: none;
+      position: relative;
+      margin-bottom: $button-highlight-gap;
+      cursor: pointer;
+
+      &::before, &:last-child::after {
+         content: '';
+         position: absolute;
+         left: 10%;
+         width: 80%;
+         height: $button-highlight-gap;
+         background: linear-gradient(to right, rgba(256, 256, 256, 0), rgba(256, 256, 256, 1), rgba(256, 256, 256, 0));
+         opacity: 0;
+         transition: opacity 0.1s ease-in-out;
+      }
+      &::before {
+         top: 0;
+      }
+      &:last-child::after {
+         bottom: 0;
+      }
+
+      &:hover, &.selected {
+         &::before, & + button::before {
+            opacity: 1;
+         }
+      }
+      &:last-child:hover::after, &:last-child.selected::after {
+         opacity: 1;
+      }
+   }
 
    #placeholder {
       font-size: 1.4rem;

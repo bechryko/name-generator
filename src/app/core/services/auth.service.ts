@@ -33,7 +33,6 @@ export class AuthService {
    }
 
    public onApplicationStart(): void {
-      console.log(this.auth.currentUser)
       if (this.auth.currentUser) {
          this.store.dispatch(authActions.loginSuccess());
       }

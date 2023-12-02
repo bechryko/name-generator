@@ -15,15 +15,16 @@ interface VersionDetails {
 export class VersionHistoryComponent {
    private readonly versions: VersionDetails[] = [
       {
-         id: '1.0.0',
-         name: 'unnamed',
+         id: '1.0',
+         name: 'Vetlarrmeltheld',
          date: new Date(Date.now()), //TODO
          content: [
             "Where it all began",
-            "Added japanese generator algorithm",
-            "Added syllabic generator algorithm",
-            "Added regular generator algorithm",
-            "Added About page with loads of information!"
+            "Added japanese generator algorithm (on version 1.0)",
+            "Added syllabic generator algorithm (on version 1.0)",
+            "Added regular generator algorithm (on version 1.0)",
+            "Added Database page with the best names saved",
+            "Added About page with loads of information"
          ]
       }
    ];

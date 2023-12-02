@@ -11,6 +11,8 @@ import { japaneseLetterList } from './japanese-letter-list';
    providedIn: GeneratorAlgorithmsModule
 })
 export class JapaneseGeneratorService implements GeneratorService {
+   public readonly version = "1.0" as const;
+
    public generateName(config: GenerationConfig): JapaneseName {
       let length = RandomUtils.between(config.minLength, config.maxLength);
       let name: JapaneseName = { romaji: "", hiragana: "", katakana: "" };

@@ -3,6 +3,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router } from '@angular/router';
 import { NgenSidebarSelectable } from '@ngen-core/models';
 import { PageStateHandlerService } from '@ngen-core/services';
+import { Observable, tap } from 'rxjs';
 import { AboutSubpages } from './about-subpages';
 
 @Component({
@@ -30,14 +31,16 @@ export class AboutComponent {
          value: AboutSubpages.VERSIONS
       }
    ];
+   public readonly currentSubpage$: Observable<AboutSubpages>;
 
    constructor(
       private readonly router: Router,
       private readonly pageStateHandlerService: PageStateHandlerService
    ) {
-      this.pageStateHandlerService.aboutSubpage$.pipe(
-         takeUntilDestroyed()
-      ).subscribe(subpage => this.navigate(subpage));
+      this.currentSubpage$ = this.pageStateHandlerService.aboutSubpage$.pipe(
+         takeUntilDestroyed(),
+         tap(subpage => this.navigate(subpage))
+      );
    }
 
    public selectSubpage(subpage: AboutSubpages): void {

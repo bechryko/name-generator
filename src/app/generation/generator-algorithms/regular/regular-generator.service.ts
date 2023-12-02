@@ -12,6 +12,8 @@ import { matchNameEnding } from '../name-endings';
    providedIn: GeneratorAlgorithmsModule
 })
 export class RegularGeneratorService implements GeneratorService {
+   public readonly version = "1.0" as const;
+
    constructor(
       private readonly letterFinalizerService: LetterFinalizerService
    ) { }
