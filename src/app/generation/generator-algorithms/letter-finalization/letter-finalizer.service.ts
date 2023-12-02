@@ -14,7 +14,7 @@ export class LetterFinalizerService {
       private readonly errorService: ErrorService
    ) { }
 
-   public finalizeRegularLetters(regular: string, config: GenerationConfig, doMatchNameEnding = true): string {
+   public finalizeRegularLetters(regular: string, config: GenerationConfig): string {
       regular = this.finalizeWildcardRegulars(regular, config);
 
       let name = "";
@@ -78,7 +78,7 @@ export class LetterFinalizerService {
 
       if (latestLetter) {
          if (!genConfig.ignoreVoicedUnvoicedPairs) {
-            genConfig.excludedLetters += VoicedUnvoicedPairsUtils.pairOf(latestLetter);
+            genConfig.excludedLetters += VoicedUnvoicedPairsUtils.pairOf(latestLetter) ?? "";
          }
       }
 

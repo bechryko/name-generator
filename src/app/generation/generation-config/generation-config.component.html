@@ -1,6 +1,5 @@
 <form id="generation-config-wrapper" 
    [formGroup]="configForm" 
-   (ngSubmit)="onGenerate()"
    autocomplete="off"
 >
    @for (field of configFields; track $index) {
@@ -15,5 +14,5 @@
          <br>
       }
    }
-   <button mat-raised-button color="primary" type="submit" class="submit-button">Generate Names</button>
+   <button mat-raised-button color="primary" (click)="onGenerate()" class="submit-button">Generate Names</button>
 </form>

@@ -40,7 +40,7 @@ export class SyllabicGeneratorService implements GeneratorService {
          lastSyllable = name.regularSyllabic.last();
       }
 
-      name.regularBase = matchNameEnding(name.regularBase);
+      name.regularBase = matchNameEnding(name.regularBase, config);
 
       try {
          name.name = this.letterFinalizerService.finalizeRegularLetters(name.regularBase, config);

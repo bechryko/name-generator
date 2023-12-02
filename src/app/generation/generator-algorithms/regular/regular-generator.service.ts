@@ -25,7 +25,7 @@ export class RegularGeneratorService implements GeneratorService {
          }
          regularBase += config.regularNameEnd;
 
-         regularBase = matchNameEnding(regularBase);
+         regularBase = matchNameEnding(regularBase, config);
 
          const name: RegularName = {
             name: "",
@@ -37,7 +37,7 @@ export class RegularGeneratorService implements GeneratorService {
          return name;
       }
 
-      const regularBase = new RegularNameObject(matchNameEnding(config.regularNameBase));
+      const regularBase = new RegularNameObject(matchNameEnding(config.regularNameBase, config));
       let name = this.letterFinalizerService.finalizeRegularLetters(regularBase.valueOf(), config);
       name = this.dereferenceName(name, regularBase.references);
       name = NameFormatUtils.capitalizeName(name);
