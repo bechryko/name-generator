@@ -92,7 +92,7 @@ export class LetterFinalizerService {
          }
       }
 
-      if (genConfig.includedLetters && (!genConfig.excludedLetters || !genConfig.excludedLetters.length)) {
+      if (genConfig.includedLetters) {
          if (LetterUtils.numberOf('vowel', genConfig.includedLetters) > 0
             && LetterUtils.numberOf('consonant', genConfig.includedLetters) > 0
          ) {
@@ -101,7 +101,7 @@ export class LetterFinalizerService {
             this.generationError = 'LETTER_SET_DEPLETED';
          }
       }
-
+      
       return randConfig;
    }
 
