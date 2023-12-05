@@ -1,0 +1,8 @@
+<div id="about-wrapper">
+   <ngen-sidenav 
+      [selectableList]="subpages"
+      [selectedValue]="(currentSubpage$ | async)!"
+      (select)="selectSubpage($event)"
+   ></ngen-sidenav>
+   <router-outlet></router-outlet>
+</div>

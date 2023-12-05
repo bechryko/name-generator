@@ -1,0 +1,28 @@
+<section class="content-grid">
+   <h2>Version history</h2>
+   <p>
+      Since it is a name generator, every minor version has to have a unique name. Of course these names are generated with the newest generators available in the given version.
+   </p>
+   @for (version of namedVersions; track $index) {
+      <section class="version-details">
+         <h3>{{ version.id }}: {{ version.name }}</h3>
+         <p>Released: {{ version.date.toLocaleDateString() }}</p>
+         <ul>
+            @for (contentElement of version.content; track $index) {
+               <li>{{ contentElement }}</li>
+            }
+         </ul>
+         @for(patch of getPatchVersions(version); track $index) {
+            <section>
+               <h4>{{ patch.id }}</h4>
+               <p>Released: {{ patch.date.toLocaleDateString() }}</p>
+               <ul>
+                  @for (contentElement of patch.content; track $index) {
+                     <li>{{ contentElement }}</li>
+                  }
+               </ul>
+            </section>
+         }
+      </section>
+   }
+</section>

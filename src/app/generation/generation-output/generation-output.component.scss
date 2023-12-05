@@ -1,0 +1,30 @@
+#generation-output-wrapper {
+   height: 100%;
+
+   #outputs {
+      background-color: #575757;
+      border-radius: 1rem;
+      width: 70%;
+      margin: auto;
+      padding: 1rem;
+
+      .displayName {
+         float: left;
+
+         p {
+            font-size: 2rem;
+            margin: 0.25rem;
+         }
+      }
+
+      .icons {
+         float: right;
+         display: flex;
+         flex-direction: column;
+      }
+
+      .clear {
+         clear: both;
+      }
+   }
+}

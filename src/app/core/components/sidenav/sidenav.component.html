@@ -1,0 +1,12 @@
+<div id="sidenav-wrapper">
+   @for (item of selectableList; track $index) {
+      <button
+         (click)="onSelect(item.value)"
+         matTooltip="{{ item.description }}"
+         matTooltipPosition="right"
+         [class.selected]="item.value === selectedValue"
+      >{{ item.label }}</button>
+   } @empty {
+      <p id="placeholder">{{ placeholderText }}</p>
+   }
+</div>

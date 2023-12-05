@@ -1,0 +1,22 @@
+@mixin content-grid($padding-inline, $content-max-width, $breakout-max-width) {
+   $breakout-size: calc(($breakout-max-width - $content-max-width) / 2);
+   $content-size: min(100% - $padding-inline * 2, $content-max-width);
+
+   display: grid;
+   grid-template-columns: 
+      [fullwidth-start] minmax($padding-inline, 1fr)
+      [breakout-start] minmax(0, $breakout-size)
+      [content-start] $content-size [content-end]
+      minmax(0, $breakout-size) [breakout-end]
+      minmax($padding-inline, 1fr) [fullwidth-end];
+   
+   & > * {
+      grid-column: content;
+   }
+   & > .breakout {
+      grid-column: breakout;
+   }
+   & > .fullwidth {
+      grid-column: fullwidth;
+   }
+}

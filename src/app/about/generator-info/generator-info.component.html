@@ -1,0 +1,48 @@
+<section class="content-grid">
+   <h2>Generators</h2>
+   <p>
+      Here you can find everything about your favorite generator algorithms and their configuration.
+   </p>
+   <section>
+      <h3>Japanese generator algorithm (current version: {{ versions.Japanese }})</h3>
+      <p>
+         This algorithm is based on the japanese letters. It is a syllabic alphabet, which means that letters placed after each other create an easily pronounceable word - a name.
+      </p>
+      <p>
+         The <strong>minimum and maximum length</strong> value configures how many japanese letters can be placed in the name. The length can be between {{ configPropertyBounds.lengthInSyllables.min }} and {{ configPropertyBounds.lengthInSyllables.max }}.
+      </p>
+   </section>
+   <section>
+      <h3>Syllabic generator algorithm (current version: {{ versions.Syllabic }})</h3>
+      <p>
+         This algorithms manually creates syllables and places them after each other. It uses a special regular language to decide if the given letter should be vowel or consonant. This means it is highly configurable in terms of the used letters.
+      </p>
+      <p>
+         The <strong>minimum and maximum length</strong> value is available here too. The length here is measured in syllables, and can be between {{ configPropertyBounds.lengthInSyllables.min }} and {{ configPropertyBounds.lengthInSyllables.max }}.
+      </p>
+      <p>
+         The <strong>excluded and included letters</strong> fields are used to configure the used letters. The can't be both used, you can only exclude or include letters to generate the name from. Also, if there are not enough letters to generate the name from, the generator will use the default letters and pop up a warning.
+      </p>
+      <p>
+         The <strong>Ignore voiced-unvoiced neighbors</strong> checkbox is used to configure if the generator should ignore the voiced-unvoiced neighbor rule. This rule means that after a voiced/unvoiced consonant, the next consonant can't be its pair. For example, after a letter 'g' the next consonant can't be 'k', because they are voiced-unvoiced pairs. If this checkbox is checked, the generator will ignore this rule and may generate names with voiced-unvoiced neighbors. 
+      </p>
+   </section>
+   <section>
+      <h3>Regular generator algorithm (current version: {{ versions.Regular }})</h3>
+      <p>
+         This algorithm uses the full potential of the application's regular language. It has a lot of customizability, although it is built more for customization, than to generate names with the basic configs. So with this algorithm, it is crucial to be familiar with the configuration options.
+      </p>
+      <p>
+         The <strong>minimum and maximum length</strong> value is available here too, but here it means the length of the name in letters. Its minimum value is {{ configPropertyBounds.lengthInLetters.min }} and the maximum is {{ configPropertyBounds.lengthInLetters.max }}.
+      </p>
+      <p>
+         The <strong>excluded letters</strong>, <strong>included letters</strong> and <strong>Ignore voiced-unvoiced neighbors</strong> options are exactly the same as in the syllabic generator algorithm.
+      </p>
+      <p>
+         The <strong>regular name start/end/base</strong> lets you customize how you want your name to be built. The start and end only applies to the respective part of the name, while the base defines the whole name (overriding the set length options).
+      </p>
+      <p>
+         The regular language, which you can use in the above fields, consists of three types of characters: letters, basic regular symbols and regular reference symbols. The letters are explicitly telling the generator to put the given letter in the given place in the name. With the basic regular symbols you can define sets of letters to put in the given place. The <code>{{ regulars.wildcard }}</code> (wildcard) symbol tells that any letter (taking into account other configuration rules) can be placed there, while <code>{{ regulars.vowel }}</code> and <code>{{ regulars.consonant }}</code> mean a random vowel or consonant, respectively. Using regular reference symbols you can reference to other parts of your name, using letters from 0 to 9. Currently, you cannot reference to letters with indexes higher than 9, but this will change in the future. For an example, if your regular structure is "<code>+--0</code>", the first letter will be a random vowel, the second and third a random consonant which are independent, and the last letter references the first (the one with index 0), so they will always be the same. One possible name generated with this structure is "Ansa".
+      </p>
+   </section>
+</section>

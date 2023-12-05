@@ -1,0 +1,9 @@
+{
+  "hosting": [
+    {
+      "target": "name-generator",
+      "source": ".",
+      "frameworksBackend": {}
+    }
+  ]
+}

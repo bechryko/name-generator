@@ -1,0 +1,1 @@
+export const SYLLABIC_GENERATOR_VERSION = '1.0';
