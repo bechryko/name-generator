@@ -1,0 +1,1 @@
+export const REGULAR_GENERATOR_VERSION = '1.0';

@@ -1,0 +1,1 @@
+export const JAPANESE_GENERATOR_VERSION = '1.0';

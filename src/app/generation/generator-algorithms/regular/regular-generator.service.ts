@@ -7,12 +7,13 @@ import { GeneratorService } from '../generator-service.model';
 import { LetterFinalizerService } from '../letter-finalization/letter-finalizer.service';
 import { RegularUtils } from '../letter-finalization/utils';
 import { matchNameEnding } from '../name-endings';
+import { REGULAR_GENERATOR_VERSION } from './regular-generator-version';
 
 @Injectable({
    providedIn: GeneratorAlgorithmsModule
 })
 export class RegularGeneratorService implements GeneratorService {
-   public readonly version = "1.0" as const;
+   public readonly version = REGULAR_GENERATOR_VERSION;
 
    constructor(
       private readonly letterFinalizerService: LetterFinalizerService

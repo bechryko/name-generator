@@ -4,6 +4,7 @@ import { NameFormatUtils, RandomUtils } from '@ngen-core/utils';
 import { GenerationConfig } from '@ngen-generation/models';
 import { GeneratorAlgorithmsModule } from '../generator-algorithms.module';
 import { GeneratorService } from '../generator-service.model';
+import { JAPANESE_GENERATOR_VERSION } from './japanese-generator-version';
 import { JapaneseLetter } from './japanese-letter';
 import { japaneseLetterList } from './japanese-letter-list';
 
@@ -11,7 +12,7 @@ import { japaneseLetterList } from './japanese-letter-list';
    providedIn: GeneratorAlgorithmsModule
 })
 export class JapaneseGeneratorService implements GeneratorService {
-   public readonly version = "1.0" as const;
+   public readonly version = JAPANESE_GENERATOR_VERSION;
 
    public generateName(config: GenerationConfig): JapaneseName {
       let length = RandomUtils.between(config.minLength, config.maxLength);
