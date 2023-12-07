@@ -9,4 +9,7 @@ const fields = [
    "regularNameBase"
 ] as const;
 
+/**
+ * Describes whether the fields are needed for the given generator.
+ */
 export type GeneratorConfigFields = Partial<Record<typeof fields[number], boolean>>;

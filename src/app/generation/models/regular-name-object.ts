@@ -1,5 +1,8 @@
 import { RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 
+/**
+ * A class to represent regular forms of a name and handle its references.
+ */
 export class RegularNameObject {
    public referenceRegular: string;
    public readonly references: number[] = [];

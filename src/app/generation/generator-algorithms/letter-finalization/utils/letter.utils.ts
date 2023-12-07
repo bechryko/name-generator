@@ -53,9 +53,16 @@ export class LetterUtils {
    public static getVowelChance(excludedLetters = "", includedLetters = ""): number {
       const usableVowels = this.vowel.filter(v => !excludedLetters.includes(v.letter) && includedLetters.includes(v.letter));
       const usableLetters = this.letter.filter(l => !excludedLetters.includes(l.letter) && includedLetters.includes(l.letter));
-      return usableVowels.reduce((acc, v) => acc + v.weight, 0) / usableLetters.reduce((acc, l) => acc + l.weight, 0);
+      return usableVowels.reduce((acc, v) => acc + v.weight, 0) / usableLetters.reduce((acc, l) => acc + l.weight, 0); //TODO: pluckSum function
    }
 
+   /**
+    * Counts the number of letters of the given type.
+    * 
+    * @param type the letter type to count
+    * @param name the name whose letters to count. If omitted, all letters of the given type will be counted
+    * @returns the count number
+    */
    public static numberOf(type: LetterType, name?: string): number {
       if (!name) {
          return this[type].length;
@@ -63,6 +70,11 @@ export class LetterUtils {
       return name.split('').filter(l => this.is(type, l)).length;
    }
 
+   /**
+    * @param type the letter type to check
+    * @param letter the letter to check
+    * @returns whether the letter is of the given type
+    */
    public static is(type: LetterType, letter: string): boolean {
       return this[type].map(l => l.letter).includes(letter);
    }
