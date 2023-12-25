@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 interface VersionDetails {
    id: string;
    name?: string;
-   date: Date;
+   date?: Date;
    content: string[];
 }
 
@@ -17,7 +17,6 @@ export class VersionHistoryComponent {
       {
          id: '1.0',
          name: 'Vetlarrmeltheld',
-         date: new Date(Date.now()), //TODO
          content: [
             "Where it all began",
             "Added japanese generator algorithm (on version 1.0)",

@@ -2,6 +2,7 @@ import { AfterViewInit, Component, Input, ViewChild, signal } from '@angular/cor
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { pluck } from '@ngen-core/functions';
 import { ClipboardService } from '@ngen-core/services';
 import { AuthService } from '@ngen-core/services/auth.service';
 import { GeneratedName } from '@ngen-database/models';
@@ -15,13 +16,13 @@ import { NameDatabaseTableHeader } from './models';
    styleUrl: './name-database-table.component.scss'
 })
 export class NameDatabaseTableComponent implements AfterViewInit {
-   private readonly DELETE_KEY = "Control"
+   private readonly DELETE_KEY = "Control";
 
    public _headers: NameDatabaseTableHeader[] = [];
    public headerKeys = signal<(keyof GeneratedName)[]>([]);
    @Input() set headers(headers: NameDatabaseTableHeader[]) {
       this._headers = headers;
-      this.headerKeys.set(headers.map((header) => header.key));
+      this.headerKeys.set(pluck(headers, 'key'));
    }
 
    public dataSource = signal(new MatTableDataSource<GeneratedName>());

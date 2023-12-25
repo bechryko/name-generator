@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
+import { capitalize } from '@ngen-core/functions';
 import { RegularName } from '@ngen-core/names';
-import { NameFormatUtils, RandomUtils } from '@ngen-core/utils';
+import { RandomUtils } from '@ngen-core/utils';
 import { GenerationConfig, RegularNameObject } from '@ngen-generation/models';
 import { GeneratorAlgorithmsModule } from '../generator-algorithms.module';
 import { GeneratorService } from '../generator-service.model';
@@ -22,28 +23,27 @@ export class RegularGeneratorService implements GeneratorService {
    public generateName(config: GenerationConfig): RegularName {
       if (!config.regularNameBase) {
          const length = RandomUtils.between(config.minLength, config.maxLength);
-         let regularBase = config.regularNameStart;
+         const regularBase = new RegularNameObject(config.regularNameStart);
          for (let i = config.regularNameStart.length; i < length - config.regularNameEnd.length; i++) {
-            regularBase += RegularUtils.symbols.wildcard;
+            regularBase.append(RegularUtils.symbols.wildcard);
          }
-         regularBase += config.regularNameEnd;
-
-         regularBase = matchNameEnding(regularBase, config);
+         regularBase.append(new RegularNameObject(config.regularNameEnd));
+         console.log(regularBase.valueOf());
 
          const name: RegularName = {
             name: "",
-            regularBase: new RegularNameObject(regularBase)
+            regularBase: matchNameEnding(regularBase, config)
          };
          name.name = this.letterFinalizerService.finalizeRegularLetters(name.regularBase.referenceRegular, config);
          name.name = this.dereferenceName(name.name, name.regularBase.references);
-         name.name = NameFormatUtils.capitalizeName(name.name);
+         name.name = capitalize(name.name);
          return name;
       }
 
       const regularBase = new RegularNameObject(matchNameEnding(config.regularNameBase, config));
       let name = this.letterFinalizerService.finalizeRegularLetters(regularBase.valueOf(), config);
       name = this.dereferenceName(name, regularBase.references);
-      name = NameFormatUtils.capitalizeName(name);
+      name = capitalize(name);
       return { name, regularBase };
    }
 

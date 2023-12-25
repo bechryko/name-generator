@@ -8,4 +8,3 @@ export { RegularGeneratorService } from './regular/regular-generator.service';
 
 export { SYLLABIC_GENERATOR_VERSION } from './syllabic/syllabic-generator-version';
 export { SyllabicGeneratorService } from "./syllabic/syllabic-generator.service";
-

@@ -5,7 +5,7 @@ import { RegularUtils } from "@ngen-generation/generator-algorithms/letter-final
  */
 export class RegularNameObject {
    public referenceRegular: string;
-   public readonly references: number[] = [];
+   public readonly references: number[] = []; //TODO: make these private
 
    constructor(regular: string) {
       this.referenceRegular = this.extractReferences(regular);
@@ -24,6 +24,11 @@ export class RegularNameObject {
       return this;
    }
 
+   public overrideEnding(ending: string): void {
+      this.references.splice(this.referenceRegular.length - ending.length, ending.length);
+      this.referenceRegular = this.referenceRegular.substring(0, this.referenceRegular.length - ending.length) + ending;
+   }
+
    public valueOf(): string {
       let regular = "";
       for(let i = 0; i < this.referenceRegular.length; i++) {
@@ -34,6 +39,11 @@ export class RegularNameObject {
          }
       }
       return regular;
+   }
+
+   public copy(): RegularNameObject {
+      const copy = new RegularNameObject(this.valueOf());
+      return copy;
    }
 
    public get length(): number {

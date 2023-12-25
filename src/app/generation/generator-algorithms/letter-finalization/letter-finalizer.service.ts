@@ -16,21 +16,22 @@ export class LetterFinalizerService {
 
    public finalizeRegularLetters(regular: string, config: GenerationConfig): string {
       regular = this.finalizeWildcardRegulars(regular, config);
+      const defaultRandomLetterConfig = this.getRandomLetterConfig(config);
 
       let name = "";
       for (let i = 0; i < regular.length; i++) {
          if (regular[i] === RegularUtils.symbols.vowel) {
-            name += LetterUtils.random('vowel', this.getRandomLetterConfig(config));
+            name += LetterUtils.random('vowel', defaultRandomLetterConfig);
          } else if (regular[i] === RegularUtils.symbols.consonant) {
             name += LetterUtils.random('consonant', this.getRandomLetterConfig(config, name[i - 1]));
          } else {
             name += regular[i];
          }
+      }
 
-         if (this.generationError) {
-            this.errorService.popupError('generation', this.generationError);
-            this.generationError = null;
-         }
+      if (this.generationError) { 
+         this.errorService.popupError('generation', this.generationError);
+         this.generationError = null;
       }
 
       return name;
@@ -73,8 +74,8 @@ export class LetterFinalizerService {
    }
 
    private getRandomLetterConfig(config: GenerationConfig, latestLetter?: string): RandomLetterConfig {
-      const genConfig = { ...config } as GenerationConfig;
-      const randConfig = {} as RandomLetterConfig;
+      const genConfig: GenerationConfig = { ...config };
+      const randConfig: RandomLetterConfig = {};
 
       if (latestLetter) {
          if (!genConfig.ignoreVoicedUnvoicedPairs) {

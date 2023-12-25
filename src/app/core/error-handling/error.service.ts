@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { capitalize } from '@ngen-core/functions';
 import { ErrorMessageId } from './error-message-id';
 import { ErrorMessages } from './error-messages';
 import { ErrorSource } from './error-source';
@@ -19,7 +20,7 @@ export class ErrorService {
     * @param messageId - The ID of the error message based on the source
     */
    public popupError<T extends ErrorSource>(source: T, messageId: ErrorMessageId<T>): void {
-      this.errorSnackbar.open(`[${source}]\n${ErrorMessages[source][messageId]}`, "Dismiss", {
+      this.errorSnackbar.open(`[${ capitalize(source) }]\n${ ErrorMessages[source][messageId] }`, "Dismiss", {
          duration: 6000
       });
    }

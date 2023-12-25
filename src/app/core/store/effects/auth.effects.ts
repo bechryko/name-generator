@@ -18,7 +18,7 @@ export class AuthEffects {
    public logoutFailure$ = createEffect(() =>
       this.actions$.pipe(
          ofType(authActions.logoutFailure),
-         tap(action => this.errorService.popupError('auth', 'LOGOUT_FAILURE'))
+         tap(() => this.errorService.popupError('auth', 'LOGOUT_FAILURE'))
       ),
       { dispatch: false }
    );
