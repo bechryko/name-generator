@@ -1,4 +1,9 @@
-import { NgenArray } from "@ngen-core/models";
+import { last } from "@ngen-core/functions";
+
+interface RandomBetweenConfig {
+   isMaxIncluded?: boolean;
+   isInteger?: boolean;
+}
 
 /**
  * Utilities for randomization.
@@ -8,12 +13,23 @@ export class RandomUtils {
    /**
     * Generates a random number in the given interval.
     * 
+    * The configuration has two options: isMaxIncluded and isInteger. They both default to true.
+    * 
     * @param min the minimum number to be possibly generated (included)
-    * @param max the maximum number to be possibly generated (excluded)
+    * @param max the maximum number to be possibly generated (configurable)
+    * @param config configuration for the random number
     * @returns a number between min and max
     */
-   public static between(min: number, max: number): number {
-      return this.randomNumber() * (max - min) + min;
+   public static between(min: number, max: number, config?: RandomBetweenConfig): number {
+      config = {
+         isMaxIncluded: config?.isMaxIncluded ?? true,
+         isInteger: config?.isInteger ?? true
+      };
+      const random = this.randomNumber() * (max + Number(config.isMaxIncluded) - min) + min;
+      if(config.isInteger) {
+         return Math.floor(random);
+      }
+      return random;
    }
 
    /**
@@ -23,7 +39,7 @@ export class RandomUtils {
     * @returns a random element
     */
    public static randomIndex<T>(array: T[]): T {
-      return array[Math.floor(this.between(0, array.length))];
+      return array[this.between(0, array.length, { isMaxIncluded: false })];
    }
 
    /**
@@ -36,7 +52,7 @@ export class RandomUtils {
     */
    public static randomIndexWeighted<T>(array: T[], weights: number[]): T {
       const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
-      const randomWeight = this.between(0, totalWeight);
+      const randomWeight = this.between(0, totalWeight, { isInteger: false, isMaxIncluded: false });
       let weightSum = 0;
       for(let i = 0; i < array.length; i++) {
          weightSum += weights[i];
@@ -44,7 +60,7 @@ export class RandomUtils {
             return array[i];
          }
       }
-      return (array as NgenArray<T>).last();
+      return last(array);
    }
 
    /**

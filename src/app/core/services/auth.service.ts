@@ -10,6 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class AuthService {
    public readonly developerLoggedIn$: Observable<boolean>;
+   private readonly developerEmail = "dev@ngen.com";
 
    constructor(
       private readonly auth: Auth,
@@ -19,7 +20,7 @@ export class AuthService {
    }
 
    public login(password: string): void {
-      signInWithEmailAndPassword(this.auth, "dev@ngen.com", password)
+      signInWithEmailAndPassword(this.auth, this.developerEmail, password)
          .then(_ => {
             this.store.dispatch(authActions.loginSuccess());
          })

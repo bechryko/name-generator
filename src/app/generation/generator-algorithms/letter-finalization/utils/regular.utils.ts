@@ -50,13 +50,13 @@ export class RegularUtils {
       return matching;
    }
 
-   private static either(regular1: string, regular2: string, letterToMatch: string): [ boolean, string ] {
+   private static either(regular1: string, regular2: string, letterToMatch: string): [ true, string ] | [ false ] {
       if(regular1 === letterToMatch) {
          return [ true, regular2 ];
       }
       if(regular2 === letterToMatch) {
          return [ true, regular1 ];
       }
-      return [ false, "" ];
+      return [ false ];
    }
 }

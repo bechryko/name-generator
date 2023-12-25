@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { NgenArray } from '@ngen-core/models';
+import { capitalize, last } from '@ngen-core/functions';
 import { SyllabicName } from '@ngen-core/names';
-import { NameFormatUtils, RandomUtils } from '@ngen-core/utils';
+import { RandomUtils } from '@ngen-core/utils';
 import { GenerationConfig } from '@ngen-generation/models';
 import { GeneratorAlgorithmsModule } from '../generator-algorithms.module';
 import { GeneratorService } from '../generator-service.model';
@@ -27,7 +27,7 @@ export class SyllabicGeneratorService implements GeneratorService {
          name: "",
          regularBase: "",
          syllabic: [],
-         regularSyllabic: [] as any as NgenArray<string>
+         regularSyllabic: []
       };
 
       let lastSyllable = "";
@@ -40,7 +40,7 @@ export class SyllabicGeneratorService implements GeneratorService {
          }
          const syllableSize = RandomUtils.randomIndexWeighted([1, 2, 3, 4], weights);
          this.appendRegularSyllable(name, syllableSize);
-         lastSyllable = name.regularSyllabic.last();
+         lastSyllable = last(name.regularSyllabic);
       }
 
       name.regularBase = matchNameEnding(name.regularBase, config);
@@ -52,13 +52,12 @@ export class SyllabicGeneratorService implements GeneratorService {
       }
 
       let index = 0;
-      for (let i = 0; i < name.regularSyllabic.length; i++) {
-         name.syllabic.push(name.name.substring(index, index + name.regularSyllabic[i].length));
-         index += name.regularSyllabic[i].length;
+      for (const syllable of name.regularSyllabic) {
+         name.syllabic.push(name.name.substring(index, index = index + syllable.length));
       }
 
-      name.name = NameFormatUtils.capitalizeName(name.name);
-      name.syllabic[0] = NameFormatUtils.capitalizeName(name.syllabic[0]);
+      name.name = capitalize(name.name);
+      name.syllabic[0] = capitalize(name.syllabic[0]);
       return name;
    }
 

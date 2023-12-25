@@ -1,3 +1,4 @@
+import { pluck } from "@ngen-core/functions";
 import { RandomUtils } from "@ngen-core/utils";
 import { Letter, RandomLetterConfig } from "../models";
 
@@ -45,8 +46,8 @@ export class LetterUtils {
          array = array.filter(l => config.included!.includes(l.letter));
       }
       return RandomUtils.randomIndexWeighted(
-         array.map(l => l.letter),
-         array.map(l => l.weight)
+         pluck(array, 'letter'),
+         pluck(array, 'weight')
       );
    }
 
@@ -60,7 +61,7 @@ export class LetterUtils {
     * Counts the number of letters of the given type.
     * 
     * @param type the letter type to count
-    * @param name the name whose letters to count. If omitted, all letters of the given type will be counted
+    * @param name the name whose letters to count. If omitted, all available letters of the given type will be counted
     * @returns the count number
     */
    public static numberOf(type: LetterType, name?: string): number {
@@ -76,6 +77,6 @@ export class LetterUtils {
     * @returns whether the letter is of the given type
     */
    public static is(type: LetterType, letter: string): boolean {
-      return this[type].map(l => l.letter).includes(letter);
+      return pluck(this[type], 'letter').includes(letter);
    }
 }

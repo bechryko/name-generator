@@ -1,5 +1,4 @@
-import { replaceLetter } from "@ngen-core/functions";
-import { NameFormatUtils } from "@ngen-core/utils";
+import { capitalize, replaceLetter } from "@ngen-core/functions";
 import { LetterUtils, RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 
 export class InputFormatUtils {
@@ -16,7 +15,7 @@ export class InputFormatUtils {
       input = this.fixReferences(input);
       input = this.deleteNonRegulars(input);
       if(nameStarting) {
-         input = NameFormatUtils.capitalizeName(input);
+         input = capitalize(input);
       }
       return input;
    }

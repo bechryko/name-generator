@@ -5,6 +5,7 @@ import { GenerationConfig } from '@ngen-generation/models/generation-config';
 import { ConfigurationStoreService } from '@ngen-generation/services';
 import isEqual from 'lodash.isequal';
 import { Generators } from '../enums';
+import { basicDefaultConfig, japaneseDefaultConfig, regularDefaultConfig, syllabicDefaultConfig } from './default-configs';
 import { BoundedConfigProperty, GeneratorConfigFields, PropertyBounds } from './model';
 import { GenerationConfigUtils, InputFormatUtils } from './utils';
 
@@ -14,7 +15,6 @@ interface ConfigField {
    name: FieldName;
    label: string;
    type: 'number' | 'text' | 'checkbox';
-   defaultValue: {};
    formatter?: (input: any) => any;
    disabled?: boolean;
 }
@@ -41,47 +41,39 @@ export class GenerationConfigComponent {
       {
          name: 'minLength',
          label: "Minimum length",
-         type: 'number',
-         defaultValue: 2
+         type: 'number'
       }, {
          name: 'maxLength',
          label: "Maximum length",
-         type: 'number',
-         defaultValue: 4
+         type: 'number'
       }, {
          name: 'excludedLetters',
          label: "Excluded letters",
          type: 'text',
-         defaultValue: "",
          formatter: InputFormatUtils.formatLetterSetInput.bind(InputFormatUtils)
       }, {
          name: 'includedLetters',
          label: "Included letters",
          type: 'text',
-         defaultValue: "",
          formatter: InputFormatUtils.formatLetterSetInput.bind(InputFormatUtils)
       }, {
          name: 'ignoreVoicedUnvoicedPairs',
          label: "Ignore voiced-unvoiced neighbors",
-         type: 'checkbox',
-         defaultValue: false
+         type: 'checkbox'
       }, {
          name: 'regularNameStart',
          label: "Start of the name (regular)",
          type: 'text',
-         defaultValue: "",
          formatter: InputFormatUtils.formatRegularInput.bind(InputFormatUtils)
       }, {
          name: 'regularNameEnd',
          label: "End of the name (regular)",
          type: 'text',
-         defaultValue: "",
          formatter: InputFormatUtils.formatRegularInput.bind(InputFormatUtils)
       }, {
          name: 'regularNameBase',
          label: "Regular skeleton of the name",
          type: 'text',
-         defaultValue: "",
          formatter: InputFormatUtils.formatRegularInput.bind(InputFormatUtils)
       }
    ];
@@ -93,7 +85,7 @@ export class GenerationConfigComponent {
    ) {
       const formGroupObject: Record<FieldName, {}> = {} as Record<FieldName, {}>;
       for (const field of this.configFields) {
-         formGroupObject[field.name] = [field.defaultValue];
+         formGroupObject[field.name] = [ null ];
       }
       this.configForm = this.fb.group(formGroupObject);
    }
@@ -130,7 +122,7 @@ export class GenerationConfigComponent {
 
    private correctFieldValue(field: ConfigField): void {
       if (!this.configObject[field.name]) {
-         this.configForm.controls[field.name].reset();
+         this.resetField(field.name);
       } else if (field.formatter) {
          this.setFormFieldValue(field.name, field.formatter(this.configObject[field.name]));
       }
@@ -193,5 +185,23 @@ export class GenerationConfigComponent {
 
    private getField(fieldName: FieldName): ConfigField {
       return this.configFields.find(field => field.name === fieldName)!;
+   }
+
+   private resetField(fieldName: FieldName): void {
+      let selectedConfig;
+      switch(this.selectedGenerator) {
+         case Generators.JAPANESE:
+            selectedConfig = japaneseDefaultConfig;
+            break;
+         case Generators.REGULAR:
+            selectedConfig = regularDefaultConfig;
+            break;
+         case Generators.SYLLABIC:
+            selectedConfig = syllabicDefaultConfig;
+            break;
+         default:
+            selectedConfig = basicDefaultConfig;
+      }
+      this.setFormFieldValue(fieldName, selectedConfig[fieldName]);
    }
 }
