@@ -1,0 +1,18 @@
+table {
+   background-color: yellow;
+
+   .mat-mdc-header-cell {
+      font-weight: bold;
+      width: 33.3%;
+   }
+
+   .mat-mdc-row {
+      &:hover {
+         background-color: #f3bb01;
+      }
+      &.deletable:hover {
+         background-color: #840000;
+         color: white;
+      }
+   }
+}

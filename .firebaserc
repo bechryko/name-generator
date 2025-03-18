@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ngen-name-generator": {
+      "hosting": {
+        "ngen-name-generator": [
+          "ngen-name-generator"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ngen-name-generator"
+  }
+}

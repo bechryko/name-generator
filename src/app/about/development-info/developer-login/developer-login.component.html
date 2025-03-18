@@ -1,0 +1,12 @@
+<fieldset>
+   <legend>Developer login</legend>
+   @if(!(isDeveloperLoggedIn$ | async)) {
+      <mat-form-field appearance="outline">
+         <mat-label>Developer password</mat-label>
+         <input matInput type="password" [formControl]="passwordFormControl">
+      </mat-form-field>
+      <button mat-stroked-button (click)="login()">Login as developer</button>
+   } @else {
+      <button mat-stroked-button (click)="logout()">Logout from developer account</button>
+   }
+</fieldset>

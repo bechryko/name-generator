@@ -1,0 +1,17 @@
+@use '../../assets/styles/mixins';
+
+#about-wrapper {
+   height: 100%;
+   display: grid;
+   grid-template-columns: 1fr 0fr 4fr;
+   background-color: rgb(255, 255, 146);
+
+   h2 {
+      text-align: center;
+   }
+}
+
+ngen-sidenav {
+   height: 100%;
+   background-color: #8a8a8a;
+}
