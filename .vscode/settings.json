@@ -13,5 +13,8 @@
   "editor.guides.bracketPairsHorizontal": "active",
   "files.eol": "\r\n",
   "prettier.endOfLine": "crlf",
-  "cSpell.words": ["ngen"]
+  "cSpell.words": ["ngen"],
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

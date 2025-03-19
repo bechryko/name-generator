@@ -5,7 +5,7 @@ import { Observable } from "rxjs";
 import { Generators } from "./enums";
 import { JapaneseGeneratorService, RegularGeneratorService, SyllabicGeneratorService } from "./generator-algorithms";
 import { GeneratorService } from "./generator-algorithms/generator-service.model";
-import { GenerationConfig } from "./models";
+import { ConfigurationStoreService } from "./services";
 
 @Component({
    selector: "ngen-generation",
@@ -23,15 +23,20 @@ export class GenerationComponent {
       [Generators.REGULAR]: inject(RegularGeneratorService)
    };
 
-   constructor(private readonly pageStateHandlerService: PageStateHandlerService) {
+   constructor(
+      private readonly pageStateHandlerService: PageStateHandlerService,
+      private readonly configurationStoreService: ConfigurationStoreService
+   ) {
       this.selectedGenerator$ = this.pageStateHandlerService.generator$;
       for (const generator of Object.values(Generators)) {
          this.GENERATORS.push({ label: generator, value: generator });
       }
    }
 
-   public generateName(generator: Generators, config: GenerationConfig): void {
-      this.generatedName = this.generatorServices[generator].generateName(config);
+   public generateName(generator: Generators): void {
+      this.generatedName = this.generatorServices[generator].generateName(
+         this.configurationStoreService.loadConfig(generator)
+      );
    }
 
    public selectGenerator(generator: Generators): void {

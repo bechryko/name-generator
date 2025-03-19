@@ -1,9 +1,7 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { Component, Input } from "@angular/core";
 import { NonNullableFormBuilder } from "@angular/forms";
-import { ErrorService } from "@ngen-core/error-handling";
 import { GenerationConfig } from "@ngen-generation/models/generation-config";
 import { ConfigurationStoreService } from "@ngen-generation/services";
-import isEqual from "lodash.isequal";
 import { Generators } from "../enums";
 import {
    basicDefaultConfig,
@@ -38,7 +36,6 @@ export class GenerationConfigComponent {
          this.correctFieldValue(field);
       }
    }
-   @Output() generate: EventEmitter<GenerationConfig> = new EventEmitter<GenerationConfig>();
 
    public readonly configForm;
 
@@ -92,7 +89,6 @@ export class GenerationConfigComponent {
 
    constructor(
       private readonly fb: NonNullableFormBuilder,
-      private readonly errorService: ErrorService,
       private readonly configStoreService: ConfigurationStoreService
    ) {
       const formGroupObject: Record<FieldName, {}> = {} as Record<FieldName, {}>;
@@ -100,19 +96,6 @@ export class GenerationConfigComponent {
          formGroupObject[field.name] = [null];
       }
       this.configForm = this.fb.group(formGroupObject);
-   }
-
-   public onGenerate(): void {
-      if (!this.selectedGenerator) return;
-      const oldValue = { ...this.configObject };
-      for (const field of this.configFields) {
-         this.correctFieldValue(field);
-      }
-      if (isEqual(oldValue, this.configObject)) {
-         this.generate.emit(this.configObject);
-      } else {
-         this.errorService.popupError("generation", "INVALID_CONFIG_VALUES");
-      }
    }
 
    public onBlur(field: ConfigField): void {
@@ -181,7 +164,7 @@ export class GenerationConfigComponent {
             this.getField("maxLength").disabled =
             this.getField("regularNameStart").disabled =
             this.getField("regularNameEnd").disabled =
-               Boolean(this.configObject.regularNameBase);
+            Boolean(this.configObject.regularNameBase);
       }
    }
 

@@ -7,9 +7,16 @@
    <main>
       <h2>{{ selectedGenerator }} Name Generation</h2>
       <h3>{{ getGeneratorVersion(selectedGenerator) }}</h3>
-      <ngen-generation-config
-         [generator]="selectedGenerator"
-         (generate)="generateName(selectedGenerator, $event)"></ngen-generation-config>
+      <div class="generation-settings-wrapper">
+         <ngen-generation-config [generator]="selectedGenerator"></ngen-generation-config>
+         <button
+            mat-raised-button
+            color="primary"
+            (click)="generateName(selectedGenerator)"
+            class="submit-button">
+            Generate Names
+         </button>
+      </div>
       <ngen-generation-output [generatedName]="generatedName ?? null"></ngen-generation-output>
    </main>
 </ng-container>
