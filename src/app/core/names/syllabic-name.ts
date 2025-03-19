@@ -1,4 +1,3 @@
-
 export interface SyllabicName {
    name: string;
    regularBase: string;

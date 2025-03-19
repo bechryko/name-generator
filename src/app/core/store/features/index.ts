@@ -1,4 +1,4 @@
-//@index('./*', (f, _) => `export { ${_.camelCase(f.name)} } from '${f.path}';`)
-export { authFeature } from './auth.feature';
-export { pageFeature } from './page.feature';
+//@index("./*", (f, _) => `export { ${_.camelCase(f.name)} } from "${f.path}";`)
+export { authFeature } from "./auth.feature";
+export { pageFeature } from "./page.feature";
 //@endindex

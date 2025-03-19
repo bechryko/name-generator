@@ -1,4 +1,3 @@
 export class AppInitializationUtils {
-   public static all() {
-   }
+   public static all() {}
 }

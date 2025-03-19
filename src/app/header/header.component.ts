@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import { RouteUrls } from '@ngen-core/enums';
-import { AuthService } from '@ngen-core/services/auth.service';
-import { Observable } from 'rxjs';
+import { Component } from "@angular/core";
+import { Router } from "@angular/router";
+import { RouteUrls } from "@ngen-core/enums";
+import { AuthService } from "@ngen-core/services/auth.service";
+import { Observable } from "rxjs";
 
 interface NavMenuItem {
    label: string;
@@ -10,15 +10,15 @@ interface NavMenuItem {
 }
 
 @Component({
-   selector: 'ngen-header',
-   templateUrl: './header.component.html',
-   styleUrl: './header.component.scss'
+   selector: "ngen-header",
+   templateUrl: "./header.component.html",
+   styleUrl: "./header.component.scss"
 })
 export class HeaderComponent {
    public readonly navMenuItems: NavMenuItem[] = [
-      { label: 'Generation', path: RouteUrls.GENERATION },
-      { label: 'Database', path: RouteUrls.DATABASE },
-      { label: 'About', path: RouteUrls.ABOUT }
+      { label: "Generation", path: RouteUrls.GENERATION },
+      { label: "Database", path: RouteUrls.DATABASE },
+      { label: "About", path: RouteUrls.ABOUT }
    ];
    public isDeveloperLoggedIn$: Observable<boolean>;
 

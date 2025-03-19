@@ -4,7 +4,7 @@ import { LetterUtils, RegularUtils } from "../letter-finalization/utils";
 import { nameEndings } from "./name-endings";
 
 export function matchNameEnding<T extends string | RegularNameObject>(regular: T, config: GenerationConfig): T {
-   if(typeof regular === 'string') {
+   if (typeof regular === "string") {
       return matchStringNameEnding(regular, config) as T;
    }
    return matchRegularNameObjectNameEnding(regular, config) as T;
@@ -12,13 +12,13 @@ export function matchNameEnding<T extends string | RegularNameObject>(regular: T
 
 function matchStringNameEnding(regular: string, config: GenerationConfig): string {
    const matchingEndings: string[] = [];
-   for(const ending of getFilteredNameEndings(config)) {
+   for (const ending of getFilteredNameEndings(config)) {
       const matchingEnding = RegularUtils.matchRegular(ending, regular.substring(regular.length - ending.length));
-      if(matchingEnding) {
+      if (matchingEnding) {
          matchingEndings.push(matchingEnding);
       }
    }
-   if(matchingEndings.length) {
+   if (matchingEndings.length) {
       const chosenEnding = RandomUtils.randomIndex(matchingEndings);
       regular = regular.substring(0, regular.length - chosenEnding.length) + chosenEnding;
    }
@@ -27,14 +27,17 @@ function matchStringNameEnding(regular: string, config: GenerationConfig): strin
 
 function matchRegularNameObjectNameEnding(regular: RegularNameObject, config: GenerationConfig): RegularNameObject {
    const matchingEndings: string[] = [];
-   for(const ending of getFilteredNameEndings(config)) {
-      const matchingEnding = RegularUtils.matchRegular(ending, regular.referenceRegular.substring(regular.referenceRegular.length - ending.length));
-      if(matchingEnding) {
+   for (const ending of getFilteredNameEndings(config)) {
+      const matchingEnding = RegularUtils.matchRegular(
+         ending,
+         regular.referenceRegular.substring(regular.referenceRegular.length - ending.length)
+      );
+      if (matchingEnding) {
          matchingEndings.push(matchingEnding);
       }
    }
    const newRegular = regular.copy();
-   if(matchingEndings.length) {
+   if (matchingEndings.length) {
       const chosenEnding = RandomUtils.randomIndex(matchingEndings);
       newRegular.overrideEnding(chosenEnding);
    }
@@ -43,11 +46,17 @@ function matchRegularNameObjectNameEnding(regular: RegularNameObject, config: Ge
 
 function getFilteredNameEndings(config: GenerationConfig): string[] {
    let endings = nameEndings;
-   if(config.excludedLetters.length) {
+   if (config.excludedLetters.length) {
       endings = endings.filter(ending => config.excludedLetters.split("").every(letter => !ending.includes(letter)));
    }
-   if(config.includedLetters.length) {
-      endings = endings.filter(ending => ending.split("").every(endingLetter => !LetterUtils.is('letter', endingLetter) || config.includedLetters.includes(endingLetter)));
+   if (config.includedLetters.length) {
+      endings = endings.filter(ending =>
+         ending
+            .split("")
+            .every(
+               endingLetter => !LetterUtils.is("letter", endingLetter) || config.includedLetters.includes(endingLetter)
+            )
+      );
    }
    return endings;
 }

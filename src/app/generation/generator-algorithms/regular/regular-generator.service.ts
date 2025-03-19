@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { capitalize } from '@ngen-core/functions';
-import { RegularName } from '@ngen-core/names';
-import { RandomUtils } from '@ngen-core/utils';
-import { GenerationConfig, RegularNameObject } from '@ngen-generation/models';
-import { GeneratorAlgorithmsModule } from '../generator-algorithms.module';
-import { GeneratorService } from '../generator-service.model';
-import { LetterFinalizerService } from '../letter-finalization/letter-finalizer.service';
-import { RegularUtils } from '../letter-finalization/utils';
-import { matchNameEnding } from '../name-endings';
-import { REGULAR_GENERATOR_VERSION } from './regular-generator-version';
+import { Injectable } from "@angular/core";
+import { capitalize } from "@ngen-core/functions";
+import { RegularName } from "@ngen-core/names";
+import { RandomUtils } from "@ngen-core/utils";
+import { GenerationConfig, RegularNameObject } from "@ngen-generation/models";
+import { GeneratorAlgorithmsModule } from "../generator-algorithms.module";
+import { GeneratorService } from "../generator-service.model";
+import { LetterFinalizerService } from "../letter-finalization/letter-finalizer.service";
+import { RegularUtils } from "../letter-finalization/utils";
+import { matchNameEnding } from "../name-endings";
+import { REGULAR_GENERATOR_VERSION } from "./regular-generator-version";
 
 @Injectable({
    providedIn: GeneratorAlgorithmsModule
@@ -16,9 +16,7 @@ import { REGULAR_GENERATOR_VERSION } from './regular-generator-version';
 export class RegularGeneratorService implements GeneratorService {
    public readonly version = REGULAR_GENERATOR_VERSION;
 
-   constructor(
-      private readonly letterFinalizerService: LetterFinalizerService
-   ) { }
+   constructor(private readonly letterFinalizerService: LetterFinalizerService) {}
 
    public generateName(config: GenerationConfig): RegularName {
       if (!config.regularNameBase) {

@@ -12,4 +12,4 @@ const fields = [
 /**
  * Describes whether the fields are needed for the given generator.
  */
-export type GeneratorConfigFields = Partial<Record<typeof fields[number], boolean>>;
+export type GeneratorConfigFields = Partial<Record<(typeof fields)[number], boolean>>;

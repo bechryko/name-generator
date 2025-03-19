@@ -4,8 +4,9 @@
          (click)="onSelect(item.value)"
          matTooltip="{{ item.description }}"
          matTooltipPosition="right"
-         [class.selected]="item.value === selectedValue"
-      >{{ item.label }}</button>
+         [class.selected]="item.value === selectedValue">
+         {{ item.label }}
+      </button>
    } @empty {
       <p id="placeholder">{{ placeholderText }}</p>
    }

@@ -1,12 +1,12 @@
-import { Injectable } from '@angular/core';
-import { FirebaseError } from '@angular/fire/app';
-import { Auth, signInWithEmailAndPassword } from '@angular/fire/auth';
-import { authActions, authFeature } from '@ngen-core/store';
-import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { FirebaseError } from "@angular/fire/app";
+import { Auth, signInWithEmailAndPassword } from "@angular/fire/auth";
+import { authActions, authFeature } from "@ngen-core/store";
+import { Store } from "@ngrx/store";
+import { Observable } from "rxjs";
 
 @Injectable({
-   providedIn: 'root'
+   providedIn: "root"
 })
 export class AuthService {
    public readonly developerLoggedIn$: Observable<boolean>;
@@ -28,7 +28,8 @@ export class AuthService {
    }
 
    public logout(): void {
-      this.auth.signOut()
+      this.auth
+         .signOut()
          .then(_ => this.store.dispatch(authActions.logoutSuccess()))
          .catch((error: FirebaseError) => this.store.dispatch(authActions.logoutFailure({ error })));
    }

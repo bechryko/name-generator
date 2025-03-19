@@ -1,20 +1,16 @@
-import { Component, inject } from '@angular/core';
-import { Name } from '@ngen-core/names';
-import { PageStateHandlerService } from '@ngen-core/services';
-import { Observable } from 'rxjs';
-import { Generators } from './enums';
-import {
-   JapaneseGeneratorService,
-   RegularGeneratorService,
-   SyllabicGeneratorService
-} from './generator-algorithms';
-import { GeneratorService } from './generator-algorithms/generator-service.model';
-import { GenerationConfig } from './models';
+import { Component, inject } from "@angular/core";
+import { Name } from "@ngen-core/names";
+import { PageStateHandlerService } from "@ngen-core/services";
+import { Observable } from "rxjs";
+import { Generators } from "./enums";
+import { JapaneseGeneratorService, RegularGeneratorService, SyllabicGeneratorService } from "./generator-algorithms";
+import { GeneratorService } from "./generator-algorithms/generator-service.model";
+import { GenerationConfig } from "./models";
 
 @Component({
-   selector: 'ngen-generation',
-   templateUrl: './generation.component.html',
-   styleUrl: './generation.component.scss'
+   selector: "ngen-generation",
+   templateUrl: "./generation.component.html",
+   styleUrl: "./generation.component.scss"
 })
 export class GenerationComponent {
    public readonly GENERATORS: { label: string; value: Generators }[] = [];
@@ -27,9 +23,7 @@ export class GenerationComponent {
       [Generators.REGULAR]: inject(RegularGeneratorService)
    };
 
-   constructor(
-      private readonly pageStateHandlerService: PageStateHandlerService
-   ) {
+   constructor(private readonly pageStateHandlerService: PageStateHandlerService) {
       this.selectedGenerator$ = this.pageStateHandlerService.generator$;
       for (const generator of Object.values(Generators)) {
          this.GENERATORS.push({ label: generator, value: generator });

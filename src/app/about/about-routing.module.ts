@@ -1,21 +1,21 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { AboutSubpages } from './about-subpages';
-import { AboutComponent } from './about.component';
-import { DevelopmentInfoComponent } from './development-info/development-info.component';
-import { GeneratorInfoComponent } from './generator-info/generator-info.component';
-import { IntroductionComponent } from './introduction/introduction.component';
-import { VersionHistoryComponent } from './version-history/version-history.component';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { AboutSubpages } from "./about-subpages";
+import { AboutComponent } from "./about.component";
+import { DevelopmentInfoComponent } from "./development-info/development-info.component";
+import { GeneratorInfoComponent } from "./generator-info/generator-info.component";
+import { IntroductionComponent } from "./introduction/introduction.component";
+import { VersionHistoryComponent } from "./version-history/version-history.component";
 
 const routes: Routes = [
    {
-      path: '',
+      path: "",
       component: AboutComponent,
       children: [
          {
-            path: '',
+            path: "",
             redirectTo: AboutSubpages.INTRODUCTION,
-            pathMatch: 'full'
+            pathMatch: "full"
          },
          {
             path: AboutSubpages.INTRODUCTION,
@@ -41,4 +41,4 @@ const routes: Routes = [
    imports: [RouterModule.forChild(routes)],
    exports: [RouterModule]
 })
-export class AboutRoutingModule { }
+export class AboutRoutingModule {}

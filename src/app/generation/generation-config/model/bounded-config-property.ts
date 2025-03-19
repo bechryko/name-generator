@@ -1,1 +1,1 @@
-export type BoundedConfigProperty = 'lengthInSyllables' | 'lengthInLetters';
+export type BoundedConfigProperty = "lengthInSyllables" | "lengthInLetters";

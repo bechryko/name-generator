@@ -1,17 +1,17 @@
-import { Component, Input } from '@angular/core';
-import { Name } from '@ngen-core/names';
-import { AuthService } from '@ngen-core/services/auth.service';
-import { Observable } from 'rxjs';
+import { Component, Input } from "@angular/core";
+import { Name } from "@ngen-core/names";
+import { AuthService } from "@ngen-core/services/auth.service";
+import { Observable } from "rxjs";
 
 interface DisplayName {
    name: string;
-   props: { propName: string, propValue: string }[];
+   props: { propName: string; propValue: string }[];
 }
 
 @Component({
-   selector: 'ngen-generation-output',
-   templateUrl: './generation-output.component.html',
-   styleUrl: './generation-output.component.scss'
+   selector: "ngen-generation-output",
+   templateUrl: "./generation-output.component.html",
+   styleUrl: "./generation-output.component.scss"
 })
 export class GenerationOutputComponent {
    public nameSaved = false;
@@ -22,9 +22,7 @@ export class GenerationOutputComponent {
    }
    public readonly isDeveloperLoggedIn$: Observable<boolean>;
 
-   constructor(
-      private readonly authService: AuthService
-   ) {
+   constructor(private readonly authService: AuthService) {
       this.isDeveloperLoggedIn$ = this.authService.developerLoggedIn$;
    }
 
@@ -48,17 +46,13 @@ export class GenerationOutputComponent {
       if ("syllabic" in name) {
          return {
             name: name.name,
-            props: [
-               { propName: "Syllabized", propValue: name.syllabic.join("-") }
-            ]
+            props: [{ propName: "Syllabized", propValue: name.syllabic.join("-") }]
          };
       }
       if ("regularBase" in name) {
          return {
             name: name.name,
-            props: [
-               { propName: "Regular", propValue: name.regularBase.valueOf() }
-            ]
+            props: [{ propName: "Regular", propValue: name.regularBase.valueOf() }]
          };
       }
       return { name: "", props: [] };

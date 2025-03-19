@@ -5,6 +5,6 @@ import { createActionGroup, props } from "@ngrx/store";
 export const configurationActions = createActionGroup({
    source: "Configuration",
    events: {
-      "Save": props<{ generator: Generators; config: GenerationConfig }>()
+      Save: props<{ generator: Generators; config: GenerationConfig }>()
    }
 });

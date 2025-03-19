@@ -1,1 +1,1 @@
-export type GeneratorFlagKey = 'best';
+export type GeneratorFlagKey = "best";

@@ -6,7 +6,7 @@ $button-total-height: calc($button-height + $button-highlight-gap);
    display: flex;
    flex-direction: column;
    padding-top: 25%;
-   
+
    button {
       width: 100%;
       height: $button-height;
@@ -17,8 +17,9 @@ $button-total-height: calc($button-height + $button-highlight-gap);
       margin-bottom: $button-highlight-gap;
       cursor: pointer;
 
-      &::before, &:last-child::after {
-         content: '';
+      &::before,
+      &:last-child::after {
+         content: "";
          position: absolute;
          left: 10%;
          width: 80%;
@@ -34,12 +35,15 @@ $button-total-height: calc($button-height + $button-highlight-gap);
          bottom: 0;
       }
 
-      &:hover, &.selected {
-         &::before, & + button::before {
+      &:hover,
+      &.selected {
+         &::before,
+         & + button::before {
             opacity: 1;
          }
       }
-      &:last-child:hover::after, &:last-child.selected::after {
+      &:last-child:hover::after,
+      &:last-child.selected::after {
          opacity: 1;
       }
    }

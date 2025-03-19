@@ -1,25 +1,23 @@
-import { Injectable } from '@angular/core';
-import { capitalize, last } from '@ngen-core/functions';
-import { SyllabicName } from '@ngen-core/names';
-import { RandomUtils } from '@ngen-core/utils';
-import { GenerationConfig } from '@ngen-generation/models';
-import { GeneratorAlgorithmsModule } from '../generator-algorithms.module';
-import { GeneratorService } from '../generator-service.model';
-import { LetterFinalizerService } from '../letter-finalization/letter-finalizer.service';
-import { matchNameEnding } from '../name-endings';
-import { SYLLABIC_GENERATOR_VERSION } from './syllabic-generator-version';
+import { Injectable } from "@angular/core";
+import { capitalize, last } from "@ngen-core/functions";
+import { SyllabicName } from "@ngen-core/names";
+import { RandomUtils } from "@ngen-core/utils";
+import { GenerationConfig } from "@ngen-generation/models";
+import { GeneratorAlgorithmsModule } from "../generator-algorithms.module";
+import { GeneratorService } from "../generator-service.model";
+import { LetterFinalizerService } from "../letter-finalization/letter-finalizer.service";
+import { matchNameEnding } from "../name-endings";
+import { SYLLABIC_GENERATOR_VERSION } from "./syllabic-generator-version";
 
 @Injectable({
    providedIn: GeneratorAlgorithmsModule
 })
 export class SyllabicGeneratorService implements GeneratorService {
    public readonly version = SYLLABIC_GENERATOR_VERSION;
-   
-   private readonly syllableLengthWeights = [.1, .35, .5, .05];
 
-   constructor(
-      private readonly letterFinalizerService: LetterFinalizerService
-   ) { }
+   private readonly syllableLengthWeights = [0.1, 0.35, 0.5, 0.05];
+
+   constructor(private readonly letterFinalizerService: LetterFinalizerService) {}
 
    public generateName(config: GenerationConfig): SyllabicName {
       const length = RandomUtils.between(config.minLength, config.maxLength);
@@ -53,7 +51,7 @@ export class SyllabicGeneratorService implements GeneratorService {
 
       let index = 0;
       for (const syllable of name.regularSyllabic) {
-         name.syllabic.push(name.name.substring(index, index = index + syllable.length));
+         name.syllabic.push(name.name.substring(index, (index = index + syllable.length)));
       }
 
       name.name = capitalize(name.name);
