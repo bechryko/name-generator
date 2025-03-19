@@ -1,32 +1,29 @@
-#generation-wrapper {
-   height: 100%;
+:host {
+   grid-column: 1 / -1;
    display: grid;
-   grid-template-columns: 1fr 4fr;
+   grid-template-columns: subgrid;
+   grid-template-rows: minmax(0, 1fr);
    background-color: rgb(255, 255, 146);
+}
+
+ngen-sidenav {
+   display: block;
+   background-color: #8a8a8a;
+   grid-column: sidebar;
+}
+
+main {
+   display: grid;
+   grid-template-rows: auto auto minmax(0, 1fr) 10rem;
 
    h2 {
       text-align: center;
       margin-bottom: 0.8rem;
    }
+
    h3 {
       text-align: center;
       font-size: 1rem;
       margin-top: 0;
    }
-}
-
-ngen-sidenav {
-   height: 100%;
-   background-color: #8a8a8a;
-}
-
-ngen-generation-config {
-   height: 50%;
-   display: block;
-}
-
-ngen-generation-output {
-   height: 25%;
-   display: block;
-   background-color: sandybrown;
 }

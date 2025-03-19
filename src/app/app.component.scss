@@ -1,0 +1,13 @@
+:host {
+   display: grid;
+   grid-template-columns: 1fr 4fr;
+   grid-template-rows: 12rem minmax(0, 1fr);
+   grid-template-areas:
+      "header header"
+      "sidebar content";
+   height: 100dvh;
+}
+
+ngen-header {
+   grid-area: header;
+}

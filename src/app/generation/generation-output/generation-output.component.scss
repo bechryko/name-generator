@@ -1,30 +1,21 @@
-#generation-output-wrapper {
-   height: 100%;
+:host {
+   display: flex;
+   background-color: #575757;
+   padding: 1rem;
+}
 
-   #outputs {
-      background-color: #575757;
-      border-radius: 1rem;
-      width: 70%;
-      margin: auto;
-      padding: 1rem;
+.display-name {
+   align-self: center;
 
-      .displayName {
-         float: left;
-
-         p {
-            font-size: 2rem;
-            margin: 0.25rem;
-         }
-      }
-
-      .icons {
-         float: right;
-         display: flex;
-         flex-direction: column;
-      }
-
-      .clear {
-         clear: both;
-      }
+   p {
+      font-size: 2rem;
+      margin: 0.25rem;
    }
+}
+
+.icons {
+   align-self: top;
+   margin-left: auto;
+   display: flex;
+   flex-direction: column;
 }
