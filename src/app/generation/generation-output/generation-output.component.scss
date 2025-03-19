@@ -1,3 +1,5 @@
+@use "mixins";
+
 :host {
    display: flex;
    background-color: #575757;
@@ -7,14 +9,24 @@
 .display-name {
    align-self: center;
 
+   @include mixins.mq(medium) {
+      align-self: end;
+   }
+
    p {
       font-size: 2rem;
       margin: 0.25rem;
+      line-height: 1.25;
+
+      @include mixins.mq(medium) {
+         font-size: 1.25rem;
+         margin-block: 0;
+      }
    }
 }
 
 .icons {
-   align-self: top;
+   align-self: start;
    margin-left: auto;
    display: flex;
    flex-direction: column;

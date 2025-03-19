@@ -1,16 +1,32 @@
+@use "mixins";
+
 :host {
    padding: 1rem;
+
+   @include mixins.mq(medium) {
+      padding: 0;
+   }
+
+   @include mixins.mq(small, height) {
+      padding: 0;
+   }
 }
 
 #generation-config-wrapper {
-   $padding: 1rem;
-
    height: 100%;
-   padding: $padding;
+   padding: 1rem;
    box-sizing: border-box;
    overflow-y: visible;
    background-color: rgb(255, 255, 179);
    border-radius: 1rem;
+
+   @include mixins.mq(medium) {
+      border-radius: 0;
+   }
+
+   @include mixins.mq(small, height) {
+      padding: 0;
+   }
 
    fieldset {
       height: 100%;
@@ -22,8 +38,19 @@
       padding-top: 1rem;
       border-color: orangered;
       box-sizing: border-box;
+      margin: 0;
 
-      & > :not(h3) {
+      @include mixins.mq(small, height) {
+         border: none;
+         justify-content: space-around;
+      }
+
+      legend {
+         width: fit-content;
+         padding-inline: 1rem;
+      }
+
+      ngen-input {
          flex-basis: 56px;
          width: 250px;
       }

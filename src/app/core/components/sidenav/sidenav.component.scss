@@ -1,11 +1,16 @@
+@use "mixins";
+
 $button-height: 4rem;
 $button-highlight-gap: 2px;
 $button-total-height: calc($button-height + $button-highlight-gap);
 
-#sidenav-wrapper {
+:host {
    display: flex;
    flex-direction: column;
-   padding-top: 25%;
+
+   @include mixins.mq(small) {
+      flex-direction: row;
+   }
 
    button {
       width: 100%;

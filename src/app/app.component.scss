@@ -1,11 +1,22 @@
+@use "mixins";
+
 :host {
    display: grid;
    grid-template-columns: minmax(20%, 18rem) 1fr;
-   grid-template-rows: 12rem minmax(0, 1fr);
+   grid-template-rows: auto minmax(0, 1fr);
    grid-template-areas:
       "header header"
       "sidebar content";
    height: 100dvh;
+
+   @include mixins.mq(small) {
+      grid-template-columns: 1fr;
+      grid-template-rows: auto auto minmax(0, 1fr);
+      grid-template-areas:
+         "header"
+         "sidebar"
+         "content";
+   }
 }
 
 ngen-header {
