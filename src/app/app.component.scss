@@ -2,7 +2,7 @@
 
 :host {
    display: grid;
-   grid-template-columns: minmax(20%, 18rem) 1fr;
+   grid-template-columns: minmax(20%, min(40%, 18rem)) 1fr;
    grid-template-rows: auto minmax(0, 1fr);
    grid-template-areas:
       "header header"

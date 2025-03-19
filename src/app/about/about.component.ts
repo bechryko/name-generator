@@ -24,11 +24,6 @@ export class AboutComponent {
          value: AboutSubpages.GENERATORS
       },
       {
-         label: "Developer",
-         description: "Learn about the person who stands behind this application.",
-         value: AboutSubpages.DEVELOPMENT
-      },
-      {
          label: "Versions",
          description: "Learn about the version history of this application.",
          value: AboutSubpages.VERSIONS

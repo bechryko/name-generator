@@ -1,9 +1,15 @@
+@use "mixins";
+
 :host {
    grid-column: 1 / -1;
    display: grid;
    grid-template-columns: subgrid;
    grid-template-rows: subgrid;
    background-color: rgb(255, 255, 146);
+
+   @include mixins.mq(small) {
+      grid-row: span 2;
+   }
 }
 
 h2 {
@@ -11,11 +17,11 @@ h2 {
 }
 
 ngen-sidenav {
-   grid-column: sidebar;
+   grid-area: sidebar;
    background-color: #8a8a8a;
 }
 
 .about-content-wrapper {
-   grid-column: content;
+   grid-area: content;
    overflow-y: auto;
 }
