@@ -1,13 +1,11 @@
 import { AfterViewInit, Component, Input, ViewChild, signal } from "@angular/core";
-import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { pluck } from "@ngen-core/functions";
 import { ClipboardService } from "@ngen-core/services";
-import { AuthService } from "@ngen-core/services/auth.service";
 import { GeneratedName } from "@ngen-database/models";
 import { NameDatabaseService } from "@ngen-database/services";
-import { BehaviorSubject, filter, fromEvent, map, merge, withLatestFrom } from "rxjs";
+import { BehaviorSubject } from "rxjs";
 import { NameDatabaseTableHeader } from "./models";
 
 @Component({
@@ -40,23 +38,22 @@ export class NameDatabaseTableComponent implements AfterViewInit {
 
    constructor(
       private readonly nameDatabaseService: NameDatabaseService,
-      private readonly clipboard: ClipboardService,
-      private readonly authService: AuthService
+      private readonly clipboard: ClipboardService
    ) {
-      merge(
-         fromEvent<KeyboardEvent>(document, "keydown").pipe(
-            filter((event: KeyboardEvent) => event.key === this.DELETE_KEY)
-         ),
-         fromEvent<KeyboardEvent>(document, "keyup").pipe(
-            filter((event: KeyboardEvent) => event.key === this.DELETE_KEY)
-         )
-      )
-         .pipe(
-            takeUntilDestroyed(),
-            withLatestFrom(this.authService.developerLoggedIn$),
-            map(([event, isDeveloperLoggedIn]) => event.type === "keydown" && isDeveloperLoggedIn)
-         )
-         .subscribe(this.deleteMode$);
+      // merge(
+      //    fromEvent<KeyboardEvent>(document, "keydown").pipe(
+      //       filter((event: KeyboardEvent) => event.key === this.DELETE_KEY)
+      //    ),
+      //    fromEvent<KeyboardEvent>(document, "keyup").pipe(
+      //       filter((event: KeyboardEvent) => event.key === this.DELETE_KEY)
+      //    )
+      // )
+      //    .pipe(
+      //       takeUntilDestroyed(),
+      //       withLatestFrom(this.authService.developerLoggedIn$),
+      //       map(([event, isDeveloperLoggedIn]) => event.type === "keydown" && isDeveloperLoggedIn)
+      //    )
+      //    .subscribe(this.deleteMode$);
    }
 
    public onRowClick(name: GeneratedName): void {

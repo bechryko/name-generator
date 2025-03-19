@@ -1,7 +1,5 @@
 import { Component, Input } from "@angular/core";
 import { Name } from "@ngen-core/names";
-import { AuthService } from "@ngen-core/services/auth.service";
-import { Observable } from "rxjs";
 
 interface DisplayName {
    name: string;
@@ -14,16 +12,11 @@ interface DisplayName {
    styleUrl: "./generation-output.component.scss"
 })
 export class GenerationOutputComponent {
-   public nameSaved = false;
+   public nameSaved = false; // TODO
    private _generatedName: Name | null = null;
    @Input() set generatedName(name: Name | null) {
       this._generatedName = name;
       this.nameSaved = false;
-   }
-   public readonly isDeveloperLoggedIn$: Observable<boolean>;
-
-   constructor(private readonly authService: AuthService) {
-      this.isDeveloperLoggedIn$ = this.authService.developerLoggedIn$;
    }
 
    public get displayName(): DisplayName | null {

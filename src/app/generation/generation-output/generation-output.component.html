@@ -5,14 +5,12 @@
          <p>{{ prop.propName }}: {{ prop.propValue }}</p>
       }
    </div>
-   <div
-      class="icons"
-      *ngLet="isDeveloperLoggedIn$ | async as devLoggedIn">
+   <div class="icons">
       <ngen-interactive-icon
          type="clipboard"
          [data]="displayName.name"
-         [tooltipPosition]="devLoggedIn ? 'above' : 'below'"></ngen-interactive-icon>
-      @if (!nameSaved && devLoggedIn) {
+         tooltipPosition="above"></ngen-interactive-icon>
+      @if (!nameSaved) {
          <ngen-interactive-icon
             type="saveName"
             [data]="displayName.name"
