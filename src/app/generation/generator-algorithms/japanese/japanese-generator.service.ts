@@ -16,7 +16,6 @@ export class JapaneseGeneratorService implements GeneratorService {
    public readonly version = JAPANESE_GENERATOR_VERSION;
 
    public generateName(config: GenerationConfig): JapaneseName {
-      console.log(config);
       let length = RandomUtils.between(config.minLength, config.maxLength);
       let name: JapaneseName = { romaji: "", hiragana: "", katakana: "" };
       for (let i = 0; i < length; i++) {

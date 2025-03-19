@@ -26,7 +26,6 @@ export class RegularGeneratorService implements GeneratorService {
             regularBase.append(RegularUtils.symbols.wildcard);
          }
          regularBase.append(new RegularNameObject(config.regularNameEnd));
-         console.log(regularBase.valueOf());
 
          const name: RegularName = {
             name: "",
