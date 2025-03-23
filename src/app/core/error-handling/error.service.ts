@@ -19,7 +19,8 @@ export class ErrorService {
     */
    public popupError<T extends ErrorSource>(source: T, messageId: ErrorMessageId<T>): void {
       this.errorSnackbar.open(`[${capitalize(source)}]\n${ErrorMessages[source][messageId]}`, "Dismiss", {
-         duration: 6000
+         duration: 6000,
+         panelClass: "ngen-error-snackbar"
       });
    }
 }

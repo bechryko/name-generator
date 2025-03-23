@@ -1,5 +1,5 @@
 {
-  "editor.tabSize": 2,
+  "editor.tabSize": 3,
   "editor.formatOnSave": true,
   "editor.rulers": [120],
   "editor.insertSpaces": true,
@@ -13,7 +13,7 @@
   "editor.guides.bracketPairsHorizontal": "active",
   "files.eol": "\r\n",
   "prettier.endOfLine": "crlf",
-  "cSpell.words": ["ngen"],
+  "cSpell.words": ["ngen", "endindex", "checkmark"],
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }

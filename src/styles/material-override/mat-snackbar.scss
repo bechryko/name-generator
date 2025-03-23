@@ -1,0 +1,27 @@
+$snackbar-font-size: 1rem;
+
+:root {
+   --mdc-snackbar-container-color: var(--clr-primary-darkest);
+   --mdc-snackbar-supporting-text-color: var(--clr-primary-darker-contrast);
+   --mdc-snackbar-supporting-text-size: $snackbar-font-size;
+   --mat-snack-bar-button-color: var(--clr-primary);
+}
+
+.ngen-error-snackbar {
+   --mdc-snackbar-container-color: var(--clr-error-darker);
+   --mat-snack-bar-button-color: var(--clr-error-darker-contrast);
+}
+
+button[matsnackbaraction] .mdc-button__label {
+   font-size: $snackbar-font-size;
+}
+
+mat-snack-bar-container.mat-mdc-snack-bar-container .mdc-snackbar__surface {
+   .mat-mdc-simple-snack-bar {
+      gap: 1.5rem;
+   }
+}
+
+.mat-mdc-snack-bar-label {
+   user-select: none;
+}
