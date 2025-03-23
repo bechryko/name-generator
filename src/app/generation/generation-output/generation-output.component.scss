@@ -20,6 +20,8 @@
       font-size: 2rem;
       margin: 0.25rem;
       line-height: 1.25;
+      text-wrap: nowrap;
+      // TODO
 
       @include mixins.mq(medium) {
          font-size: 1.25rem;
@@ -37,4 +39,13 @@
    ngen-interactive-icon {
       color: var(--clr-primary);
    }
+}
+
+.no-name-message {
+   font-size: 1.75em;
+   text-align: center;
+   font-style: italic;
+   margin: auto;
+   padding-top: 1.5rem;
+   user-select: none;
 }
