@@ -2,8 +2,11 @@
 
 :host {
    display: flex;
-   background-color: #575757;
    padding: 1rem;
+   border: var(--ngen-container-border-width) solid var(--clr-primary);
+   border-radius: var(--ngen-container-border-radius);
+   margin: 0 var(--ngen-container-outer-spacing) var(--ngen-container-outer-spacing);
+   background-color: var(--clr-primary-lightest);
 }
 
 .display-name {
@@ -30,4 +33,8 @@
    margin-left: auto;
    display: flex;
    flex-direction: column;
+
+   ngen-interactive-icon {
+      color: var(--clr-primary);
+   }
 }

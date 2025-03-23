@@ -17,8 +17,9 @@
    padding: 1rem;
    box-sizing: border-box;
    overflow-y: visible;
-   background-color: rgb(255, 255, 179);
-   border-radius: 1rem;
+   background-color: var(--clr-primary-lightest);
+   border: var(--ngen-container-border-width) solid var(--clr-primary);
+   border-radius: var(--ngen-container-border-radius);
 
    @include mixins.mq(medium) {
       border-radius: 0;
@@ -36,7 +37,7 @@
       align-content: start;
       overflow-x: auto;
       padding-top: 1rem;
-      border-color: orangered;
+      border: none;
       box-sizing: border-box;
       margin: 0;
 

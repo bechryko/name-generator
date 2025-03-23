@@ -1,15 +1,22 @@
 @use "mixins";
 
 $button-highlight-gap: 2px;
+$border: var(--ngen-container-border-width) solid var(--clr-primary);
 
 :host {
    display: flex;
    flex-direction: column;
    max-width: 40dvw;
+   border: $border;
+   margin: var(--ngen-container-outer-spacing);
+   margin-right: 0;
+   border-radius: var(--ngen-container-border-radius);
+   background-color: var(--clr-primary-lightest);
 
    @include mixins.mq(small) {
       flex-direction: row;
       max-width: unset;
+      margin-right: var(--ngen-container-outer-spacing);
    }
 
    button {
@@ -21,6 +28,7 @@ $button-highlight-gap: 2px;
       position: relative;
       margin-bottom: $button-highlight-gap;
       cursor: pointer;
+      user-select: none;
 
       @include mixins.mq(small) {
          height: 3rem;
@@ -35,6 +43,7 @@ $button-highlight-gap: 2px;
          width: 80%;
          height: $button-highlight-gap;
          background: linear-gradient(to right, rgba(256, 256, 256, 0), rgba(256, 256, 256, 1), rgba(256, 256, 256, 0));
+         // TODO
          opacity: 0;
          transition: opacity 0.1s ease-in-out;
       }

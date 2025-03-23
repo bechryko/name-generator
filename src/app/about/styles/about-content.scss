@@ -36,11 +36,25 @@
    }
 
    a {
-      text-decoration: none !important;
-      color: rgb(164, 107, 0) !important;
+      position: relative;
+      text-decoration: none;
+      text-decoration-thickness: 1px !important;
+      text-underline-offset: 0.125em;
+      color: var(--clr-primary-darker);
+      margin-inline-start: 0.5em;
 
-      &:visited {
-         color: orangered !important;
+      &:hover {
+         text-decoration: underline;
+      }
+
+      &::before {
+         content: "🔗";
+         position: absolute;
+         top: 0;
+         left: 0;
+         font-size: 0.5em;
+         translate: -100% 0;
+         pointer-events: none;
       }
    }
 

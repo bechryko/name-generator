@@ -25,6 +25,13 @@ export class NameDatabaseTableComponent implements AfterViewInit {
 
    public dataSource = signal(new MatTableDataSource<GeneratedName>());
    @Input() set data(data: GeneratedName[]) {
+      // data = [
+      //    {
+      //       name: "ads",
+      //       generationAlgorithm: "none" as any,
+      //       version: "x"
+      //    }
+      // ];
       this.dataSource.set(new MatTableDataSource(data));
       this.setSort();
    }

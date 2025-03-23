@@ -1,0 +1,24 @@
+@use "sass:color";
+
+$primary-base: hsl(120, 43%, 44%);
+$error-base: hsl(0, 100%, 50%);
+
+:root {
+   --clr-primary-lightest: #{color.mix($primary-base, white, 20%)};
+   --clr-primary-lighter: #{color.mix($primary-base, white, 40%)};
+   --clr-primary: #{$primary-base};
+   --clr-primary-darker: #{color.mix($primary-base, black, 50%)};
+   --clr-primary-darkest: #{color.mix($primary-base, black, 20%)};
+
+   --clr-primary-lighter-contrast: black;
+   --clr-primary-contrast: black;
+   --clr-primary-darker-contrast: white;
+
+   --clr-error-lighter: #{color.mix($error-base, white, 40%)};
+   --clr-error: #{$error-base};
+   --clr-error-darker: #{color.mix($error-base, black, 30%)};
+
+   --clr-error-lighter-contrast: black;
+   --clr-error-contrast: black;
+   --clr-error-darker-contrast: white;
+}

@@ -5,7 +5,7 @@
    display: grid;
    grid-template-columns: subgrid;
    grid-template-rows: subgrid;
-   background-color: rgb(255, 255, 146);
+   background-color: var(--clr-primary-lighter);
 
    @include mixins.mq(small) {
       grid-row: span 2;
@@ -13,7 +13,6 @@
 }
 
 ngen-sidenav {
-   background-color: #8a8a8a;
    grid-area: sidebar;
 }
 

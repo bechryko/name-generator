@@ -1,6 +1,6 @@
 :host {
    grid-column: 1 / -1;
-   background-color: rgb(255, 255, 146);
+   background-color: var(--clr-primary-lighter);
    overflow-y: auto;
 }
 
@@ -11,7 +11,7 @@
    margin: auto;
    box-sizing: border-box;
    margin: $margin-size auto;
-   background-color: lightgrey;
+   background-color: var(--clr-primary-lightest);
 
    h2 {
       text-align: center;
