@@ -1,11 +1,20 @@
 #ngen-input-wrapper {
+   position: relative;
    width: 100%;
 
-   & > * {
+   & > :not(.disabled-state-indicator) {
       width: 100%;
    }
 
    mat-label {
       user-select: none;
    }
+}
+
+.disabled-state-indicator {
+   position: absolute;
+   top: 0;
+   right: 0;
+   translate: 50% -50%;
+   user-select: none;
 }

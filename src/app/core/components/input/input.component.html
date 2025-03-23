@@ -19,4 +19,13 @@
          >{{ label }}</mat-checkbox
       >
    }
+   @if (disabled) {
+      <span
+         class="disabled-state-indicator"
+         [matTooltipDisabled]="!disabledTooltip"
+         [matTooltip]="disabledTooltip!"
+         matTooltipPosition="below"
+         >🚫</span
+      >
+   }
 </div>

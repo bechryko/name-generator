@@ -4,11 +4,12 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { InputType } from "./input-type";
 
 @Component({
    selector: "ngen-input",
-   imports: [CommonModule, MatFormFieldModule, MatInputModule, MatCheckboxModule],
+   imports: [CommonModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatTooltipModule],
    providers: [
       {
          provide: NG_VALUE_ACCESSOR,
@@ -26,6 +27,7 @@ export class InputComponent implements ControlValueAccessor {
    @Input() set ngenDisabled(disabled: boolean) {
       this.disabled = disabled;
    }
+   @Input() disabledTooltip?: string;
    @Output() blur: EventEmitter<void> = new EventEmitter<void>();
    private _value: any;
    public onChange = (value: any) => {};

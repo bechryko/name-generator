@@ -20,6 +20,7 @@ interface ConfigField {
    type: "number" | "text" | "checkbox";
    formatter?: (input: any) => any;
    disabled?: boolean;
+   disabledTooltip?: string;
 }
 
 @Component({
@@ -54,13 +55,15 @@ export class GenerationConfigComponent {
          name: "excludedLetters",
          label: "Excluded letters",
          type: "text",
-         formatter: InputFormatUtils.formatLetterSetInput.bind(InputFormatUtils)
+         formatter: InputFormatUtils.formatLetterSetInput.bind(InputFormatUtils),
+         disabledTooltip: "You cannot use the Excluded letters and the Included letters fields simultaneously"
       },
       {
          name: "includedLetters",
          label: "Included letters",
          type: "text",
-         formatter: InputFormatUtils.formatLetterSetInput.bind(InputFormatUtils)
+         formatter: InputFormatUtils.formatLetterSetInput.bind(InputFormatUtils),
+         disabledTooltip: "You cannot use the Included letters and the Excluded letters fields simultaneously"
       },
       {
          name: "ignoreVoicedUnvoicedPairs",
@@ -83,7 +86,8 @@ export class GenerationConfigComponent {
          name: "regularNameBase",
          label: "Regular skeleton of the name",
          type: "text",
-         formatter: InputFormatUtils.formatRegularInput.bind(InputFormatUtils)
+         formatter: InputFormatUtils.formatRegularInput.bind(InputFormatUtils),
+         disabledTooltip: "If you specified either a start or an end of a name, you cannot set the whole skeleton"
       }
    ];
 
@@ -164,7 +168,7 @@ export class GenerationConfigComponent {
             this.getField("maxLength").disabled =
             this.getField("regularNameStart").disabled =
             this.getField("regularNameEnd").disabled =
-            Boolean(this.configObject.regularNameBase);
+               Boolean(this.configObject.regularNameBase);
       }
    }
 

@@ -7,10 +7,11 @@
       @for (field of configFields; track $index) {
          @if (generatorConfigFields[field.name]) {
             <ngen-input
-               formControlName="{{ field.name }}"
+               [formControlName]="field.name"
                [label]="field.label"
                [type]="field.type"
                [ngenDisabled]="field.disabled ?? false"
+               [disabledTooltip]="field.disabledTooltip"
                (blur)="onBlur(field)"></ngen-input>
          }
       }
