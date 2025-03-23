@@ -9,13 +9,13 @@
       <ngen-interactive-icon
          type="clipboard"
          [data]="displayName.name"
-         tooltipPosition="above"></ngen-interactive-icon>
+         tooltipPosition="left"></ngen-interactive-icon>
       @if (!nameSaved) {
          <ngen-interactive-icon
             type="saveName"
             [data]="displayName.name"
             (click)="nameSaved = true"
-            tooltipPosition="below"></ngen-interactive-icon>
+            tooltipPosition="left"></ngen-interactive-icon>
       }
    </div>
 } @else {

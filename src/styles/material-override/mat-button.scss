@@ -5,3 +5,12 @@
 .mdc-button {
    --mdc-protected-button-container-color: var(--clr-primary);
 }
+
+.mat-mdc-outlined-button {
+   --mat-outlined-button-state-layer-color: var(--clr-primary-lightest);
+   --mat-outlined-button-ripple-color: var(--clr-primary-lighter);
+
+   .mat-ripple {
+      opacity: 0.3;
+   }
+}

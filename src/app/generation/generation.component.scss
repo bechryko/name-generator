@@ -39,11 +39,12 @@ main {
          box-sizing: border-box;
       }
 
-      button {
+      .generate-button {
          position: relative;
          left: 50%;
          translate: -50% 0;
          font-size: 1.5rem;
+         color: var(--clr-primary-contrast);
          height: 3rem;
          border-top-right-radius: 0;
          border-top-left-radius: 0;

@@ -1,3 +1,3 @@
-//@index("./*.scss", (f, _) => `@forward "${f.name}" hide $primary-base;`)
-@forward "default-theme" hide $primary-base;
+//@index("./*.scss", (f, _) => `@forward "${f.name}" hide $primary-base, $error-base;`)
+@forward "default-theme" hide $primary-base, $error-base;
 //@endindex

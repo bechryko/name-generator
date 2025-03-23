@@ -2,6 +2,7 @@
    --ngen-checkbox-color: var(--clr-primary);
    --ngen-checkbox-checkmark-color: var(--clr-primary-contrast);
    --ngen-checkbox-unselected-color: var(--clr-primary-darker);
+   --ngen-checkbox-label-color: var(--clr-primary-contrast);
 }
 
 mat-checkbox {
@@ -25,4 +26,8 @@ mat-checkbox {
    --mdc-checkbox-unselected-pressed-icon-color: var(--ngen-checkbox-unselected-color);
    --mdc-checkbox-unselected-hover-state-layer-color: var(--ngen-checkbox-unselected-color);
    --mdc-checkbox-unselected-pressed-state-layer-color: var(--ngen-checkbox-unselected-color);
+
+   label.mdc-label {
+      color: var(--ngen-checkbox-label-color);
+   }
 }

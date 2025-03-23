@@ -14,9 +14,9 @@ $error-base: hsl(0, 100%, 50%);
    --clr-primary-contrast: black;
    --clr-primary-darker-contrast: white;
 
-   --clr-error-lighter: #{color.mix($error-base, white, 40%)};
+   --clr-error-lighter: #{color.mix($error-base, white, 50%)};
    --clr-error: #{$error-base};
-   --clr-error-darker: #{color.mix($error-base, black, 30%)};
+   --clr-error-darker: #{color.mix($error-base, black, 50%)};
 
    --clr-error-lighter-contrast: black;
    --clr-error-contrast: black;
