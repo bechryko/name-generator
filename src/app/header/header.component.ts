@@ -1,5 +1,6 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
+import { APP_NAME } from "@ngen-core/constants";
 import { RouteUrls } from "@ngen-core/enums";
 
 interface NavMenuItem {
@@ -13,6 +14,7 @@ interface NavMenuItem {
    styleUrl: "./header.component.scss"
 })
 export class HeaderComponent {
+   public readonly APP_NAME = APP_NAME;
    public readonly navMenuItems: NavMenuItem[] = [
       { label: "Generation", path: RouteUrls.GENERATION },
       { label: "Database", path: RouteUrls.DATABASE },
