@@ -2,6 +2,7 @@
 
 :host {
    padding: 1rem;
+   padding-top: 0;
 
    @include mixins.mq(medium) {
       padding: 0;
@@ -23,6 +24,7 @@
 
    @include mixins.mq(medium) {
       border-radius: 0;
+      border: none;
    }
 
    @include mixins.mq(small, height) {
