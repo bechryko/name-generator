@@ -7,26 +7,23 @@ $border: var(--ngen-container-border-width) solid var(--clr-primary);
    display: flex;
    flex-direction: column;
    max-width: 40dvw;
-   border: $border;
-   margin: var(--ngen-container-outer-spacing);
-   margin-right: 0;
-   border-radius: var(--ngen-container-border-radius);
-   background-color: var(--clr-primary-lightest);
+   border-right: $border;
+   background-color: var(--clr-primary-lighter);
 
    @include mixins.mq(small) {
       flex-direction: row;
-      max-width: unset;
-      margin-right: var(--ngen-container-outer-spacing);
+      max-width: 100dvw;
+      border-right: none;
+      border-bottom: $border;
    }
 
    button {
-      width: 100%;
-      height: 4rem;
-      font-size: 1.5rem;
+      position: relative;
+      font-size: 1.25rem;
+      padding-block: 0.5rem;
       background-color: transparent;
       border: none;
-      position: relative;
-      margin-bottom: $button-highlight-gap;
+      border-bottom: 1px solid var(--clr-primary);
       cursor: pointer;
       user-select: none;
 
@@ -35,36 +32,25 @@ $border: var(--ngen-container-border-width) solid var(--clr-primary);
          font-size: 1.25rem;
       }
 
-      &::before,
-      &:last-child::after {
+      &::after {
          content: "";
          position: absolute;
-         left: 10%;
-         width: 80%;
-         height: $button-highlight-gap;
-         background: linear-gradient(to right, rgba(256, 256, 256, 0), rgba(256, 256, 256, 1), rgba(256, 256, 256, 0));
-         // TODO
+         inset: 0;
+         box-shadow: inset 0 0 0.75rem var(--clr-primary);
          opacity: 0;
-         transition: opacity 0.1s ease-in-out;
-      }
-      &::before {
-         top: 0;
-      }
-      &:last-child::after {
-         bottom: 0;
+         transition: opacity 300ms ease;
       }
 
-      &:hover,
-      &.selected {
-         &::before,
-         & + button::before {
-            opacity: 1;
-         }
-      }
-      &:last-child:hover::after,
-      &:last-child.selected::after {
+      &.selected::after {
          opacity: 1;
       }
+   }
+
+   p {
+      text-align: center;
+      font-size: 1.25rem;
+      font-style: italic;
+      user-select: none;
    }
 
    #placeholder {

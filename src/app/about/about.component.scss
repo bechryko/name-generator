@@ -1,23 +1,11 @@
-@use "mixins";
+@use "layout";
 
 :host {
-   grid-column: 1 / -1;
-   display: grid;
-   grid-template-columns: subgrid;
-   grid-template-rows: subgrid;
-   background-color: var(--clr-primary-lighter);
-
-   @include mixins.mq(small) {
-      grid-row: span 2;
-   }
+   @include layout.page-with-sidebar;
 }
 
 h2 {
    text-align: center;
-}
-
-ngen-sidenav {
-   grid-area: sidebar;
 }
 
 .about-content-wrapper {
