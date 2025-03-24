@@ -1,12 +1,20 @@
 @use "mixins";
 
 :host {
+   $border: var(--ngen-container-border-width) solid var(--clr-primary);
    display: flex;
    padding: 1rem;
-   border: var(--ngen-container-border-width) solid var(--clr-primary);
+   border: $border;
    border-radius: var(--ngen-container-border-radius);
    margin: 0 var(--ngen-container-outer-spacing) var(--ngen-container-outer-spacing);
    background-color: var(--clr-primary-lightest);
+
+   @include mixins.mq(medium) {
+      margin: 0;
+      border-radius: 0;
+      border: none;
+      border-top: $border;
+   }
 }
 
 .display-name {

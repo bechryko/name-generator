@@ -18,18 +18,26 @@ $border: var(--ngen-container-border-width) solid var(--clr-primary);
    }
 
    button {
+      $border: 1px solid var(--clr-primary);
+
       position: relative;
       font-size: 1.25rem;
       padding-block: 0.5rem;
       background-color: transparent;
       border: none;
-      border-bottom: 1px solid var(--clr-primary);
+      border-bottom: $border;
       cursor: pointer;
       user-select: none;
 
       @include mixins.mq(small) {
-         height: 3rem;
          font-size: 1.25rem;
+         border-bottom: none;
+         flex: 1;
+         min-width: max-content;
+
+         &:not(:first-child) {
+            border-left: $border;
+         }
       }
 
       &::after {
@@ -51,6 +59,10 @@ $border: var(--ngen-container-border-width) solid var(--clr-primary);
       font-size: 1.25rem;
       font-style: italic;
       user-select: none;
+
+      @include mixins.mq(small) {
+         display: none;
+      }
    }
 
    #placeholder {
