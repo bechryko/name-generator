@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { SidenavComponent } from "@ngen-core/components";
+import { SidebarComponent } from "@ngen-core/components";
 import { NgLetModule } from "ng-let";
 import { AboutRoutingModule } from "./about-routing.module";
 import { AboutComponent } from "./about.component";
@@ -10,6 +10,6 @@ import { VersionHistoryComponent } from "./version-history/version-history.compo
 
 @NgModule({
    declarations: [AboutComponent, IntroductionComponent, GeneratorInfoComponent, VersionHistoryComponent],
-   imports: [CommonModule, AboutRoutingModule, SidenavComponent, NgLetModule]
+   imports: [CommonModule, AboutRoutingModule, SidebarComponent, NgLetModule]
 })
 export class AboutModule {}

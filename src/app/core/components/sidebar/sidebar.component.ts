@@ -4,13 +4,13 @@ import { MatTooltipModule } from "@angular/material/tooltip";
 import { NgenSidebarSelectable } from "@ngen-core/models";
 
 @Component({
-   selector: "ngen-sidenav",
-   templateUrl: "./sidenav.component.html",
-   styleUrl: "./sidenav.component.scss",
+   selector: "ngen-sidebar",
+   templateUrl: "./sidebar.component.html",
+   styleUrl: "./sidebar.component.scss",
    standalone: true,
    imports: [MatButtonModule, MatTooltipModule]
 })
-export class SidenavComponent<T> {
+export class SidebarComponent<T> {
    @Input() selectableList: NgenSidebarSelectable<T>[] = [];
    @Input() selectedValue?: T;
    @Input() placeholderText: string = "";

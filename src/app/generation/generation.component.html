@@ -1,9 +1,9 @@
 <ng-container *ngLet="(selectedGenerator$ | async)! as selectedGenerator">
-   <ngen-sidenav
+   <ngen-sidebar
       [selectableList]="GENERATORS"
       [selectedValue]="selectedGenerator"
       (select)="selectGenerator($event)"
-      placeholderText="No generation algorithms!"></ngen-sidenav>
+      placeholderText="No generation algorithms!"></ngen-sidebar>
    <main>
       <h2>{{ selectedGenerator }} Name Generation</h2>
       <h3>{{ getGeneratorVersion(selectedGenerator) }}</h3>
