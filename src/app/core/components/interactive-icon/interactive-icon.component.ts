@@ -5,7 +5,6 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { ClipboardService, PageStateHandlerService } from "@ngen-core/services";
-import { NameDatabaseService } from "@ngen-database/services";
 import { Generators } from "@ngen-generation/enums";
 import { NgLetModule } from "ng-let";
 import { BehaviorSubject } from "rxjs";
@@ -41,12 +40,12 @@ export class InteractiveIconComponent {
       saveName: {
          icon: "queue",
          tooltip: "Save name to database",
-         clickEvent: (name: string) => this.nameDatabaseService.addName(name, this.selectedGenerator$.value)
+         // clickEvent: (name: string) => this.nameDatabaseService.addName(name, this.selectedGenerator$.value)
+         clickEvent: () => {}
       }
    };
 
    constructor(
-      private readonly nameDatabaseService: NameDatabaseService,
       private readonly pageStateHandlerService: PageStateHandlerService,
       private readonly clipboard: ClipboardService
    ) {

@@ -1,8 +1,7 @@
 import { Component } from "@angular/core";
-import { Observable } from "rxjs";
+import { of } from "rxjs";
 import { GeneratedName } from "./models";
 import { NameDatabaseTableHeader } from "./name-database-table/models";
-import { NameDatabaseService } from "./services";
 
 @Component({
    selector: "ngen-database",
@@ -27,9 +26,5 @@ export class DatabaseComponent {
          enableSort: true
       }
    ];
-   public readonly names$: Observable<GeneratedName[]>;
-
-   constructor(private readonly nameDatabaseService: NameDatabaseService) {
-      this.names$ = this.nameDatabaseService.names$;
-   }
+   public readonly names$ = of<GeneratedName[]>([]);
 }
