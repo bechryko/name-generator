@@ -1,18 +1,11 @@
-import { CommonModule } from '@angular/common';
-import { NgModule } from '@angular/core';
-import { MatButtonModule } from '@angular/material/button';
-import { HeaderComponent } from './header.component';
+import { CommonModule } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { MatButtonModule } from "@angular/material/button";
+import { HeaderComponent } from "./header.component";
 
 @NgModule({
-   declarations: [
-      HeaderComponent
-   ],
-   imports: [
-      CommonModule,
-      MatButtonModule
-   ],
-   exports: [
-      HeaderComponent
-   ]
+   declarations: [HeaderComponent],
+   imports: [CommonModule, MatButtonModule],
+   exports: [HeaderComponent]
 })
-export class HeaderModule { }
+export class HeaderModule {}

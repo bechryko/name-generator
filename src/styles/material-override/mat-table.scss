@@ -1,0 +1,12 @@
+:root {
+   --mat-table-background-color: var(--clr-primary-lightest);
+   --mat-table-header-headline-color: var(--clr-primary-lighter-contrast);
+   --mat-table-row-item-label-text-color: var(--clr-primary-lighter-contrast);
+   --mat-table-row-item-outline-color: var(--clr-primary-lighter);
+}
+
+table.mat-mdc-table {
+   border-top-color: var(--mat-table-row-item-outline-color);
+   border-top-width: var(--mat-table-row-item-outline-width, 1px);
+   border-top-style: solid;
+}

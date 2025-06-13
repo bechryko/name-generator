@@ -1,10 +1,37 @@
-@use 'assets/styles';
+@use "general";
+@use "themes";
+@use "material-override";
 
-html, body {
-   height: 100%;
+html {
+   --ngen-container-outer-spacing: 1rem;
+   --ngen-container-border-radius: 1rem;
+   --ngen-container-border-width: 0.25rem;
+
+   overflow: hidden;
 }
 
 body {
    margin: 0;
    overflow: hidden;
+}
+
+*::selection {
+   background-color: var(--clr-primary);
+   color: var(--clr-primary-contrast);
+}
+
+h1,
+h2,
+h3,
+h4 {
+   text-wrap: balance;
+
+   &::selection {
+      background-color: var(--clr-primary-darker);
+      color: var(--clr-primary-darker-contrast);
+   }
+}
+
+router-outlet {
+   position: absolute;
 }

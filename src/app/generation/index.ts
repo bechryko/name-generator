@@ -1,1 +1,1 @@
-export { GenerationModule } from './generation.module';
+export { GenerationModule } from "./generation.module";

@@ -14,7 +14,7 @@ export class InputFormatUtils {
       input = input.toLowerCase();
       input = this.fixReferences(input);
       input = this.deleteNonRegulars(input);
-      if(nameStarting) {
+      if (nameStarting) {
          input = capitalize(input);
       }
       return input;
@@ -22,8 +22,8 @@ export class InputFormatUtils {
 
    private static deleteNonLetters(input: string): string {
       let output = "";
-      for(let i = 0; i < input.length; i++) {
-         if(LetterUtils.is('letter', input[i])) {
+      for (let i = 0; i < input.length; i++) {
+         if (LetterUtils.is("letter", input[i])) {
             output += input[i];
          }
       }
@@ -32,8 +32,8 @@ export class InputFormatUtils {
 
    private static deleteNonRegulars(input: string): string {
       let output = "";
-      for(let i = 0; i < input.length; i++) {
-         if(LetterUtils.is('letter', input[i]) || RegularUtils.isRegular(input[i])) {
+      for (let i = 0; i < input.length; i++) {
+         if (LetterUtils.is("letter", input[i]) || RegularUtils.isRegular(input[i])) {
             output += input[i];
          }
       }
@@ -43,16 +43,16 @@ export class InputFormatUtils {
    private static fixReferences(input: string): string {
       let referenceRegular = "";
       const referencingSets: Set<number>[] = [];
-      for(let i = 0; i < input.length; i++) {
+      for (let i = 0; i < input.length; i++) {
          referencingSets[i] = new Set();
       }
-      for(let i = 0; i < input.length; i++) {
-         if(RegularUtils.isReference(input[i])) {
+      for (let i = 0; i < input.length; i++) {
+         if (RegularUtils.isReference(input[i])) {
             const referenceTo = Number(input[i]);
-            if(referenceTo === i) {
+            if (referenceTo === i) {
                referenceRegular += RegularUtils.symbols.wildcard;
-            } else if(referenceTo < input.length) {
-               if(referenceTo > i) {
+            } else if (referenceTo < input.length) {
+               if (referenceTo > i) {
                   referencingSets[referenceTo].add(i);
                } else {
                   referencingSets[i].add(referenceTo);
@@ -63,8 +63,8 @@ export class InputFormatUtils {
             referenceRegular += input[i];
          }
       }
-      for(let i = referencingSets.length - 1; i >= 0; i--) {
-         if(referencingSets[i].size <= 1) {
+      for (let i = referencingSets.length - 1; i >= 0; i--) {
+         if (referencingSets[i].size <= 1) {
             continue;
          }
          const references = referencingSets[i];
@@ -75,15 +75,15 @@ export class InputFormatUtils {
       }
       const referencingNumbers: (number | undefined)[] = referencingSets.map(references => Array.from(references)[0]);
       let output = "";
-      for(let i = 0; i < referenceRegular.length; i++) {
-         if(referenceRegular[i] === RegularUtils.symbols.reference) {
+      for (let i = 0; i < referenceRegular.length; i++) {
+         if (referenceRegular[i] === RegularUtils.symbols.reference) {
             output += referencingNumbers[i] ?? RegularUtils.symbols.wildcard;
-         } else if(referencingNumbers[i] === undefined) {
+         } else if (referencingNumbers[i] === undefined) {
             output += referenceRegular[i];
          } else {
             const letterToReference = referenceRegular[i];
             let idx = i;
-            while(referencingNumbers[idx] !== undefined) {
+            while (referencingNumbers[idx] !== undefined) {
                idx = referencingNumbers[idx]!;
             }
             output = replaceLetter(output, idx, letterToReference) + referencingNumbers[i];
@@ -94,8 +94,8 @@ export class InputFormatUtils {
 
    private static deleteDuplicateCharacters(input: string): string {
       let output = "";
-      for(let i = 0; i < input.length; i++) {
-         if(!output.includes(input[i])) {
+      for (let i = 0; i < input.length; i++) {
+         if (!output.includes(input[i])) {
             output += input[i];
          }
       }

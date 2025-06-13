@@ -1,4 +1,20 @@
 {
+  "editor.tabSize": 3,
   "editor.formatOnSave": true,
-  "editor.rulers": [120]
+  "editor.rulers": [120],
+  "editor.insertSpaces": true,
+  "files.insertFinalNewline": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    "source.fixAll": "explicit"
+  },
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.bracketPairsHorizontal": "active",
+  "files.eol": "\r\n",
+  "prettier.endOfLine": "crlf",
+  "cSpell.words": ["ngen", "endindex", "checkmark"],
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

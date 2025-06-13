@@ -1,30 +1,59 @@
-#generation-output-wrapper {
-   height: 100%;
+@use "mixins";
 
-   #outputs {
-      background-color: #575757;
-      border-radius: 1rem;
-      width: 70%;
-      margin: auto;
-      padding: 1rem;
+:host {
+   $border: var(--ngen-container-border-width) solid var(--clr-primary);
+   display: flex;
+   padding: 1rem;
+   border: $border;
+   border-radius: var(--ngen-container-border-radius);
+   margin: 0 var(--ngen-container-outer-spacing) var(--ngen-container-outer-spacing);
+   background-color: var(--clr-primary-lightest);
 
-      .displayName {
-         float: left;
+   @include mixins.mq(medium) {
+      margin: 0;
+      border-radius: 0;
+      border: none;
+      border-top: $border;
+   }
+}
 
-         p {
-            font-size: 2rem;
-            margin: 0.25rem;
-         }
-      }
+.display-name {
+   align-self: center;
 
-      .icons {
-         float: right;
-         display: flex;
-         flex-direction: column;
-      }
+   @include mixins.mq(medium) {
+      align-self: end;
+   }
 
-      .clear {
-         clear: both;
+   p {
+      font-size: 2rem;
+      margin: 0.25rem;
+      line-height: 1.25;
+      text-wrap: nowrap;
+      // TODO
+
+      @include mixins.mq(medium) {
+         font-size: 1.25rem;
+         margin-block: 0;
       }
    }
+}
+
+.icons {
+   align-self: start;
+   margin-left: auto;
+   display: flex;
+   flex-direction: column;
+
+   ngen-interactive-icon {
+      color: var(--clr-primary);
+   }
+}
+
+.no-name-message {
+   font-size: 1.75em;
+   text-align: center;
+   font-style: italic;
+   margin: auto;
+   padding-top: 1.5rem;
+   user-select: none;
 }

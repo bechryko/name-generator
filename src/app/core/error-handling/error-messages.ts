@@ -11,7 +11,8 @@ export const ErrorMessages = {
    },
    auth: {
       LOGIN_FAILURE_INVALID_PASSWORD: "Invalid password!",
-      LOGIN_FAILURE_TOO_MANY_ATTEMPTS: "Too many failed login attempts! If you are not a developer, don't try to log in!",
+      LOGIN_FAILURE_TOO_MANY_ATTEMPTS:
+         "Too many failed login attempts! If you are not a developer, don't try to log in!",
       LOGOUT_FAILURE: "Failed to logout!"
    }
 } as const;

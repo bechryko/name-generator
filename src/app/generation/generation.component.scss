@@ -1,32 +1,142 @@
-#generation-wrapper {
-   height: 100%;
+@use "mixins";
+@use "layout";
+
+:host {
+   @include layout.page-with-sidebar;
+}
+
+main {
+   grid-area: content;
    display: grid;
-   grid-template-columns: 1fr 4fr;
-   background-color: rgb(255, 255, 146);
+   grid-template-rows: auto minmax(0, 1fr) 10rem;
+   grid-template-columns: 1fr auto 1fr;
+   grid-template-areas:
+      "left-corner title  right-corner"
+      "config      config config"
+      "output      output output";
 
-   h2 {
-      text-align: center;
-      margin-bottom: 0.8rem;
+   .title-container {
+      grid-area: title;
+      position: relative;
+      background-color: var(--clr-primary-lightest);
+      border: var(--ngen-container-border-width) solid var(--clr-primary);
+      border-bottom: none;
+      border-top-left-radius: var(--ngen-container-border-radius);
+      border-top-right-radius: var(--ngen-container-border-radius);
+      margin-top: var(--ngen-container-outer-spacing);
+      padding-inline: 1rem;
+
+      @include mixins.mq(medium) {
+         grid-column: left-corner-start / right-corner-end;
+         border: none;
+         margin-top: 0;
+         border-radius: 0;
+      }
+
+      h2 {
+         text-align: center;
+         margin-bottom: 0.8rem;
+      }
+
+      h3 {
+         text-align: center;
+         font-size: 1rem;
+         margin-top: 0;
+      }
+
+      &::after {
+         content: "";
+         position: absolute;
+         left: 0;
+         right: 0;
+         top: calc(100% - 1px);
+         height: calc(var(--ngen-container-border-width) + 2px);
+         background-color: var(--clr-primary-lightest);
+      }
    }
-   h3 {
-      text-align: center;
-      font-size: 1rem;
-      margin-top: 0;
+
+   .left-corner {
+      grid-area: left-corner;
+      position: relative;
+
+      @include mixins.mq(medium) {
+         display: none;
+      }
+
+      &::after {
+         content: "";
+         position: absolute;
+         bottom: calc(var(--ngen-container-border-width) * -1);
+         right: calc(var(--ngen-container-border-width) * -1);
+         z-index: 10;
+         width: calc(var(--ngen-container-border-radius) + var(--ngen-container-border-width));
+         aspect-ratio: 1;
+         background-image: radial-gradient(
+            circle at 100% 100%,
+            transparent calc(var(--ngen-container-border-radius) - 1px),
+            var(--clr-primary) calc(var(--ngen-container-border-radius)),
+            var(--clr-primary) calc(var(--ngen-container-border-radius) + var(--ngen-container-border-width) - 1px),
+            var(--clr-primary-lightest) calc(var(--ngen-container-border-radius) + var(--ngen-container-border-width))
+         );
+         rotate: 180deg;
+      }
    }
-}
 
-ngen-sidenav {
-   height: 100%;
-   background-color: #8a8a8a;
-}
+   .right-corner {
+      grid-area: right-corner;
+      position: relative;
 
-ngen-generation-config {
-   height: 50%;
-   display: block;
-}
+      @include mixins.mq(medium) {
+         display: none;
+      }
 
-ngen-generation-output {
-   height: 25%;
-   display: block;
-   background-color: sandybrown;
+      &::after {
+         content: "";
+         position: absolute;
+         bottom: calc(var(--ngen-container-border-width) * -1);
+         left: calc(var(--ngen-container-border-width) * -1);
+         z-index: 10;
+         width: calc(var(--ngen-container-border-radius) + var(--ngen-container-border-width));
+         aspect-ratio: 1;
+         background-image: radial-gradient(
+            circle at 100% 100%,
+            transparent calc(var(--ngen-container-border-radius) - 1px),
+            var(--clr-primary) calc(var(--ngen-container-border-radius)),
+            var(--clr-primary) calc(var(--ngen-container-border-radius) + var(--ngen-container-border-width) - 1px),
+            var(--clr-primary-lightest) calc(var(--ngen-container-border-radius) + var(--ngen-container-border-width))
+         );
+         rotate: -90deg;
+      }
+   }
+
+   .generation-settings-wrapper {
+      grid-area: config;
+
+      ngen-generation-config {
+         display: block;
+         height: 100%;
+         box-sizing: border-box;
+      }
+
+      .generate-button {
+         position: relative;
+         left: 50%;
+         translate: -50% 0;
+         font-size: 1.5rem;
+         color: var(--clr-primary-contrast);
+         height: 3rem;
+         border-top-right-radius: 0;
+         border-top-left-radius: 0;
+
+         @include mixins.mq(medium) {
+            left: 0;
+            translate: 0;
+            border-bottom-left-radius: 0;
+         }
+      }
+   }
+
+   ngen-generation-output {
+      grid-area: output;
+   }
 }

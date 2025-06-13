@@ -3,7 +3,7 @@ import { BoundedConfigProperty, GeneratorConfigFields, PropertyBounds } from "..
 
 export class GenerationConfigUtils {
    public static getConfig(generator: Generators | undefined): GeneratorConfigFields {
-      switch(generator) {
+      switch (generator) {
          case Generators.JAPANESE:
             return {
                minLength: true,
@@ -34,13 +34,13 @@ export class GenerationConfigUtils {
    }
 
    public static getConfigPropertyBounds(property: BoundedConfigProperty): Partial<PropertyBounds> {
-      switch(property) {
-         case 'lengthInSyllables':
+      switch (property) {
+         case "lengthInSyllables":
             return {
                min: 1,
                max: 20
             };
-         case 'lengthInLetters':
+         case "lengthInLetters":
             return {
                min: 2,
                max: 50

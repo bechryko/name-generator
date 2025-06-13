@@ -1,37 +1,35 @@
-import { Component } from '@angular/core';
-import { Observable } from 'rxjs';
-import { GeneratedName } from './models';
-import { NameDatabaseTableHeader } from './name-database-table/models';
-import { NameDatabaseService } from './services';
+import { Component } from "@angular/core";
+import { Observable } from "rxjs";
+import { GeneratedName } from "./models";
+import { NameDatabaseTableHeader } from "./name-database-table/models";
+import { NameDatabaseService } from "./services";
 
 @Component({
-   selector: 'ngen-database',
-   templateUrl: './database.component.html',
-   styleUrl: './database.component.scss'
+   selector: "ngen-database",
+   templateUrl: "./database.component.html",
+   styleUrl: "./database.component.scss"
 })
 export class DatabaseComponent {
    public readonly nameDatabaseHeaders: NameDatabaseTableHeader[] = [
       {
          label: "Name",
-         key: 'name',
+         key: "name",
          enableSort: true
       },
       {
          label: "Algorithm",
-         key: 'generationAlgorithm',
+         key: "generationAlgorithm",
          enableSort: true
       },
       {
          label: "Version",
-         key: 'version',
+         key: "version",
          enableSort: true
       }
    ];
    public readonly names$: Observable<GeneratedName[]>;
 
-   constructor(
-      private readonly nameDatabaseService: NameDatabaseService
-   ) {
+   constructor(private readonly nameDatabaseService: NameDatabaseService) {
       this.names$ = this.nameDatabaseService.names$;
    }
 }

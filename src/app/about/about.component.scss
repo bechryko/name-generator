@@ -1,17 +1,14 @@
-@use '../../assets/styles/mixins';
+@use "layout";
 
-#about-wrapper {
-   height: 100%;
-   display: grid;
-   grid-template-columns: 1fr 0fr 4fr;
-   background-color: rgb(255, 255, 146);
-
-   h2 {
-      text-align: center;
-   }
+:host {
+   @include layout.page-with-sidebar;
 }
 
-ngen-sidenav {
-   height: 100%;
-   background-color: #8a8a8a;
+h2 {
+   text-align: center;
+}
+
+.about-content-wrapper {
+   grid-area: content;
+   overflow-y: auto;
 }

@@ -1,19 +1,15 @@
-import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
-import { MatCheckboxChange, MatCheckboxModule } from '@angular/material/checkbox';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { InputType } from './input-type';
+import { CommonModule } from "@angular/common";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
+import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
+import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatInputModule } from "@angular/material/input";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { InputType } from "./input-type";
 
 @Component({
-   selector: 'ngen-input',
-   imports: [
-      CommonModule,
-      MatFormFieldModule,
-      MatInputModule,
-      MatCheckboxModule
-   ],
+   selector: "ngen-input",
+   imports: [CommonModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatTooltipModule],
    providers: [
       {
          provide: NG_VALUE_ACCESSOR,
@@ -21,20 +17,21 @@ import { InputType } from './input-type';
          useExisting: InputComponent
       }
    ],
-   templateUrl: './input.component.html',
-   styleUrl: './input.component.scss',
+   templateUrl: "./input.component.html",
+   styleUrl: "./input.component.scss",
    standalone: true
 })
 export class InputComponent implements ControlValueAccessor {
    @Input() label: string = "";
-   @Input() type: InputType = 'text';
+   @Input() type: InputType = "text";
    @Input() set ngenDisabled(disabled: boolean) {
       this.disabled = disabled;
    }
+   @Input() disabledTooltip?: string;
    @Output() blur: EventEmitter<void> = new EventEmitter<void>();
    private _value: any;
-   public onChange = (value: any) => { };
-   public onTouched = () => { };
+   public onChange = (value: any) => {};
+   public onTouched = () => {};
    public touched = false;
    public disabled = false;
 
@@ -72,7 +69,7 @@ export class InputComponent implements ControlValueAccessor {
 
    public onInputValueChange(event: any): void {
       let value = event.target.value;
-      if (this.type === 'number') {
+      if (this.type === "number") {
          value = Number(value);
       }
       this.onChange(value);

@@ -1,32 +1,32 @@
-import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
-import { RouteUrls } from '@ngen-core/enums';
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { RouteUrls } from "@ngen-core/enums";
 
 const routes: Routes = [
    {
-      path: '',
+      path: "",
       redirectTo: RouteUrls.GENERATION,
-      pathMatch: 'full'
+      pathMatch: "full"
    },
    {
       path: RouteUrls.GENERATION,
-      loadChildren: () => import('./generation/generation.module').then(m => m.GenerationModule)
+      loadChildren: () => import("./generation/generation.module").then(m => m.GenerationModule)
    },
    {
       path: RouteUrls.DATABASE,
-      loadChildren: () => import('./database/database.module').then(m => m.DatabaseModule)
+      loadChildren: () => import("./database/database.module").then(m => m.DatabaseModule)
    },
    {
       path: RouteUrls.ABOUT,
       children: [
          {
-            path: '',
-            loadChildren: () => import('./about/about.module').then(m => m.AboutModule)
+            path: "",
+            loadChildren: () => import("./about/about.module").then(m => m.AboutModule)
          }
       ]
    },
    {
-      path: '**',
+      path: "**",
       redirectTo: RouteUrls.GENERATION
    }
 ];
@@ -35,4 +35,4 @@ const routes: Routes = [
    imports: [RouterModule.forRoot(routes)],
    exports: [RouterModule]
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

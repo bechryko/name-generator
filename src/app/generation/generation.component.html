@@ -1,19 +1,25 @@
 <ng-container *ngLet="(selectedGenerator$ | async)! as selectedGenerator">
-   <div id="generation-wrapper">
-      <ngen-sidenav 
-         [selectableList]="GENERATORS"
-         [selectedValue]="selectedGenerator"
-         (select)="selectGenerator($event)"
-         placeholderText="No generation algorithms!"
-      ></ngen-sidenav>
-      <div>
+   <ngen-sidebar
+      [selectableList]="GENERATORS"
+      [selectedValue]="selectedGenerator"
+      (select)="selectGenerator($event)"
+      placeholderText="No generation algorithms!"></ngen-sidebar>
+   <main>
+      <div class="left-corner"></div>
+      <div class="title-container">
          <h2>{{ selectedGenerator }} Name Generation</h2>
          <h3>{{ getGeneratorVersion(selectedGenerator) }}</h3>
-         <ngen-generation-config 
-            [generator]="selectedGenerator" 
-            (generate)="generateName(selectedGenerator, $event)"
-         ></ngen-generation-config>
-         <ngen-generation-output [generatedName]="generatedName ?? null"></ngen-generation-output>
       </div>
-   </div>
+      <div class="right-corner"></div>
+      <div class="generation-settings-wrapper">
+         <ngen-generation-config [generator]="selectedGenerator"></ngen-generation-config>
+         <button
+            mat-raised-button
+            (click)="generateName(selectedGenerator)"
+            class="generate-button">
+            Generate Names
+         </button>
+      </div>
+      <ngen-generation-output [generatedName]="generatedName ?? null"></ngen-generation-output>
+   </main>
 </ng-container>

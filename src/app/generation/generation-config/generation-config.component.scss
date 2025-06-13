@@ -1,16 +1,61 @@
-#generation-config-wrapper {
-   height: 100%;
-   padding: 2rem;
-   display: flex;
-   flex-direction: column;
-   flex-wrap: wrap;
+@use "mixins";
 
-   & > * {
-      flex-basis: 56px;
-      width: 250px;
+:host {
+   padding: 1rem;
+   padding-top: 0;
+
+   @include mixins.mq(medium) {
+      padding: 0;
    }
 
-   .submit-button {
-      font-size: larger;
+   @include mixins.mq(small, height) {
+      padding: 0;
+   }
+}
+
+#generation-config-wrapper {
+   height: 100%;
+   padding: 1rem;
+   box-sizing: border-box;
+   overflow-y: visible;
+   background-color: var(--clr-primary-lightest);
+   border: var(--ngen-container-border-width) solid var(--clr-primary);
+   border-radius: var(--ngen-container-border-radius);
+
+   @include mixins.mq(medium) {
+      border-radius: 0;
+      border: none;
+   }
+
+   @include mixins.mq(small, height) {
+      padding: 0;
+   }
+
+   fieldset {
+      height: 100%;
+      display: flex;
+      flex-flow: column wrap;
+      column-gap: 3rem;
+      align-content: start;
+      overflow-x: auto;
+      padding-top: 1rem;
+      border: none;
+      box-sizing: border-box;
+      margin: 0;
+
+      @include mixins.mq(small, height) {
+         border: none;
+         justify-content: space-around;
+      }
+
+      legend {
+         width: fit-content;
+         padding-inline: 1rem;
+      }
+
+      ngen-input {
+         flex-basis: 56px;
+         width: 250px;
+      }
    }
 }

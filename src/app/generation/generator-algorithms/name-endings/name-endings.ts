@@ -1,14 +1,6 @@
 import { RegularUtils } from "../letter-finalization/utils";
 
-const doubleConsonantEndings = [
-   "lf",
-   "lv",
-   "lt",
-   "ld",
-   "mn",
-   "rk",
-   "ck"
-];
+const doubleConsonantEndings = ["lf", "lv", "lt", "ld", "mn", "rk", "ck"];
 
 export const nameEndings = [
    "in+",

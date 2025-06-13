@@ -7,11 +7,11 @@ import { ConfigurationState } from "./configuration.state";
 const initialState: ConfigurationState = {
    [Generators.JAPANESE]: japaneseDefaultConfig,
    [Generators.SYLLABIC]: syllabicDefaultConfig,
-   [Generators.REGULAR]: regularDefaultConfig,
+   [Generators.REGULAR]: regularDefaultConfig
 };
 
 export const configurationFeature = createFeature({
-   name: 'configuration',
+   name: "configuration",
    reducer: createReducer(
       initialState,
       on(configurationActions.save, (state, { generator, config }) => ({

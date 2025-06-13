@@ -1,0 +1,73 @@
+@use "mixins";
+
+$button-highlight-gap: 2px;
+$border: var(--ngen-container-border-width) solid var(--clr-primary);
+
+:host {
+   display: flex;
+   flex-direction: column;
+   max-width: 40dvw;
+   border-right: $border;
+   background-color: var(--clr-primary-lighter);
+
+   @include mixins.mq(small) {
+      flex-direction: row;
+      max-width: 100dvw;
+      border-right: none;
+      border-bottom: $border;
+   }
+
+   button {
+      $border: 1px solid var(--clr-primary);
+
+      position: relative;
+      font-size: 1.25rem;
+      padding-block: 0.5rem;
+      background-color: transparent;
+      border: none;
+      border-bottom: $border;
+      cursor: pointer;
+      user-select: none;
+
+      @include mixins.mq(small) {
+         font-size: 1.25rem;
+         border-bottom: none;
+         flex: 1;
+         min-width: max-content;
+
+         &:not(:first-child) {
+            border-left: $border;
+         }
+      }
+
+      &::after {
+         content: "";
+         position: absolute;
+         inset: 0;
+         box-shadow: inset 0 0 0.75rem var(--clr-primary);
+         opacity: 0;
+         transition: opacity 300ms ease;
+      }
+
+      &.selected::after {
+         opacity: 1;
+      }
+   }
+
+   p {
+      text-align: center;
+      font-size: 1.25rem;
+      font-style: italic;
+      user-select: none;
+
+      @include mixins.mq(small) {
+         display: none;
+      }
+   }
+
+   #placeholder {
+      font-size: 1.4rem;
+      text-align: center;
+      width: 70%;
+   }
+}

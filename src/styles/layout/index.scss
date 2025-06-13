@@ -1,0 +1,3 @@
+//@index("./*.scss", (f, _) => `@forward "${f.name}";`)
+@forward "page-with-sidebar";
+//@endindex

@@ -1,8 +1,8 @@
 import { RandomUtils } from "./random.utils";
 
-describe('RandomUtils', () => {
-   describe('randomIndexWeighted', () => {
-      it('should pick random array element based on weights', () => {
+describe("RandomUtils", () => {
+   describe("randomIndexWeighted", () => {
+      it("should pick random array element based on weights", () => {
          const array = [1, 2, 3, 4];
          const weights = [1, 2, 3, 4];
          const weightsSum = weights.reduce((a, b) => a + b, 0);

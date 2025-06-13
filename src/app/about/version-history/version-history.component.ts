@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
 
 interface VersionDetails {
    id: string;
@@ -8,15 +8,15 @@ interface VersionDetails {
 }
 
 @Component({
-   selector: 'ngen-version-history',
-   templateUrl: './version-history.component.html',
-   styleUrl: '../styles/about-content.scss'
+   selector: "ngen-version-history",
+   templateUrl: "./version-history.component.html",
+   styleUrl: "../styles/about-content.scss"
 })
 export class VersionHistoryComponent {
    private readonly versions: VersionDetails[] = [
       {
-         id: '1.0',
-         name: 'Vetlarrmeltheld',
+         id: "1.0",
+         name: "Vetlarrmeltheld",
          content: [
             "Where it all began",
             "Added japanese generator algorithm (on version 1.0)",
@@ -34,7 +34,7 @@ export class VersionHistoryComponent {
 
    public getPatchVersions(mainVersion: VersionDetails): VersionDetails[] {
       return this.versions
-         .filter(v => v.id.startsWith(mainVersion.id.split('.').slice(0, 2).join('.')) && v !== mainVersion)
+         .filter(v => v.id.startsWith(mainVersion.id.split(".").slice(0, 2).join(".")) && v !== mainVersion)
          .sort((a, b) => a.id.localeCompare(b.id));
    }
 }

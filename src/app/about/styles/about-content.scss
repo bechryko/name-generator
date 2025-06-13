@@ -1,48 +1,69 @@
-@use '../../../assets/styles/mixins';
-
-section.content-grid {
-   @include mixins.content-grid(2rem, 50rem, 60rem);
-   overflow-y: auto;
-   height: calc(100dvh - 187px);
+:host {
+   display: block;
+   max-width: 80ch;
+   margin-inline: auto;
+   padding-inline: 1.5rem;
 
    & > *:last-child {
-      margin-bottom: 3.5rem;
+      margin-bottom: 3.5em;
    }
 
-   $version-name-date-gap: 0.2rem;
-   
-   * {
-      line-height: auto;
-   }
+   $version-name-date-gap: 0.2em;
+
    h2 {
       text-align: center;
-      font-size: 2.2rem;
+      font-size: 2.2em;
    }
+
    h3 {
-      font-size: 1.9rem;
+      font-size: 1.9em;
    }
+
    h4 {
-      font-size: 1.6rem;
+      font-size: 1.6em;
    }
+
    p {
+      text-indent: 2ch;
       text-align: justify;
+      text-wrap: pretty;
       font-size: 1.3rem;
+      margin: 0;
    }
+
    li {
       font-size: 1.2rem;
    }
-   a {
-      text-decoration: none !important;
-      color: rgb(164, 107, 0) !important;
 
-      &:visited {
-         color: orangered !important;
+   a {
+      position: relative;
+      text-decoration: none;
+      text-decoration-thickness: 1px !important;
+      text-underline-offset: 0.125em;
+      color: var(--clr-primary-darker);
+      margin-inline-start: 0.5em;
+
+      &:hover {
+         text-decoration: underline;
+      }
+
+      &::before {
+         content: "🔗";
+         position: absolute;
+         top: 0;
+         left: 0;
+         font-size: 0.5em;
+         translate: -100% 0;
+         pointer-events: none;
       }
    }
+
    .version-details {
-      h3, h4 {
+      h3,
+      h4 {
          margin-bottom: $version-name-date-gap;
       }
+
       p {
          font-size: 1.1rem;
          margin-top: $version-name-date-gap;

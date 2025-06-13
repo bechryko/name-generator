@@ -1,20 +1,16 @@
-import { Component, inject } from '@angular/core';
-import { Name } from '@ngen-core/names';
-import { PageStateHandlerService } from '@ngen-core/services';
-import { Observable } from 'rxjs';
-import { Generators } from './enums';
-import {
-   JapaneseGeneratorService,
-   RegularGeneratorService,
-   SyllabicGeneratorService
-} from './generator-algorithms';
-import { GeneratorService } from './generator-algorithms/generator-service.model';
-import { GenerationConfig } from './models';
+import { Component, inject } from "@angular/core";
+import { Name } from "@ngen-core/names";
+import { PageStateHandlerService } from "@ngen-core/services";
+import { Observable } from "rxjs";
+import { Generators } from "./enums";
+import { JapaneseGeneratorService, RegularGeneratorService, SyllabicGeneratorService } from "./generator-algorithms";
+import { GeneratorService } from "./generator-algorithms/generator-service.model";
+import { ConfigurationStoreService } from "./services";
 
 @Component({
-   selector: 'ngen-generation',
-   templateUrl: './generation.component.html',
-   styleUrl: './generation.component.scss'
+   selector: "ngen-generation",
+   templateUrl: "./generation.component.html",
+   styleUrl: "./generation.component.scss"
 })
 export class GenerationComponent {
    public readonly GENERATORS: { label: string; value: Generators }[] = [];
@@ -28,7 +24,8 @@ export class GenerationComponent {
    };
 
    constructor(
-      private readonly pageStateHandlerService: PageStateHandlerService
+      private readonly pageStateHandlerService: PageStateHandlerService,
+      private readonly configurationStoreService: ConfigurationStoreService
    ) {
       this.selectedGenerator$ = this.pageStateHandlerService.generator$;
       for (const generator of Object.values(Generators)) {
@@ -36,8 +33,10 @@ export class GenerationComponent {
       }
    }
 
-   public generateName(generator: Generators, config: GenerationConfig): void {
-      this.generatedName = this.generatorServices[generator].generateName(config);
+   public generateName(generator: Generators): void {
+      this.generatedName = this.generatorServices[generator].generateName(
+         this.configurationStoreService.loadConfig(generator)
+      );
    }
 
    public selectGenerator(generator: Generators): void {

@@ -1,1 +1,1 @@
-export type InputType = 'number' | 'text' | 'checkbox';
+export type InputType = "number" | "text" | "checkbox";

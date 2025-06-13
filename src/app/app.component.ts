@@ -1,10 +1,13 @@
-import { Component } from '@angular/core';
+import { Component } from "@angular/core";
+import { APP_NAME, APP_VERSION } from "@ngen-core/constants";
 
 @Component({
-   selector: 'app-root',
-   templateUrl: './app.component.html',
-   styleUrls: ['./app.component.scss']
+   selector: "app-root",
+   templateUrl: "./app.component.html",
+   styleUrls: ["./app.component.scss"]
 })
 export class AppComponent {
-   title = 'name-generator';
+   constructor() {
+      document.title = `${APP_NAME} Name Generator (${APP_VERSION})`;
+   }
 }

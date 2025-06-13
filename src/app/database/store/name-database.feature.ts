@@ -11,14 +11,10 @@ export const nameDatabaseFeature = createFeature({
    name: "nameDatabase",
    reducer: createReducer(
       nameDatabaseAdapter.getInitialState(),
-      on(nameDatabaseActions.addNameSuccess, (state, { name, generationAlgorithm }) => 
+      on(nameDatabaseActions.addNameSuccess, (state, { name, generationAlgorithm }) =>
          nameDatabaseAdapter.addOne({ name, generationAlgorithm, version: "pre-release" }, state)
       ),
-      on(nameDatabaseActions.deleteNameSuccess, (state, { name }) => 
-         nameDatabaseAdapter.removeOne(name, state)
-      ),
-      on(nameDatabaseActions.syncNamesSuccess, (state, { names }) => 
-         nameDatabaseAdapter.setAll(names, state)
-      )
+      on(nameDatabaseActions.deleteNameSuccess, (state, { name }) => nameDatabaseAdapter.removeOne(name, state)),
+      on(nameDatabaseActions.syncNamesSuccess, (state, { names }) => nameDatabaseAdapter.setAll(names, state))
    )
 });

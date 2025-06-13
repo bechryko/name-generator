@@ -2,8 +2,6 @@
    mat-icon-button
    [matTooltip]="ICONS[type].tooltip"
    [matTooltipPosition]="tooltipPosition"
-   (click)="onClick($event)"
-   color="accent"
->
+   (click)="onClick($event)">
    <mat-icon>{{ ICONS[type].icon }}</mat-icon>
 </button>
