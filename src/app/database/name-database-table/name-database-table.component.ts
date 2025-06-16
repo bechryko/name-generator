@@ -4,7 +4,6 @@ import { MatTableDataSource } from "@angular/material/table";
 import { pluck } from "@ngen-core/functions";
 import { ClipboardService } from "@ngen-core/services";
 import { GeneratedName } from "@ngen-database/models";
-import { NameDatabaseService } from "@ngen-database/services";
 import { BehaviorSubject } from "rxjs";
 import { NameDatabaseTableHeader } from "./models";
 
@@ -43,10 +42,7 @@ export class NameDatabaseTableComponent implements AfterViewInit {
 
    public deleteMode$ = new BehaviorSubject<boolean>(false);
 
-   constructor(
-      private readonly nameDatabaseService: NameDatabaseService,
-      private readonly clipboard: ClipboardService
-   ) {
+   constructor(private readonly clipboard: ClipboardService) {
       // merge(
       //    fromEvent<KeyboardEvent>(document, "keydown").pipe(
       //       filter((event: KeyboardEvent) => event.key === this.DELETE_KEY)
@@ -65,7 +61,7 @@ export class NameDatabaseTableComponent implements AfterViewInit {
 
    public onRowClick(name: GeneratedName): void {
       if (this.deleteMode$.value) {
-         this.nameDatabaseService.deleteName(name.name);
+         // this.nameDatabaseService.deleteName(name.name);
       } else {
          this.clipboard.copy(name.name, "Name copied to clipboard!");
       }
