@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, input } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -21,12 +21,12 @@ import { InputType } from "./input-type";
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputComponent implements ControlValueAccessor {
-   @Input() label: string = "";
-   @Input() type: InputType = "text";
+   public readonly label = input("");
+   public readonly type = input<InputType>("text");
    @Input() set ngenDisabled(disabled: boolean) {
       this.disabled = disabled;
    }
-   @Input() disabledTooltip?: string;
+   public readonly disabledTooltip = input<string>();
    @Output() blur: EventEmitter<void> = new EventEmitter<void>();
    private _value: any;
    public onChange = (value: any) => {};
@@ -68,7 +68,7 @@ export class InputComponent implements ControlValueAccessor {
 
    public onInputValueChange(event: any): void {
       let value = event.target.value;
-      if (this.type === "number") {
+      if (this.type() === "number") {
          value = Number(value);
       }
       this.onChange(value);

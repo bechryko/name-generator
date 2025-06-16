@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Output, input } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatTooltipModule, TooltipPosition } from "@angular/material/tooltip";
 import { ClipboardService, PageStateHandlerService } from "@ngen-core/services";
 import { Generators } from "@ngen-generation/enums";
 import { NgLetModule } from "ng-let";
@@ -24,9 +24,9 @@ interface InteractiveIconTypeDescription {
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InteractiveIconComponent {
-   @Input() type: InteractiveIconType = "clipboard";
-   @Input() data: any;
-   @Input() tooltipPosition: "above" | "below" | "left" | "right" = "below";
+   public readonly type = input.required<InteractiveIconType>();
+   public readonly data = input<any>();
+   public readonly tooltipPosition = input<TooltipPosition>("below");
    @Output() click: EventEmitter<Event> = new EventEmitter<Event>();
    private readonly selectedGenerator$ = new BehaviorSubject<Generators>(Generators.JAPANESE);
 
@@ -53,6 +53,6 @@ export class InteractiveIconComponent {
 
    public onClick(event: Event): void {
       this.click.emit(event);
-      this.ICONS[this.type].clickEvent?.(this.data);
+      this.ICONS[this.type()].clickEvent?.(this.data());
    }
 }
