@@ -1,10 +1,10 @@
 :root {
-   --mdc-filled-text-field-label-text-color: var(--clr-primary-lighter-contrast);
-   --mdc-filled-text-field-input-text-color: var(--clr-primary-lighter-contrast);
-   --mdc-filled-text-field-focus-label-text-color: var(--clr-primary);
-   --mdc-filled-text-field-focus-active-indicator-color: var(--clr-primary);
-   --mdc-filled-text-field-caret-color: var(--clr-primary);
-   --mdc-filled-text-field-container-color: white;
+   --mat-form-field-filled-label-text-color: var(--clr-primary-lighter-contrast);
+   --mat-form-field-filled-input-text-color: var(--clr-primary-lighter-contrast);
+   --mat-form-field-filled-focus-label-text-color: var(--clr-primary);
+   --mat-form-field-filled-focus-active-indicator-color: var(--clr-primary);
+   --mat-form-field-filled-caret-color: var(--clr-primary);
+   --mat-form-field-filled-container-color: white;
    --mat-form-field-state-layer-color: var(--clr-primary-lightest);
    --mat-form-field-state-layer-opacity: 1;
 }

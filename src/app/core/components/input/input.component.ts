@@ -1,4 +1,3 @@
-import { CommonModule } from "@angular/common";
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
@@ -11,7 +10,7 @@ import { InputType } from "./input-type";
    selector: "ngen-input",
    templateUrl: "./input.component.html",
    styleUrl: "./input.component.scss",
-   imports: [CommonModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatTooltipModule],
+   imports: [MatFormFieldModule, MatInputModule, MatCheckboxModule, MatTooltipModule],
    providers: [
       {
          provide: NG_VALUE_ACCESSOR,

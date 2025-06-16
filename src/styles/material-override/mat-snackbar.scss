@@ -1,14 +1,14 @@
 $snackbar-font-size: 1rem;
 
 :root {
-   --mdc-snackbar-container-color: var(--clr-primary-darkest);
-   --mdc-snackbar-supporting-text-color: var(--clr-primary-darker-contrast);
-   --mdc-snackbar-supporting-text-size: $snackbar-font-size;
+   --mat-snackbar-container-color: var(--clr-primary-darkest);
+   --mat-snackbar-supporting-text-color: var(--clr-primary-darker-contrast);
+   --mat-snackbar-supporting-text-size: $snackbar-font-size;
    --mat-snack-bar-button-color: var(--clr-primary);
 }
 
 .ngen-error-snackbar {
-   --mdc-snackbar-container-color: var(--clr-error-darker);
+   --mat-snackbar-container-color: var(--clr-error-darker);
    --mat-snack-bar-button-color: var(--clr-error-darker-contrast);
 }
 
