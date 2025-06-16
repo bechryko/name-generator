@@ -1,4 +1,4 @@
-import { Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { Name } from "@ngen-core/names";
 import { PageStateHandlerService } from "@ngen-core/services";
 import { Observable } from "rxjs";
@@ -10,7 +10,8 @@ import { ConfigurationStoreService } from "./services";
 @Component({
    selector: "ngen-generation",
    templateUrl: "./generation.component.html",
-   styleUrl: "./generation.component.scss"
+   styleUrl: "./generation.component.scss",
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenerationComponent {
    public readonly GENERATORS: { label: string; value: Generators }[] = [];

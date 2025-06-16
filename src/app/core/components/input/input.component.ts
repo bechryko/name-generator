@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -9,6 +9,8 @@ import { InputType } from "./input-type";
 
 @Component({
    selector: "ngen-input",
+   templateUrl: "./input.component.html",
+   styleUrl: "./input.component.scss",
    imports: [CommonModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatTooltipModule],
    providers: [
       {
@@ -17,8 +19,7 @@ import { InputType } from "./input-type";
          useExisting: InputComponent
       }
    ],
-   templateUrl: "./input.component.html",
-   styleUrl: "./input.component.scss",
+   changeDetection: ChangeDetectionStrategy.OnPush,
    standalone: true
 })
 export class InputComponent implements ControlValueAccessor {

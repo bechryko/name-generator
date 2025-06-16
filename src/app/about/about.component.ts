@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Router } from "@angular/router";
 import { NgenSidebarSelectable } from "@ngen-core/models";
@@ -9,7 +9,8 @@ import { AboutSubpages } from "./about-subpages";
 @Component({
    selector: "ngen-about",
    templateUrl: "./about.component.html",
-   styleUrl: "./about.component.scss"
+   styleUrl: "./about.component.scss",
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutComponent {
    public readonly subpages: NgenSidebarSelectable<AboutSubpages>[] = [

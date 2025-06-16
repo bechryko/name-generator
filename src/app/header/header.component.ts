@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { APP_NAME } from "@ngen-core/constants";
 import { RouteUrls } from "@ngen-core/enums";
@@ -11,7 +11,8 @@ interface NavMenuItem {
 @Component({
    selector: "ngen-header",
    templateUrl: "./header.component.html",
-   styleUrl: "./header.component.scss"
+   styleUrl: "./header.component.scss",
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeaderComponent {
    public readonly APP_NAME = APP_NAME;

@@ -1,4 +1,4 @@
-import { Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
 import { NonNullableFormBuilder } from "@angular/forms";
 import { GenerationConfig } from "@ngen-generation/models/generation-config";
 import { ConfigurationStoreService } from "@ngen-generation/services";
@@ -26,7 +26,8 @@ interface ConfigField {
 @Component({
    selector: "ngen-generation-config",
    templateUrl: "./generation-config.component.html",
-   styleUrl: "./generation-config.component.scss"
+   styleUrl: "./generation-config.component.scss",
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GenerationConfigComponent {
    public selectedGenerator: Generators = Generators.JAPANESE;

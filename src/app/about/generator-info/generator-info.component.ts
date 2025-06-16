@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { Generators } from "@ngen-generation/enums";
 import { BoundedConfigProperty, PropertyBounds } from "@ngen-generation/generation-config/model";
 import { GenerationConfigUtils } from "@ngen-generation/generation-config/utils";
@@ -12,7 +12,8 @@ import { RegularUtils } from "@ngen-generation/generator-algorithms/letter-final
 @Component({
    selector: "ngen-generator-info",
    templateUrl: "./generator-info.component.html",
-   styleUrl: "../styles/about-content.scss"
+   styleUrl: "../styles/about-content.scss",
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GeneratorInfoComponent {
    public readonly versions: Record<Generators, string> = {
