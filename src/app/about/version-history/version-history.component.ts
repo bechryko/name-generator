@@ -1,4 +1,4 @@
-import { Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 interface VersionDetails {
    id: string;
@@ -10,7 +10,8 @@ interface VersionDetails {
 @Component({
    selector: "ngen-version-history",
    templateUrl: "./version-history.component.html",
-   styleUrl: "../styles/about-content.scss"
+   styleUrl: "../styles/about-content.scss",
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VersionHistoryComponent {
    private readonly versions: VersionDetails[] = [

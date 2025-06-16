@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { NgenSidebarSelectable } from "@ngen-core/models";
@@ -7,8 +7,9 @@ import { NgenSidebarSelectable } from "@ngen-core/models";
    selector: "ngen-sidebar",
    templateUrl: "./sidebar.component.html",
    styleUrl: "./sidebar.component.scss",
-   standalone: true,
-   imports: [MatButtonModule, MatTooltipModule]
+   imports: [MatButtonModule, MatTooltipModule],
+   changeDetection: ChangeDetectionStrategy.OnPush,
+   standalone: true
 })
 export class SidebarComponent<T> {
    @Input() selectableList: NgenSidebarSelectable<T>[] = [];

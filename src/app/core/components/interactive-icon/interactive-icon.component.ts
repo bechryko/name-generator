@@ -1,5 +1,5 @@
 import { CommonModule } from "@angular/common";
-import { Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -21,8 +21,9 @@ interface InteractiveIconTypeDescription {
    selector: "ngen-interactive-icon",
    templateUrl: "./interactive-icon.component.html",
    styleUrl: "./interactive-icon.component.scss",
-   standalone: true,
-   imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule, MatSnackBarModule, NgLetModule]
+   imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule, MatSnackBarModule, NgLetModule],
+   changeDetection: ChangeDetectionStrategy.OnPush,
+   standalone: true
 })
 export class InteractiveIconComponent {
    @Input() type: InteractiveIconType = "clipboard";
