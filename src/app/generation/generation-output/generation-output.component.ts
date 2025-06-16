@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { InteractiveIconComponent } from "@ngen-core/components";
 import { Name } from "@ngen-core/names";
 
 interface DisplayName {
@@ -11,7 +12,7 @@ interface DisplayName {
    templateUrl: "./generation-output.component.html",
    styleUrl: "./generation-output.component.scss",
    changeDetection: ChangeDetectionStrategy.OnPush,
-   standalone: false
+   imports: [InteractiveIconComponent]
 })
 export class GenerationOutputComponent {
    public nameSaved = false; // TODO

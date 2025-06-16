@@ -13,8 +13,7 @@ import { RegularUtils } from "@ngen-generation/generator-algorithms/letter-final
    selector: "ngen-generator-info",
    templateUrl: "./generator-info.component.html",
    styleUrl: "../styles/about-content.scss",
-   changeDetection: ChangeDetectionStrategy.OnPush,
-   standalone: false
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class GeneratorInfoComponent {
    public readonly versions: Record<Generators, string> = {

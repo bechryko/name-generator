@@ -1,6 +1,8 @@
+import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { Router } from "@angular/router";
+import { Router, RouterOutlet } from "@angular/router";
+import { SidebarComponent } from "@ngen-core/components";
 import { NgenSidebarSelectable } from "@ngen-core/models";
 import { PageStateHandlerService } from "@ngen-core/services";
 import { Observable, tap } from "rxjs";
@@ -10,8 +12,8 @@ import { AboutSubpages } from "./about-subpages";
    selector: "ngen-about",
    templateUrl: "./about.component.html",
    styleUrl: "./about.component.scss",
-   changeDetection: ChangeDetectionStrategy.OnPush,
-   standalone: false
+   imports: [SidebarComponent, RouterOutlet, AsyncPipe],
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutComponent {
    public readonly subpages: NgenSidebarSelectable<AboutSubpages>[] = [

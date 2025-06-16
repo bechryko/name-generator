@@ -13,7 +13,6 @@ import { GeneratorAlgorithmsModule } from "./generator-algorithms";
 import { ConfigurationStoreService } from "./services";
 
 @NgModule({
-   declarations: [GenerationComponent, GenerationConfigComponent, GenerationOutputComponent],
    imports: [
       CommonModule,
       GenerationRoutingModule,
@@ -23,7 +22,10 @@ import { ConfigurationStoreService } from "./services";
       SidebarComponent,
       GeneratorAlgorithmsModule,
       NgLetModule,
-      InteractiveIconComponent
+      InteractiveIconComponent,
+      GenerationComponent,
+      GenerationConfigComponent,
+      GenerationOutputComponent
    ],
    providers: [ConfigurationStoreService]
 })

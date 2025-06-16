@@ -11,8 +11,7 @@ interface VersionDetails {
    selector: "ngen-version-history",
    templateUrl: "./version-history.component.html",
    styleUrl: "../styles/about-content.scss",
-   changeDetection: ChangeDetectionStrategy.OnPush,
-   standalone: false
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class VersionHistoryComponent {
    private readonly versions: VersionDetails[] = [

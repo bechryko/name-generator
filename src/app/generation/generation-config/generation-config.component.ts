@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { NonNullableFormBuilder } from "@angular/forms";
+import { NonNullableFormBuilder, ReactiveFormsModule } from "@angular/forms";
+import { InputComponent } from "@ngen-core/components";
 import { GenerationConfig } from "@ngen-generation/models/generation-config";
 import { ConfigurationStoreService } from "@ngen-generation/services";
 import { Generators } from "../enums";
@@ -28,7 +29,7 @@ interface ConfigField {
    templateUrl: "./generation-config.component.html",
    styleUrl: "./generation-config.component.scss",
    changeDetection: ChangeDetectionStrategy.OnPush,
-   standalone: false
+   imports: [ReactiveFormsModule, InputComponent]
 })
 export class GenerationConfigComponent {
    public selectedGenerator: Generators = Generators.JAPANESE;

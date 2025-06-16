@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { MatButton } from "@angular/material/button";
 import { Router } from "@angular/router";
 import { APP_NAME } from "@ngen-core/constants";
 import { RouteUrls } from "@ngen-core/enums";
@@ -13,7 +14,7 @@ interface NavMenuItem {
    templateUrl: "./header.component.html",
    styleUrl: "./header.component.scss",
    changeDetection: ChangeDetectionStrategy.OnPush,
-   standalone: false
+   imports: [MatButton]
 })
 export class HeaderComponent {
    public readonly APP_NAME = APP_NAME;

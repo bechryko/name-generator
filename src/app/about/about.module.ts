@@ -9,7 +9,15 @@ import { IntroductionComponent } from "./introduction/introduction.component";
 import { VersionHistoryComponent } from "./version-history/version-history.component";
 
 @NgModule({
-   declarations: [AboutComponent, IntroductionComponent, GeneratorInfoComponent, VersionHistoryComponent],
-   imports: [CommonModule, AboutRoutingModule, SidebarComponent, NgLetModule]
+   imports: [
+      CommonModule,
+      AboutRoutingModule,
+      SidebarComponent,
+      NgLetModule,
+      AboutComponent,
+      IntroductionComponent,
+      GeneratorInfoComponent,
+      VersionHistoryComponent
+   ]
 })
 export class AboutModule {}

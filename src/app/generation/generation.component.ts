@@ -1,8 +1,14 @@
+import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { MatButton } from "@angular/material/button";
+import { SidebarComponent } from "@ngen-core/components";
 import { Name } from "@ngen-core/names";
 import { PageStateHandlerService } from "@ngen-core/services";
+import { NgLetModule } from "ng-let";
 import { Observable } from "rxjs";
 import { Generators } from "./enums";
+import { GenerationConfigComponent } from "./generation-config/generation-config.component";
+import { GenerationOutputComponent } from "./generation-output/generation-output.component";
 import { JapaneseGeneratorService, RegularGeneratorService, SyllabicGeneratorService } from "./generator-algorithms";
 import { GeneratorService } from "./generator-algorithms/generator-service.model";
 import { ConfigurationStoreService } from "./services";
@@ -12,7 +18,7 @@ import { ConfigurationStoreService } from "./services";
    templateUrl: "./generation.component.html",
    styleUrl: "./generation.component.scss",
    changeDetection: ChangeDetectionStrategy.OnPush,
-   standalone: false
+   imports: [NgLetModule, SidebarComponent, GenerationConfigComponent, MatButton, GenerationOutputComponent, AsyncPipe]
 })
 export class GenerationComponent {
    public readonly GENERATORS: { label: string; value: Generators }[] = [];
