@@ -19,8 +19,7 @@ import { InputType } from "./input-type";
          useExisting: InputComponent
       }
    ],
-   changeDetection: ChangeDetectionStrategy.OnPush,
-   standalone: true
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputComponent implements ControlValueAccessor {
    @Input() label: string = "";

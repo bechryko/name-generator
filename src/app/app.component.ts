@@ -5,7 +5,8 @@ import { APP_NAME, APP_VERSION } from "@ngen-core/constants";
    selector: "app-root",
    templateUrl: "./app.component.html",
    styleUrls: ["./app.component.scss"],
-   changeDetection: ChangeDetectionStrategy.OnPush
+   changeDetection: ChangeDetectionStrategy.OnPush,
+   standalone: false
 })
 export class AppComponent {
    constructor() {

@@ -10,7 +10,8 @@ interface DisplayName {
    selector: "ngen-generation-output",
    templateUrl: "./generation-output.component.html",
    styleUrl: "./generation-output.component.scss",
-   changeDetection: ChangeDetectionStrategy.OnPush
+   changeDetection: ChangeDetectionStrategy.OnPush,
+   standalone: false
 })
 export class GenerationOutputComponent {
    public nameSaved = false; // TODO

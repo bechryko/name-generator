@@ -27,7 +27,8 @@ interface ConfigField {
    selector: "ngen-generation-config",
    templateUrl: "./generation-config.component.html",
    styleUrl: "./generation-config.component.scss",
-   changeDetection: ChangeDetectionStrategy.OnPush
+   changeDetection: ChangeDetectionStrategy.OnPush,
+   standalone: false
 })
 export class GenerationConfigComponent {
    public selectedGenerator: Generators = Generators.JAPANESE;

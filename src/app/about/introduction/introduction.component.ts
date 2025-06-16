@@ -5,7 +5,8 @@ import { AboutSubpages } from "@ngen-about/about-subpages";
    selector: "ngen-introduction",
    templateUrl: "./introduction.component.html",
    styleUrl: "../styles/about-content.scss",
-   changeDetection: ChangeDetectionStrategy.OnPush
+   changeDetection: ChangeDetectionStrategy.OnPush,
+   standalone: false
 })
 export class IntroductionComponent {
    public readonly subpages = AboutSubpages;

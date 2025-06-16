@@ -10,7 +10,8 @@ import { AboutSubpages } from "./about-subpages";
    selector: "ngen-about",
    templateUrl: "./about.component.html",
    styleUrl: "./about.component.scss",
-   changeDetection: ChangeDetectionStrategy.OnPush
+   changeDetection: ChangeDetectionStrategy.OnPush,
+   standalone: false
 })
 export class AboutComponent {
    public readonly subpages: NgenSidebarSelectable<AboutSubpages>[] = [

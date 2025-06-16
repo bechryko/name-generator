@@ -12,7 +12,8 @@ interface NavMenuItem {
    selector: "ngen-header",
    templateUrl: "./header.component.html",
    styleUrl: "./header.component.scss",
-   changeDetection: ChangeDetectionStrategy.OnPush
+   changeDetection: ChangeDetectionStrategy.OnPush,
+   standalone: false
 })
 export class HeaderComponent {
    public readonly APP_NAME = APP_NAME;

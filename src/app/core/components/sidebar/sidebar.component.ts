@@ -8,8 +8,7 @@ import { NgenSidebarSelectable } from "@ngen-core/models";
    templateUrl: "./sidebar.component.html",
    styleUrl: "./sidebar.component.scss",
    imports: [MatButtonModule, MatTooltipModule],
-   changeDetection: ChangeDetectionStrategy.OnPush,
-   standalone: true
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class SidebarComponent<T> {
    @Input() selectableList: NgenSidebarSelectable<T>[] = [];

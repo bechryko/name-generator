@@ -22,8 +22,7 @@ interface InteractiveIconTypeDescription {
    templateUrl: "./interactive-icon.component.html",
    styleUrl: "./interactive-icon.component.scss",
    imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule, MatSnackBarModule, NgLetModule],
-   changeDetection: ChangeDetectionStrategy.OnPush,
-   standalone: true
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InteractiveIconComponent {
    @Input() type: InteractiveIconType = "clipboard";

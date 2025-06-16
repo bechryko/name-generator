@@ -11,7 +11,8 @@ import { ConfigurationStoreService } from "./services";
    selector: "ngen-generation",
    templateUrl: "./generation.component.html",
    styleUrl: "./generation.component.scss",
-   changeDetection: ChangeDetectionStrategy.OnPush
+   changeDetection: ChangeDetectionStrategy.OnPush,
+   standalone: false
 })
 export class GenerationComponent {
    public readonly GENERATORS: { label: string; value: Generators }[] = [];
