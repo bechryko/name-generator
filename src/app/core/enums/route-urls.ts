@@ -1,4 +1,4 @@
-export enum RouteUrls {
+export enum RouteUrl {
    GENERATION = "generation",
    ABOUT = "about"
 }

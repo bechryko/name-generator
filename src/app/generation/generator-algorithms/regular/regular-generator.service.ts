@@ -3,16 +3,13 @@ import { capitalize } from "@ngen-core/functions";
 import { RegularName } from "@ngen-core/names";
 import { RandomUtils } from "@ngen-core/utils";
 import { GenerationConfig, RegularNameObject } from "@ngen-generation/models";
-import { GeneratorAlgorithmsModule } from "../generator-algorithms.module";
 import { GeneratorService } from "../generator-service.model";
 import { LetterFinalizerService } from "../letter-finalization/letter-finalizer.service";
 import { RegularUtils } from "../letter-finalization/utils";
 import { matchNameEnding } from "../name-endings";
 import { REGULAR_GENERATOR_VERSION } from "./regular-generator-version";
 
-@Injectable({
-   providedIn: GeneratorAlgorithmsModule
-})
+@Injectable()
 export class RegularGeneratorService implements GeneratorService {
    public readonly version = REGULAR_GENERATOR_VERSION;
 

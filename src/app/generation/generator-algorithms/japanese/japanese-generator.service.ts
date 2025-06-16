@@ -3,15 +3,12 @@ import { capitalize } from "@ngen-core/functions";
 import { JapaneseName } from "@ngen-core/names";
 import { RandomUtils } from "@ngen-core/utils";
 import { GenerationConfig } from "@ngen-generation/models";
-import { GeneratorAlgorithmsModule } from "../generator-algorithms.module";
 import { GeneratorService } from "../generator-service.model";
 import { JAPANESE_GENERATOR_VERSION } from "./japanese-generator-version";
 import { JapaneseLetter } from "./japanese-letter";
 import { japaneseLetterList } from "./japanese-letter-list";
 
-@Injectable({
-   providedIn: GeneratorAlgorithmsModule
-})
+@Injectable()
 export class JapaneseGeneratorService implements GeneratorService {
    public readonly version = JAPANESE_GENERATOR_VERSION;
 

@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import { Router } from "@angular/router";
 import { APP_NAME } from "@ngen-core/constants";
-import { RouteUrls } from "@ngen-core/enums";
+import { RouteUrl } from "@ngen-core/enums";
 
 interface NavMenuItem {
    label: string;
@@ -19,8 +19,8 @@ interface NavMenuItem {
 export class HeaderComponent {
    public readonly APP_NAME = APP_NAME;
    public readonly navMenuItems: NavMenuItem[] = [
-      { label: "Generation", path: RouteUrls.GENERATION },
-      { label: "About", path: RouteUrls.ABOUT }
+      { label: "Generation", path: RouteUrl.GENERATION },
+      { label: "About", path: RouteUrl.ABOUT }
    ];
 
    constructor(private readonly router: Router) {}

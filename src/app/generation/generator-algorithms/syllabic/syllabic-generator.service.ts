@@ -3,15 +3,12 @@ import { capitalize, last } from "@ngen-core/functions";
 import { SyllabicName } from "@ngen-core/names";
 import { RandomUtils } from "@ngen-core/utils";
 import { GenerationConfig } from "@ngen-generation/models";
-import { GeneratorAlgorithmsModule } from "../generator-algorithms.module";
 import { GeneratorService } from "../generator-service.model";
 import { LetterFinalizerService } from "../letter-finalization/letter-finalizer.service";
 import { matchNameEnding } from "../name-endings";
 import { SYLLABIC_GENERATOR_VERSION } from "./syllabic-generator-version";
 
-@Injectable({
-   providedIn: GeneratorAlgorithmsModule
-})
+@Injectable()
 export class SyllabicGeneratorService implements GeneratorService {
    public readonly version = SYLLABIC_GENERATOR_VERSION;
 

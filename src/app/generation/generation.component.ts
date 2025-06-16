@@ -11,6 +11,8 @@ import { GenerationConfigComponent } from "./generation-config/generation-config
 import { GenerationOutputComponent } from "./generation-output/generation-output.component";
 import { JapaneseGeneratorService, RegularGeneratorService, SyllabicGeneratorService } from "./generator-algorithms";
 import { GeneratorService } from "./generator-algorithms/generator-service.model";
+import { LetterFinalizerService } from "./generator-algorithms/letter-finalization/letter-finalizer.service";
+import { VoicedUnvoicedPairsUtils } from "./generator-algorithms/letter-finalization/utils";
 import { ConfigurationStoreService } from "./services";
 
 @Component({
@@ -18,7 +20,8 @@ import { ConfigurationStoreService } from "./services";
    templateUrl: "./generation.component.html",
    styleUrl: "./generation.component.scss",
    changeDetection: ChangeDetectionStrategy.OnPush,
-   imports: [NgLetModule, SidebarComponent, GenerationConfigComponent, MatButton, GenerationOutputComponent, AsyncPipe]
+   imports: [NgLetModule, SidebarComponent, GenerationConfigComponent, MatButton, GenerationOutputComponent, AsyncPipe],
+   providers: [JapaneseGeneratorService, RegularGeneratorService, SyllabicGeneratorService, LetterFinalizerService]
 })
 export class GenerationComponent {
    public readonly GENERATORS: { label: string; value: Generators }[] = [];
@@ -39,6 +42,8 @@ export class GenerationComponent {
       for (const generator of Object.values(Generators)) {
          this.GENERATORS.push({ label: generator, value: generator });
       }
+
+      VoicedUnvoicedPairsUtils.initPairs();
    }
 
    public generateName(generator: Generators): void {
