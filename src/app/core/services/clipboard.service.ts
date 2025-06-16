@@ -1,15 +1,13 @@
 import { Clipboard } from "@angular/cdk/clipboard";
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Injectable({
    providedIn: "root"
 })
 export class ClipboardService {
-   constructor(
-      private readonly clipboard: Clipboard,
-      private readonly snackbar: MatSnackBar
-   ) {}
+   private readonly clipboard = inject(Clipboard);
+   private readonly snackbar = inject(MatSnackBar);
 
    public copy(textToCopy: string, popupMessage?: string): void {
       this.clipboard.copy(textToCopy);

@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { ErrorMessageId, ErrorService } from "@ngen-core/error-handling";
 import { replaceLetter } from "@ngen-core/functions";
 import { RandomUtils } from "@ngen-core/utils";
@@ -8,9 +8,9 @@ import { LetterUtils, RegularUtils, VoicedUnvoicedPairsUtils } from "./utils";
 
 @Injectable()
 export class LetterFinalizerService {
-   private generationError: ErrorMessageId<"generation"> | null = null;
+   private readonly errorService = inject(ErrorService);
 
-   constructor(private readonly errorService: ErrorService) {}
+   private generationError: ErrorMessageId<"generation"> | null = null;
 
    public finalizeRegularLetters(regular: string, config: GenerationConfig): string {
       regular = this.finalizeWildcardRegulars(regular, config);

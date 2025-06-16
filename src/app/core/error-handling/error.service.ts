@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { capitalize } from "@ngen-core/functions";
 import { ErrorMessageId } from "./error-message-id";
@@ -9,7 +9,7 @@ import { ErrorSource } from "./error-source";
    providedIn: "root"
 })
 export class ErrorService {
-   constructor(private readonly errorSnackbar: MatSnackBar) {}
+   private readonly errorSnackbar = inject(MatSnackBar);
 
    /**
     * Pops up a snackbar displaying the given error message.

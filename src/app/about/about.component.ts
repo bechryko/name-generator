@@ -1,5 +1,5 @@
 import { AsyncPipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Router, RouterOutlet } from "@angular/router";
 import { SidebarComponent } from "@ngen-core/components";
@@ -16,6 +16,9 @@ import { AboutSubpages } from "./about-subpages";
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AboutComponent {
+   private readonly router = inject(Router);
+   private readonly pageStateHandlerService = inject(PageStateHandlerService);
+
    public readonly subpages: NgenSidebarSelectable<AboutSubpages>[] = [
       {
          label: "Introduction",
@@ -35,10 +38,7 @@ export class AboutComponent {
    ];
    public readonly currentSubpage$: Observable<AboutSubpages>;
 
-   constructor(
-      private readonly router: Router,
-      private readonly pageStateHandlerService: PageStateHandlerService
-   ) {
+   constructor() {
       this.currentSubpage$ = this.pageStateHandlerService.aboutSubpage$.pipe(
          takeUntilDestroyed(),
          tap(subpage => this.navigate(subpage))

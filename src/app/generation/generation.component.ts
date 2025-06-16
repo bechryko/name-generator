@@ -24,6 +24,9 @@ import { ConfigurationStoreService } from "./services";
    providers: [JapaneseGeneratorService, RegularGeneratorService, SyllabicGeneratorService, LetterFinalizerService]
 })
 export class GenerationComponent {
+   private readonly pageStateHandlerService = inject(PageStateHandlerService);
+   private readonly configurationStoreService = inject(ConfigurationStoreService);
+
    public readonly GENERATORS: { label: string; value: Generators }[] = [];
    public selectedGenerator$: Observable<Generators>;
    public generatedName?: Name;
@@ -34,10 +37,7 @@ export class GenerationComponent {
       [Generators.REGULAR]: inject(RegularGeneratorService)
    };
 
-   constructor(
-      private readonly pageStateHandlerService: PageStateHandlerService,
-      private readonly configurationStoreService: ConfigurationStoreService
-   ) {
+   constructor() {
       this.selectedGenerator$ = this.pageStateHandlerService.generator$;
       for (const generator of Object.values(Generators)) {
          this.GENERATORS.push({ label: generator, value: generator });

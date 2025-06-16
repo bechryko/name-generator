@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, input, output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, output, inject } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -24,6 +24,9 @@ interface InteractiveIconTypeDescription {
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InteractiveIconComponent {
+   private readonly pageStateHandlerService = inject(PageStateHandlerService);
+   private readonly clipboard = inject(ClipboardService);
+
    public readonly type = input.required<InteractiveIconType>();
    public readonly data = input<any>();
    public readonly tooltipPosition = input<TooltipPosition>("below");
@@ -44,10 +47,7 @@ export class InteractiveIconComponent {
       }
    };
 
-   constructor(
-      private readonly pageStateHandlerService: PageStateHandlerService,
-      private readonly clipboard: ClipboardService
-   ) {
+   constructor() {
       this.pageStateHandlerService.generator$.subscribe(this.selectedGenerator$);
    }
 

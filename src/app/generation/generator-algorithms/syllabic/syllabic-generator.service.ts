@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { capitalize, last } from "@ngen-core/functions";
 import { SyllabicName } from "@ngen-core/names";
 import { RandomUtils } from "@ngen-core/utils";
@@ -10,11 +10,11 @@ import { SYLLABIC_GENERATOR_VERSION } from "./syllabic-generator-version";
 
 @Injectable()
 export class SyllabicGeneratorService implements GeneratorService {
+   private readonly letterFinalizerService = inject(LetterFinalizerService);
+
    public readonly version = SYLLABIC_GENERATOR_VERSION;
 
    private readonly syllableLengthWeights = [0.1, 0.35, 0.5, 0.05];
-
-   constructor(private readonly letterFinalizerService: LetterFinalizerService) {}
 
    public generateName(config: GenerationConfig): SyllabicName {
       const length = RandomUtils.between(config.minLength, config.maxLength);

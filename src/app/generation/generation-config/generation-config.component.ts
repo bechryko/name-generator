@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, inject } from "@angular/core";
 import { NonNullableFormBuilder, ReactiveFormsModule } from "@angular/forms";
 import { InputComponent } from "@ngen-core/components";
 import { GenerationConfig } from "@ngen-generation/models/generation-config";
@@ -32,6 +32,9 @@ interface ConfigField {
    imports: [ReactiveFormsModule, InputComponent]
 })
 export class GenerationConfigComponent {
+   private readonly fb = inject(NonNullableFormBuilder);
+   private readonly configStoreService = inject(ConfigurationStoreService);
+
    public selectedGenerator: Generators = Generators.JAPANESE;
    @Input() set generator(value: Generators) {
       this.selectedGenerator = value;
@@ -94,10 +97,7 @@ export class GenerationConfigComponent {
       }
    ];
 
-   constructor(
-      private readonly fb: NonNullableFormBuilder,
-      private readonly configStoreService: ConfigurationStoreService
-   ) {
+   constructor() {
       const formGroupObject: Record<FieldName, {}> = {} as Record<FieldName, {}>;
       for (const field of this.configFields) {
          formGroupObject[field.name] = [null];

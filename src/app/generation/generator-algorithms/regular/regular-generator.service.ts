@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable, inject } from "@angular/core";
 import { capitalize } from "@ngen-core/functions";
 import { RegularName } from "@ngen-core/names";
 import { RandomUtils } from "@ngen-core/utils";
@@ -11,9 +11,9 @@ import { REGULAR_GENERATOR_VERSION } from "./regular-generator-version";
 
 @Injectable()
 export class RegularGeneratorService implements GeneratorService {
-   public readonly version = REGULAR_GENERATOR_VERSION;
+   private readonly letterFinalizerService = inject(LetterFinalizerService);
 
-   constructor(private readonly letterFinalizerService: LetterFinalizerService) {}
+   public readonly version = REGULAR_GENERATOR_VERSION;
 
    public generateName(config: GenerationConfig): RegularName {
       if (!config.regularNameBase) {
