@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, Component, input, output, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, input, output } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTooltipModule, TooltipPosition } from "@angular/material/tooltip";
 import { ClipboardService, PageStateHandlerService } from "@ngen-core/services";
 import { Generators } from "@ngen-generation/enums";
-import { NgLetModule } from "ng-let";
 import { BehaviorSubject } from "rxjs";
 
 type InteractiveIconType = "clipboard" | "saveName";
@@ -20,7 +19,7 @@ interface InteractiveIconTypeDescription {
    selector: "ngen-interactive-icon",
    templateUrl: "./interactive-icon.component.html",
    styleUrl: "./interactive-icon.component.scss",
-   imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatSnackBarModule, NgLetModule],
+   imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatSnackBarModule],
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InteractiveIconComponent {

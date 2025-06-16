@@ -4,7 +4,6 @@ import { MatButton } from "@angular/material/button";
 import { SidebarComponent } from "@ngen-core/components";
 import { Name } from "@ngen-core/names";
 import { PageStateHandlerService } from "@ngen-core/services";
-import { NgLetModule } from "ng-let";
 import { Observable } from "rxjs";
 import { Generators } from "./enums";
 import { GenerationConfigComponent } from "./generation-config/generation-config.component";
@@ -20,7 +19,7 @@ import { ConfigurationStoreService } from "./services";
    templateUrl: "./generation.component.html",
    styleUrl: "./generation.component.scss",
    changeDetection: ChangeDetectionStrategy.OnPush,
-   imports: [NgLetModule, SidebarComponent, GenerationConfigComponent, MatButton, GenerationOutputComponent, AsyncPipe],
+   imports: [SidebarComponent, GenerationConfigComponent, MatButton, GenerationOutputComponent, AsyncPipe],
    providers: [JapaneseGeneratorService, RegularGeneratorService, SyllabicGeneratorService, LetterFinalizerService]
 })
 export class GenerationComponent {
