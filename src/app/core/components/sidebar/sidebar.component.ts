@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, output } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { NgenSidebarSelectable } from "@ngen-core/models";
@@ -14,7 +14,7 @@ export class SidebarComponent<T> {
    public readonly selectableList = input.required<NgenSidebarSelectable<T>[]>();
    public readonly selectedValue = input<T>();
    public readonly placeholderText = input("");
-   @Output() select = new EventEmitter<T>();
+   public readonly select = output<T>();
 
    public onSelect(value: T): void {
       this.select.emit(value);

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, Input, input, output } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -27,7 +27,7 @@ export class InputComponent implements ControlValueAccessor {
       this.disabled = disabled;
    }
    public readonly disabledTooltip = input<string>();
-   @Output() blur: EventEmitter<void> = new EventEmitter<void>();
+   public readonly blur = output<void>();
    private _value: any;
    public onChange = (value: any) => {};
    public onTouched = () => {};

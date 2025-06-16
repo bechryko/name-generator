@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, Output, input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, output } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
@@ -27,7 +27,7 @@ export class InteractiveIconComponent {
    public readonly type = input.required<InteractiveIconType>();
    public readonly data = input<any>();
    public readonly tooltipPosition = input<TooltipPosition>("below");
-   @Output() click: EventEmitter<Event> = new EventEmitter<Event>();
+   public readonly click = output<Event>();
    private readonly selectedGenerator$ = new BehaviorSubject<Generators>(Generators.JAPANESE);
 
    public readonly ICONS: Record<InteractiveIconType, InteractiveIconTypeDescription> = {
