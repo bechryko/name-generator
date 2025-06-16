@@ -19,17 +19,13 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": [
-      "ES2022",
-      "dom"
-    ],
+    "lib": ["ES2022", "dom"],
     "baseUrl": "./src",
     "paths": {
       "@ngen-about/*": ["app/about/*"],
       "@ngen-core/*": ["app/core/*"],
-      "@ngen-database/*": ["app/database/*"],
       "@ngen-generation/*": ["app/generation/*"],
-      "@ngen-header/*": ["app/header/*"],
+      "@ngen-header/*": ["app/header/*"]
     }
   },
   "angularCompilerOptions": {

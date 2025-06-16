@@ -17,7 +17,6 @@ export class HeaderComponent {
    public readonly APP_NAME = APP_NAME;
    public readonly navMenuItems: NavMenuItem[] = [
       { label: "Generation", path: RouteUrls.GENERATION },
-      { label: "Database", path: RouteUrls.DATABASE },
       { label: "About", path: RouteUrls.ABOUT }
    ];
 
