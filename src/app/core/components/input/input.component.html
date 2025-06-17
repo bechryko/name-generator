@@ -1,29 +1,29 @@
 <div id="ngen-input-wrapper">
-   @if (type === "number" || type === "text") {
+   @if (type() === "number" || type() === "text") {
       <mat-form-field>
-         <mat-label>{{ label }}</mat-label>
+         <mat-label>{{ label() }}</mat-label>
          <input
             matInput
-            [type]="type"
+            [type]="type()"
+            [value]="value()"
+            [disabled]="disabled()"
             (blur)="onInputBlur()"
-            [value]="value"
-            [disabled]="disabled"
             (change)="onInputValueChange($event)" />
       </mat-form-field>
-   } @else if (type === "checkbox") {
+   } @else if (type() === "checkbox") {
       <mat-checkbox
+         [checked]="value()"
+         [disabled]="disabled()"
          (blur)="onInputBlur()"
-         [checked]="value"
-         [disabled]="disabled"
          (change)="onCheckboxValueChange($event)"
-         >{{ label }}</mat-checkbox
+         >{{ label() }}</mat-checkbox
       >
    }
-   @if (disabled) {
+   @if (disabled()) {
       <span
          class="disabled-state-indicator"
-         [matTooltipDisabled]="!disabledTooltip"
-         [matTooltip]="disabledTooltip!"
+         [matTooltipDisabled]="!disabledTooltip()"
+         [matTooltip]="disabledTooltip()!"
          matTooltipPosition="below"
          >🚫</span
       >

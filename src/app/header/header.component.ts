@@ -1,7 +1,8 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { MatButton } from "@angular/material/button";
 import { Router } from "@angular/router";
 import { APP_NAME } from "@ngen-core/constants";
-import { RouteUrls } from "@ngen-core/enums";
+import { RouteUrl } from "@ngen-core/enums";
 
 interface NavMenuItem {
    label: string;
@@ -12,16 +13,17 @@ interface NavMenuItem {
    selector: "ngen-header",
    templateUrl: "./header.component.html",
    styleUrl: "./header.component.scss",
-   changeDetection: ChangeDetectionStrategy.OnPush
+   changeDetection: ChangeDetectionStrategy.OnPush,
+   imports: [MatButton]
 })
 export class HeaderComponent {
+   private readonly router = inject(Router);
+
    public readonly APP_NAME = APP_NAME;
    public readonly navMenuItems: NavMenuItem[] = [
-      { label: "Generation", path: RouteUrls.GENERATION },
-      { label: "About", path: RouteUrls.ABOUT }
+      { label: "Generation", path: RouteUrl.GENERATION },
+      { label: "About", path: RouteUrl.ABOUT }
    ];
-
-   constructor(private readonly router: Router) {}
 
    public navigateTo(path: string): void {
       this.router.navigateByUrl(path);

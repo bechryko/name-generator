@@ -1,5 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { NonNullableFormBuilder } from "@angular/forms";
+import { ChangeDetectionStrategy, Component, Input, WritableSignal, computed, inject, signal } from "@angular/core";
+import { InputComponent } from "@ngen-core/components";
 import { GenerationConfig } from "@ngen-generation/models/generation-config";
 import { ConfigurationStoreService } from "@ngen-generation/services";
 import { Generators } from "../enums";
@@ -14,12 +14,16 @@ import { GenerationConfigUtils, InputFormatUtils } from "./utils";
 
 type FieldName = keyof GenerationConfig;
 
+interface FieldData<FN extends FieldName> {
+   value: WritableSignal<GenerationConfig[FN]>;
+   disabled: WritableSignal<boolean>;
+}
+
 interface ConfigField {
    name: FieldName;
    label: string;
    type: "number" | "text" | "checkbox";
    formatter?: (input: any) => any;
-   disabled?: boolean;
    disabledTooltip?: string;
 }
 
@@ -27,9 +31,12 @@ interface ConfigField {
    selector: "ngen-generation-config",
    templateUrl: "./generation-config.component.html",
    styleUrl: "./generation-config.component.scss",
-   changeDetection: ChangeDetectionStrategy.OnPush
+   changeDetection: ChangeDetectionStrategy.OnPush,
+   imports: [InputComponent]
 })
 export class GenerationConfigComponent {
+   private readonly configStoreService = inject(ConfigurationStoreService);
+
    public selectedGenerator: Generators = Generators.JAPANESE;
    @Input() set generator(value: Generators) {
       this.selectedGenerator = value;
@@ -39,9 +46,7 @@ export class GenerationConfigComponent {
       }
    }
 
-   public readonly configForm;
-
-   public configFields: ConfigField[] = [
+   public readonly configFields: ConfigField[] = [
       {
          name: "minLength",
          label: "Minimum length",
@@ -91,29 +96,37 @@ export class GenerationConfigComponent {
          disabledTooltip: "If you specified either a start or an end of a name, you cannot set the whole skeleton"
       }
    ];
+   public readonly configFieldsData: Record<FieldName, FieldData<FieldName>>;
+   private readonly configObject = computed(() =>
+      Object.entries(this.configFieldsData).reduce(
+         (previous, [fieldName, fieldData]) => ({
+            ...previous,
+            [fieldName]: fieldData.value()
+         }),
+         {} as GenerationConfig
+      )
+   );
 
-   constructor(
-      private readonly fb: NonNullableFormBuilder,
-      private readonly configStoreService: ConfigurationStoreService
-   ) {
-      const formGroupObject: Record<FieldName, {}> = {} as Record<FieldName, {}>;
-      for (const field of this.configFields) {
-         formGroupObject[field.name] = [null];
-      }
-      this.configForm = this.fb.group(formGroupObject);
+   constructor() {
+      this.configFieldsData = this.configFields.reduce(
+         (previous, field) => ({
+            ...previous,
+            [field.name]: {
+               value: signal(null),
+               disabled: signal(false)
+            }
+         }),
+         {} as any
+      );
    }
 
    public onBlur(field: ConfigField): void {
       this.correctFieldValue(field);
-      this.configStoreService.saveConfig(this.selectedGenerator, this.configObject);
+      this.configStoreService.saveConfig(this.selectedGenerator, this.configObject());
    }
 
    public getBounds(property: BoundedConfigProperty): Partial<PropertyBounds> {
       return GenerationConfigUtils.getConfigPropertyBounds(property);
-   }
-
-   get configObject(): GenerationConfig {
-      return this.configForm.value as GenerationConfig;
    }
 
    get generatorConfigFields(): GeneratorConfigFields {
@@ -121,20 +134,20 @@ export class GenerationConfigComponent {
    }
 
    private correctFieldValue(field: ConfigField): void {
-      if (!this.configObject[field.name]) {
+      if (!this.configFieldsData[field.name].value()) {
          this.resetField(field.name);
       } else if (field.formatter) {
-         this.setFormFieldValue(field.name, field.formatter(this.configObject[field.name]));
+         this.setFormFieldValue(field.name, field.formatter(this.configFieldsData[field.name].value()));
       }
 
       if (field.name === "minLength") {
          const minBound = this.getBounds(
             this.selectedGenerator === Generators.REGULAR ? "lengthInLetters" : "lengthInSyllables"
          ).min!;
-         if (this.configObject.minLength < minBound) {
+         if ((this.configFieldsData.minLength.value() as number) < minBound) {
             this.setFormFieldValue("minLength", minBound);
          }
-         if (this.configObject.minLength > this.configObject.maxLength) {
+         if (this.configFieldsData.minLength.value() > this.configFieldsData.maxLength.value()) {
             this.swapFieldValues("minLength", "maxLength");
             this.correctFieldValue(this.getField("maxLength"));
          }
@@ -144,10 +157,10 @@ export class GenerationConfigComponent {
          const maxBound = this.getBounds(
             this.selectedGenerator === Generators.REGULAR ? "lengthInLetters" : "lengthInSyllables"
          ).max!;
-         if (this.configObject.maxLength > maxBound) {
+         if ((this.configFieldsData.maxLength.value() as number) > maxBound) {
             this.setFormFieldValue("maxLength", maxBound);
          }
-         if (this.configObject.minLength > this.configObject.maxLength) {
+         if (this.configFieldsData.minLength.value() > this.configFieldsData.maxLength.value()) {
             this.swapFieldValues("minLength", "maxLength");
             this.correctFieldValue(this.getField("minLength"));
          }
@@ -155,41 +168,37 @@ export class GenerationConfigComponent {
 
       if (field.name === "excludedLetters" || field.name === "includedLetters") {
          const otherName = field.name === "excludedLetters" ? "includedLetters" : "excludedLetters";
-         this.getField(otherName).disabled = Boolean(this.configObject[field.name]);
+         this.configFieldsData[otherName].disabled.set(Boolean(this.configFieldsData[field.name].value()));
       }
 
       if (field.name === "regularNameStart" || field.name === "regularNameEnd") {
-         this.getField("regularNameBase").disabled = Boolean(
-            this.configObject.regularNameStart || this.configObject.regularNameEnd
+         this.configFieldsData["regularNameBase"].disabled.set(
+            Boolean(this.configFieldsData.regularNameStart.value() || this.configFieldsData.regularNameEnd.value())
          );
       }
 
       if (field.name === "regularNameBase") {
-         this.getField("minLength").disabled =
-            this.getField("maxLength").disabled =
-            this.getField("regularNameStart").disabled =
-            this.getField("regularNameEnd").disabled =
-               Boolean(this.configObject.regularNameBase);
+         const disabledState = Boolean(this.configFieldsData.regularNameBase.value());
+         this.configFieldsData.minLength.disabled.set(disabledState);
+         this.configFieldsData.maxLength.disabled.set(disabledState);
+         this.configFieldsData.regularNameStart.disabled.set(disabledState);
+         this.configFieldsData.regularNameEnd.disabled.set(disabledState);
       }
    }
 
    private setFormFieldValue(fieldName: FieldName, value: GenerationConfig[FieldName]): void {
-      this.configForm.setValue(
-         {
-            ...this.configObject,
-            [fieldName]: value
-         },
-         { emitEvent: false }
-      );
+      this.configFieldsData[fieldName].value.set(value);
    }
 
    private setConfigValue(newConfig: GenerationConfig): void {
-      this.configForm.setValue(newConfig, { emitEvent: false });
+      Object.entries(newConfig).forEach(([fieldName, fieldValue]) => {
+         this.configFieldsData[fieldName as FieldName].value.set(fieldValue);
+      });
    }
 
    private swapFieldValues(field1: FieldName, field2: FieldName): void {
-      const tmp = this.configObject[field1];
-      this.setFormFieldValue(field1, this.configObject[field2]);
+      const tmp = this.configFieldsData[field1].value();
+      this.setFormFieldValue(field1, this.configFieldsData[field2].value());
       this.setFormFieldValue(field2, tmp);
    }
 

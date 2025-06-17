@@ -1,12 +1,10 @@
-import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, input, output } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MatTooltipModule, TooltipPosition } from "@angular/material/tooltip";
 import { ClipboardService, PageStateHandlerService } from "@ngen-core/services";
 import { Generators } from "@ngen-generation/enums";
-import { NgLetModule } from "ng-let";
 import { BehaviorSubject } from "rxjs";
 
 type InteractiveIconType = "clipboard" | "saveName";
@@ -21,15 +19,17 @@ interface InteractiveIconTypeDescription {
    selector: "ngen-interactive-icon",
    templateUrl: "./interactive-icon.component.html",
    styleUrl: "./interactive-icon.component.scss",
-   imports: [CommonModule, MatButtonModule, MatIconModule, MatTooltipModule, MatSnackBarModule, NgLetModule],
-   changeDetection: ChangeDetectionStrategy.OnPush,
-   standalone: true
+   imports: [MatButtonModule, MatIconModule, MatTooltipModule, MatSnackBarModule],
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InteractiveIconComponent {
-   @Input() type: InteractiveIconType = "clipboard";
-   @Input() data: any;
-   @Input() tooltipPosition: "above" | "below" | "left" | "right" = "below";
-   @Output() click: EventEmitter<Event> = new EventEmitter<Event>();
+   private readonly pageStateHandlerService = inject(PageStateHandlerService);
+   private readonly clipboard = inject(ClipboardService);
+
+   public readonly type = input.required<InteractiveIconType>();
+   public readonly data = input<any>();
+   public readonly tooltipPosition = input<TooltipPosition>("below");
+   public readonly click = output<Event>();
    private readonly selectedGenerator$ = new BehaviorSubject<Generators>(Generators.JAPANESE);
 
    public readonly ICONS: Record<InteractiveIconType, InteractiveIconTypeDescription> = {
@@ -46,15 +46,12 @@ export class InteractiveIconComponent {
       }
    };
 
-   constructor(
-      private readonly pageStateHandlerService: PageStateHandlerService,
-      private readonly clipboard: ClipboardService
-   ) {
+   constructor() {
       this.pageStateHandlerService.generator$.subscribe(this.selectedGenerator$);
    }
 
    public onClick(event: Event): void {
       this.click.emit(event);
-      this.ICONS[this.type].clickEvent?.(this.data);
+      this.ICONS[this.type()].clickEvent?.(this.data());
    }
 }

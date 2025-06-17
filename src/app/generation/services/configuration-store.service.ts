@@ -7,7 +7,9 @@ import {
 } from "@ngen-generation/generation-config/default-configs";
 import { GenerationConfig } from "@ngen-generation/models";
 
-@Injectable()
+@Injectable({
+   providedIn: "root"
+})
 export class ConfigurationStoreService {
    private readonly storedConfigs: Record<Generators, GenerationConfig> = {
       [Generators.JAPANESE]: japaneseDefaultConfig,

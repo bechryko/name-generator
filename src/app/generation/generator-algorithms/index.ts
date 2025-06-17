@@ -1,5 +1,3 @@
-export { GeneratorAlgorithmsModule } from "./generator-algorithms.module";
-
 export { JAPANESE_GENERATOR_VERSION } from "./japanese/japanese-generator-version";
 export { JapaneseGeneratorService } from "./japanese/japanese-generator.service";
 

@@ -1,5 +1,4 @@
-import { CommonModule } from "@angular/common";
-import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, model, output } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -11,7 +10,7 @@ import { InputType } from "./input-type";
    selector: "ngen-input",
    templateUrl: "./input.component.html",
    styleUrl: "./input.component.scss",
-   imports: [CommonModule, MatFormFieldModule, MatInputModule, MatCheckboxModule, MatTooltipModule],
+   imports: [MatFormFieldModule, MatInputModule, MatCheckboxModule, MatTooltipModule],
    providers: [
       {
          provide: NG_VALUE_ACCESSOR,
@@ -19,29 +18,21 @@ import { InputType } from "./input-type";
          useExisting: InputComponent
       }
    ],
-   changeDetection: ChangeDetectionStrategy.OnPush,
-   standalone: true
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InputComponent implements ControlValueAccessor {
-   @Input() label: string = "";
-   @Input() type: InputType = "text";
-   @Input() set ngenDisabled(disabled: boolean) {
-      this.disabled = disabled;
-   }
-   @Input() disabledTooltip?: string;
-   @Output() blur: EventEmitter<void> = new EventEmitter<void>();
-   private _value: any;
+   public readonly label = input("");
+   public readonly type = input<InputType>("text");
+   public readonly value = model<any>();
+   public readonly disabled = model(false);
+   public readonly disabledTooltip = input<string>();
+   public readonly blur = output<void>();
    public onChange = (value: any) => {};
    public onTouched = () => {};
    public touched = false;
-   public disabled = false;
 
    public writeValue(value: any): void {
-      this._value = value;
-   }
-
-   public get value(): any {
-      return this._value;
+      this.value.set(value);
    }
 
    public registerOnChange(onChange: typeof this.onChange): void {
@@ -60,7 +51,7 @@ export class InputComponent implements ControlValueAccessor {
    }
 
    public setDisabledState(disabled: boolean): void {
-      this.disabled = disabled;
+      this.disabled.set(disabled);
    }
 
    public onInputBlur(): void {
@@ -70,7 +61,7 @@ export class InputComponent implements ControlValueAccessor {
 
    public onInputValueChange(event: any): void {
       let value = event.target.value;
-      if (this.type === "number") {
+      if (this.type() === "number") {
          value = Number(value);
       }
       this.onChange(value);
