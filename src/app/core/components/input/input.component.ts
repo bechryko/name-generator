@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, input, output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, input, model, output } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -23,23 +23,16 @@ import { InputType } from "./input-type";
 export class InputComponent implements ControlValueAccessor {
    public readonly label = input("");
    public readonly type = input<InputType>("text");
-   @Input() set ngenDisabled(disabled: boolean) {
-      this.disabled = disabled;
-   }
+   public readonly value = model<any>();
+   public readonly disabled = model(false);
    public readonly disabledTooltip = input<string>();
    public readonly blur = output<void>();
-   private _value: any;
    public onChange = (value: any) => {};
    public onTouched = () => {};
    public touched = false;
-   public disabled = false;
 
    public writeValue(value: any): void {
-      this._value = value;
-   }
-
-   public get value(): any {
-      return this._value;
+      this.value.set(value);
    }
 
    public registerOnChange(onChange: typeof this.onChange): void {
@@ -58,7 +51,7 @@ export class InputComponent implements ControlValueAccessor {
    }
 
    public setDisabledState(disabled: boolean): void {
-      this.disabled = disabled;
+      this.disabled.set(disabled);
    }
 
    public onInputBlur(): void {

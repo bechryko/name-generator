@@ -1,16 +1,16 @@
 <form
    id="generation-config-wrapper"
-   [formGroup]="configForm"
    autocomplete="off">
    <fieldset>
       <legend>Generation configuration</legend>
       @for (field of configFields; track $index) {
          @if (generatorConfigFields[field.name]) {
+            @let configFieldData = configFieldsData[field.name];
             <ngen-input
-               [formControlName]="field.name"
+               [(disabled)]="configFieldData.disabled"
+               [(value)]="configFieldData.value"
                [label]="field.label"
                [type]="field.type"
-               [ngenDisabled]="field.disabled ?? false"
                [disabledTooltip]="field.disabledTooltip"
                (blur)="onBlur(field)"></ngen-input>
          }
