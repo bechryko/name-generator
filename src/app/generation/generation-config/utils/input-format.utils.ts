@@ -2,14 +2,6 @@ import { capitalize, replaceLetter } from "@ngen-core/functions";
 import { LetterUtils, RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 
 export class InputFormatUtils {
-   public static formatLetterSetInput(input: string): string {
-      input = input.toLowerCase();
-      input = this.deleteNonLetters(input);
-      input = this.deleteDuplicateCharacters(input);
-      input = this.sortCharacters(input);
-      return input;
-   }
-
    public static formatRegularInput(input: string, nameStarting = false): string {
       input = input.toLowerCase();
       input = this.fixReferences(input);
@@ -18,16 +10,6 @@ export class InputFormatUtils {
          input = capitalize(input);
       }
       return input;
-   }
-
-   private static deleteNonLetters(input: string): string {
-      let output = "";
-      for (let i = 0; i < input.length; i++) {
-         if (LetterUtils.is("letter", input[i])) {
-            output += input[i];
-         }
-      }
-      return output;
    }
 
    private static deleteNonRegulars(input: string): string {
@@ -90,19 +72,5 @@ export class InputFormatUtils {
          }
       }
       return output;
-   }
-
-   private static deleteDuplicateCharacters(input: string): string {
-      let output = "";
-      for (let i = 0; i < input.length; i++) {
-         if (!output.includes(input[i])) {
-            output += input[i];
-         }
-      }
-      return output;
-   }
-
-   private static sortCharacters(input: string): string {
-      return input.split("").sort().join("");
    }
 }

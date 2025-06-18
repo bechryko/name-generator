@@ -1,11 +1,11 @@
 <div id="ngen-input-wrapper">
-   @if (type() === "number" || type() === "text") {
+   @if (type() === "number" || type() === "text" || type() === "letter-set") {
       <mat-form-field>
          <mat-label>{{ label() }}</mat-label>
          <input
             matInput
-            [type]="type()"
-            [value]="value()"
+            type="text"
+            [value]="displayValue()"
             [disabled]="disabled()"
             (blur)="onInputBlur()"
             (change)="onInputValueChange($event)" />

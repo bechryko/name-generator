@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, WritableSignal, computed, inject, signal } from "@angular/core";
 import { InputComponent } from "@ngen-core/components";
+import { InputType } from "@ngen-core/components/input";
+import { LetterSet } from "@ngen-core/models/letter-set";
 import { GenerationConfig } from "@ngen-generation/models/generation-config";
 import { ConfigurationStoreService } from "@ngen-generation/services";
 import { Generators } from "../enums";
@@ -22,7 +24,7 @@ interface FieldData<FN extends FieldName> {
 interface ConfigField {
    name: FieldName;
    label: string;
-   type: "number" | "text" | "checkbox";
+   type: InputType;
    formatter?: (input: any) => any;
    disabledTooltip?: string;
 }
@@ -60,15 +62,13 @@ export class GenerationConfigComponent {
       {
          name: "excludedLetters",
          label: "Excluded letters",
-         type: "text",
-         formatter: InputFormatUtils.formatLetterSetInput.bind(InputFormatUtils),
+         type: "letter-set",
          disabledTooltip: "You cannot use the Excluded letters and the Included letters fields simultaneously"
       },
       {
          name: "includedLetters",
          label: "Included letters",
-         type: "text",
-         formatter: InputFormatUtils.formatLetterSetInput.bind(InputFormatUtils),
+         type: "letter-set",
          disabledTooltip: "You cannot use the Included letters and the Excluded letters fields simultaneously"
       },
       {
@@ -168,7 +168,8 @@ export class GenerationConfigComponent {
 
       if (field.name === "excludedLetters" || field.name === "includedLetters") {
          const otherName = field.name === "excludedLetters" ? "includedLetters" : "excludedLetters";
-         this.configFieldsData[otherName].disabled.set(Boolean(this.configFieldsData[field.name].value()));
+         const fieldValue = this.configFieldsData[field.name].value() as LetterSet;
+         this.configFieldsData[otherName].disabled.set(!fieldValue.isEmpty());
       }
 
       if (field.name === "regularNameStart" || field.name === "regularNameEnd") {

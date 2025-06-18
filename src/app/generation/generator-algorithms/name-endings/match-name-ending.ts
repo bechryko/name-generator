@@ -46,16 +46,14 @@ function matchRegularNameObjectNameEnding(regular: RegularNameObject, config: Ge
 
 function getFilteredNameEndings(config: GenerationConfig): string[] {
    let endings = nameEndings;
-   if (config.excludedLetters.length) {
-      endings = endings.filter(ending => config.excludedLetters.split("").every(letter => !ending.includes(letter)));
+   if (!config.excludedLetters.isEmpty()) {
+      endings = endings.filter(ending => !config.excludedLetters.includesLetterFrom(ending));
    }
-   if (config.includedLetters.length) {
+   if (!config.includedLetters.isEmpty()) {
       endings = endings.filter(ending =>
          ending
             .split("")
-            .every(
-               endingLetter => !LetterUtils.is("letter", endingLetter) || config.includedLetters.includes(endingLetter)
-            )
+            .every(endingLetter => !LetterUtils.is("letter", endingLetter) || config.includedLetters.has(endingLetter))
       );
    }
    return endings;

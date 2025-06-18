@@ -89,17 +89,18 @@ export class LetterFinalizerService {
       const randConfig: RandomLetterConfig = {};
 
       if (latestLetter) {
-         if (!genConfig.ignoreVoicedUnvoicedPairs) {
-            genConfig.excludedLetters += VoicedUnvoicedPairsUtils.pairOf(latestLetter) ?? "";
+         const pair = VoicedUnvoicedPairsUtils.pairOf(latestLetter);
+         if (!genConfig.ignoreVoicedUnvoicedPairs && pair) {
+            genConfig.excludedLetters.add(pair);
          }
       }
 
       if (genConfig.excludedLetters) {
          if (
-            LetterUtils.numberOf("vowel", genConfig.excludedLetters) < LetterUtils.numberOf("vowel") &&
-            LetterUtils.numberOf("consonant", genConfig.excludedLetters) < LetterUtils.numberOf("consonant")
+            LetterUtils.numberOf("vowel", genConfig.excludedLetters.toString()) < LetterUtils.numberOf("vowel") &&
+            LetterUtils.numberOf("consonant", genConfig.excludedLetters.toString()) < LetterUtils.numberOf("consonant")
          ) {
-            randConfig.excluded = genConfig.excludedLetters;
+            randConfig.excluded = genConfig.excludedLetters.toString();
          } else {
             this.generationError = "LETTER_SET_DEPLETED";
          }
@@ -107,10 +108,10 @@ export class LetterFinalizerService {
 
       if (genConfig.includedLetters) {
          if (
-            LetterUtils.numberOf("vowel", genConfig.includedLetters) > 0 &&
-            LetterUtils.numberOf("consonant", genConfig.includedLetters) > 0
+            LetterUtils.numberOf("vowel", genConfig.includedLetters.toString()) > 0 &&
+            LetterUtils.numberOf("consonant", genConfig.includedLetters.toString()) > 0
          ) {
-            randConfig.included = genConfig.includedLetters;
+            randConfig.included = genConfig.includedLetters.toString();
          } else {
             this.generationError = "LETTER_SET_DEPLETED";
          }
