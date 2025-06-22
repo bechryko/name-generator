@@ -1,5 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { capitalize, last } from "@ngen-core/functions";
+import { RegularString } from "@ngen-core/models";
 import { SyllabicName } from "@ngen-core/names";
 import { RandomUtils } from "@ngen-core/utils";
 import { GenerationConfig } from "@ngen-generation/models";
@@ -20,15 +21,15 @@ export class SyllabicGeneratorService implements GeneratorService {
       const length = RandomUtils.between(config.minLength, config.maxLength);
       const name: SyllabicName = {
          name: "",
-         regularBase: "",
+         regularBase: new RegularString(),
          syllabic: [],
          regularSyllabic: []
       };
 
-      let lastSyllable = "";
+      let lastSyllable: RegularString | null = null;
       for (let i = 0; i < length; i++) {
          const weights = [...this.syllableLengthWeights];
-         if (lastSyllable.length <= 2) {
+         if (!lastSyllable || lastSyllable.length <= 2) {
             weights[0] = weights[0] / (weights[0] + weights[1]);
          } else {
             weights[0] = 0;
@@ -41,7 +42,9 @@ export class SyllabicGeneratorService implements GeneratorService {
       name.regularBase = matchNameEnding(name.regularBase, config);
 
       try {
-         name.name = this.letterFinalizerService.finalizeRegularLetters(name.regularBase, config);
+         const finalizedRegular = name.regularBase.clone();
+         this.letterFinalizerService.finalizeRegularString(finalizedRegular, config);
+         name.name = finalizedRegular.toString();
       } catch (e) {
          console.error("error while finalizing name", name.regularBase, e); //TODO: handling
       }
@@ -65,7 +68,7 @@ export class SyllabicGeneratorService implements GeneratorService {
       for (let j = 2; j < syllableSize; j++) {
          regular += "-";
       }
-      name.regularBase += regular;
-      name.regularSyllabic.push(regular);
+      name.regularBase.append(regular);
+      name.regularSyllabic.push(new RegularString(regular));
    }
 }

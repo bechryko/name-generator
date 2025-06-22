@@ -4,6 +4,7 @@ import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { RegularString } from "@ngen-core/models";
 import { LetterSet } from "@ngen-core/models/letter-set";
 import { InputType } from "./input-type";
 
@@ -76,6 +77,8 @@ export class InputComponent implements ControlValueAccessor {
       switch (this.type()) {
          case "letter-set":
             return (value as LetterSet).toString();
+         case "regular-string":
+            return (value as RegularString).toString();
          default:
             return value;
       }
@@ -87,6 +90,8 @@ export class InputComponent implements ControlValueAccessor {
             return Number(value);
          case "letter-set":
             return new LetterSet(value);
+         case "regular-string":
+            return new RegularString(value);
          default:
             return value;
       }
