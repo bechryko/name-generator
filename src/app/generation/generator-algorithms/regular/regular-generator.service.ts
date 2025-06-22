@@ -24,7 +24,7 @@ export class RegularGeneratorService implements GeneratorService {
       } catch (e) {
          console.error("error while finalizing name", regular, e); //TODO: handling
       }
-      const name = capitalize(regular.toString());
+      const name = capitalize(regular.getValue());
       return { name, regularBase };
    }
 

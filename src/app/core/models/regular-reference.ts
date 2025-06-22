@@ -23,7 +23,7 @@ export class RegularReference extends RegularCharacter {
 
    public assignRegularString(regularString: RegularString): boolean {
       if (this.regularString) {
-         const newIndexInOld = regularString.toRawString().indexOf(this.regularString.toRawString());
+         const newIndexInOld = regularString.toString().indexOf(this.regularString.toString());
          if (newIndexInOld !== -1) {
             this.referenceIndex += newIndexInOld;
          } else {

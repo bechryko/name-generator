@@ -44,7 +44,7 @@ export class SyllabicGeneratorService implements GeneratorService {
       try {
          const finalizedRegular = name.regularBase.clone();
          this.letterFinalizerService.finalizeRegularString(finalizedRegular, config);
-         name.name = finalizedRegular.toString();
+         name.name = finalizedRegular.getValue();
       } catch (e) {
          console.error("error while finalizing name", name.regularBase, e); //TODO: handling
       }

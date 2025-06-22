@@ -58,7 +58,7 @@ export class RegularString {
          const otherChar = regularOther.characters[i];
          if (!char.doesMatch(otherChar)) {
             throw new Error(
-               `Cannot match '${regularOther.toRawString()}' to '${this.toRawString()}' from position ${startIndex}!`
+               `Cannot match '${regularOther.toString()}' to '${this.toString()}' from position ${startIndex}!`
             );
          }
 
@@ -78,16 +78,16 @@ export class RegularString {
       return this.characters.length;
    }
 
-   public toString(): string {
+   public getValue(): string {
       return this.characters.map(c => c.getValue()).join("");
    }
 
-   public toRawString(): string {
+   public toString(): string {
       return this.characters.map(c => c.toString()).join("");
    }
 
    public clone(): RegularString {
-      return new RegularString(this.toRawString());
+      return new RegularString(this.toString());
    }
 
    private assignReferences(): void {

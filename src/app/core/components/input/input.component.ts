@@ -78,7 +78,7 @@ export class InputComponent implements ControlValueAccessor {
          case "letter-set":
             return (value as LetterSet).toString();
          case "regular-string":
-            return (value as RegularString).toRawString();
+            return (value as RegularString).toString();
          default:
             return value;
       }
