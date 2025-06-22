@@ -1,3 +1,4 @@
+import { RegularCharacterPriority } from "@ngen-core/enums";
 import { LetterUtils, RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 
 enum RegularCharacterType {
@@ -6,17 +7,9 @@ enum RegularCharacterType {
    REFERENCE
 }
 
-enum RegularCharacterPriority {
-   WILDCARD = 0,
-   OTHER_BASIC_REGULAR = 1,
-   LETTER = 2,
-   REFERENCE = 3
-}
-
 export class RegularCharacter {
    private type!: RegularCharacterType;
    private letter!: string;
-   private reference!: number;
 
    constructor(character: string) {
       this.assign(character);
@@ -26,18 +19,13 @@ export class RegularCharacter {
       character = character[0];
 
       if (RegularUtils.isReference(character)) {
-         this.type = RegularCharacterType.REFERENCE;
-         this.letter = "";
-         this.reference = Number(character);
+         throw new Error("Basic regular character cannot be a reference!");
       } else if (RegularUtils.isBasicRegular(character)) {
          this.type = RegularCharacterType.REGULAR;
-         this.letter = character;
-         this.reference = -1;
       } else {
          this.type = RegularCharacterType.LETTER;
-         this.letter = character;
-         this.reference = -1;
       }
+      this.letter = character;
    }
 
    public doesMatch(character: RegularCharacter): boolean {
@@ -77,7 +65,7 @@ export class RegularCharacter {
    }
 
    public get isReference(): boolean {
-      return this.reference !== -1;
+      return false;
    }
 
    public get priority(): number {
@@ -90,16 +78,17 @@ export class RegularCharacter {
             }
          case RegularCharacterType.LETTER:
             return RegularCharacterPriority.LETTER;
-         case RegularCharacterType.REFERENCE:
-            return RegularCharacterPriority.REFERENCE;
       }
+
+      throw new Error(`Unknown type for regular character: ${this.type}`);
    }
 
    public toString(): string {
-      if (this.isReference) {
-         return String(this.reference);
-      }
       return this.letter;
+   }
+
+   public getValue(): string {
+      return this.toString();
    }
 
    public clone(): RegularCharacter {

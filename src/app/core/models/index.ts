@@ -2,5 +2,6 @@
 export { LetterSet } from "./letter-set";
 export { NgenSidebarSelectable } from "./ngen-sidebar-selectable";
 export { RegularCharacter } from "./regular-character";
+export { RegularReference } from "./regular-reference";
 export { RegularString } from "./regular-string";
 //@endindex

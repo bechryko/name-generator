@@ -1,5 +1,6 @@
 import { RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 import { RegularCharacter } from "./regular-character";
+import { RegularReference } from "./regular-reference";
 
 export class RegularString {
    private readonly characters: RegularCharacter[] = [];
@@ -10,15 +11,17 @@ export class RegularString {
       }
 
       this.characters.push(...RegularUtils.parseStringToRegularCharacters(str));
+      this.assignReferences();
    }
 
    public append(str: string | RegularString): void {
       const regular = typeof str === "string" ? new RegularString(str) : str;
       this.characters.push(...regular.characters);
+      this.assignReferences();
    }
 
    public substring(start: number, end?: number): RegularString {
-      return new RegularString(this.toString().substring(start, end));
+      return new RegularString(this.toRawString().substring(start, end));
    }
 
    public ending(size: number): RegularString {
@@ -50,7 +53,7 @@ export class RegularString {
          const otherChar = regularOther.characters[i];
          if (!char.doesMatch(otherChar)) {
             throw new Error(
-               `Cannot match '${regularOther.toString()}' to '${this.toString()}' from position ${startIndex}!`
+               `Cannot match '${regularOther.toRawString()}' to '${this.toRawString()}' from position ${startIndex}!`
             );
          }
 
@@ -68,10 +71,22 @@ export class RegularString {
    }
 
    public toString(): string {
-      return this.characters.map(c => String(c)).join("");
+      return this.characters.map(c => c.getValue()).join("");
+   }
+
+   public toRawString(): string {
+      return this.characters.map(c => c.toString()).join("");
    }
 
    public clone(): RegularString {
-      return new RegularString(this.toString());
+      return new RegularString(this.toRawString());
+   }
+
+   private assignReferences(): void {
+      this.characters.forEach(char => {
+         if (char instanceof RegularReference) {
+            char.assignRegularString(this);
+         }
+      });
    }
 }

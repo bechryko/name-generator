@@ -1,5 +1,5 @@
 import { replaceLetter } from "@ngen-core/functions";
-import { RegularCharacter } from "@ngen-core/models";
+import { RegularCharacter, RegularReference } from "@ngen-core/models";
 import { LetterUtils } from "./letter.utils";
 
 export class RegularUtils {
@@ -24,7 +24,13 @@ export class RegularUtils {
    public static parseStringToRegularCharacters(str: string): RegularCharacter[] {
       return this.deleteNonRegulars(this.fixReferences(str.toLowerCase()))
          .split("")
-         .map(char => new RegularCharacter(char));
+         .map(char => {
+            if (this.isReference(char)) {
+               return new RegularReference(Number(char));
+            } else {
+               return new RegularCharacter(char);
+            }
+         });
    }
 
    private static deleteNonRegulars(input: string): string {
