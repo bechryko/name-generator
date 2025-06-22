@@ -1,8 +1,9 @@
 import { Injectable, inject } from "@angular/core";
 import { capitalize } from "@ngen-core/functions";
+import { RegularString } from "@ngen-core/models";
 import { RegularName } from "@ngen-core/names";
 import { RandomUtils } from "@ngen-core/utils";
-import { GenerationConfig, RegularNameObject } from "@ngen-generation/models";
+import { GenerationConfig } from "@ngen-generation/models";
 import { GeneratorService } from "../generator-service.model";
 import { LetterFinalizerService } from "../letter-finalization/letter-finalizer.service";
 import { RegularUtils } from "../letter-finalization/utils";
@@ -16,40 +17,28 @@ export class RegularGeneratorService implements GeneratorService {
    public readonly version = REGULAR_GENERATOR_VERSION;
 
    public generateName(config: GenerationConfig): RegularName {
-      if (!config.regularNameBase) {
-         const length = RandomUtils.between(config.minLength, config.maxLength);
-         const regularBase = new RegularNameObject(config.regularNameStart);
-         for (let i = config.regularNameStart.length; i < length - config.regularNameEnd.length; i++) {
-            regularBase.append(RegularUtils.symbols.wildcard);
-         }
-         regularBase.append(new RegularNameObject(config.regularNameEnd));
-
-         const name: RegularName = {
-            name: "",
-            regularBase: matchNameEnding(regularBase, config)
-         };
-         name.name = this.letterFinalizerService.finalizeRegularLetters(name.regularBase.referenceRegular, config);
-         name.name = this.dereferenceName(name.name, name.regularBase.references);
-         name.name = capitalize(name.name);
-         return name;
+      const regularBase = matchNameEnding(this.getRegularBase(config), config);
+      const regular = regularBase.clone();
+      try {
+         this.letterFinalizerService.finalizeRegularString(regular, config);
+      } catch (e) {
+         console.error("error while finalizing name", regular, e); //TODO: handling
       }
-
-      const regularBase = new RegularNameObject(matchNameEnding(config.regularNameBase, config));
-      let name = this.letterFinalizerService.finalizeRegularLetters(regularBase.valueOf(), config);
-      name = this.dereferenceName(name, regularBase.references);
-      name = capitalize(name);
+      const name = capitalize(regular.getValue());
       return { name, regularBase };
    }
 
-   private dereferenceName(name: string, references: number[]): string {
-      let dereferencedName = "";
-      for (let i = 0; i < name.length; i++) {
-         if (references[i] !== undefined) {
-            dereferencedName += dereferencedName[references[i]];
-         } else {
-            dereferencedName += name[i];
-         }
+   private getRegularBase(config: GenerationConfig): RegularString {
+      if (config.regularNameBase.length) {
+         return config.regularNameBase.clone();
       }
-      return dereferencedName;
+
+      const length = RandomUtils.between(config.minLength, config.maxLength);
+      const regularBase = config.regularNameStart.clone();
+      for (let i = config.regularNameStart.length; i < length - config.regularNameEnd.length; i++) {
+         regularBase.append(RegularUtils.symbols.wildcard);
+      }
+      regularBase.append(config.regularNameEnd);
+      return regularBase;
    }
 }

@@ -48,7 +48,7 @@ export class GenerationOutputComponent {
       if ("regularBase" in name) {
          return {
             name: name.name,
-            props: [{ propName: "Regular", propValue: name.regularBase.valueOf() }]
+            props: [{ propName: "Regular", propValue: name.regularBase.toString() }]
          };
       }
       return { name: "", props: [] };

@@ -1,6 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { ErrorMessageId, ErrorService } from "@ngen-core/error-handling";
-import { replaceLetter } from "@ngen-core/functions";
+import { RegularCharacter, RegularString } from "@ngen-core/models";
 import { RandomUtils } from "@ngen-core/utils";
 import { GenerationConfig } from "@ngen-generation/models";
 import { RandomLetterConfig } from "./models";
@@ -12,105 +12,115 @@ export class LetterFinalizerService {
 
    private generationError: ErrorMessageId<"generation"> | null = null;
 
-   public finalizeRegularLetters(regular: string, config: GenerationConfig): string {
-      regular = this.finalizeWildcardRegulars(regular, config);
-      const defaultRandomLetterConfig = this.getRandomLetterConfig(config);
+   public finalizeRegularString(string: RegularString, config: GenerationConfig): void {
+      const characters = string.getCharacters();
+      for (let iteration = 0; iteration < 2; iteration++) {
+         for (let i = 0; i < characters.length; i++) {
+            const char = characters[i];
 
-      let name = "";
-      for (let i = 0; i < regular.length; i++) {
-         if (regular[i] === RegularUtils.symbols.vowel) {
-            name += LetterUtils.random("vowel", defaultRandomLetterConfig);
-         } else if (regular[i] === RegularUtils.symbols.consonant) {
-            name += LetterUtils.random("consonant", this.getRandomLetterConfig(config, name[i - 1]));
-         } else {
-            name += regular[i];
+            if (char.isReference || LetterUtils.is("letter", char.toString())) {
+               continue;
+            }
+            if (char.isWildcard) {
+               if (iteration === 0) {
+                  this.decideWildcardType(i, characters, config);
+               }
+            } else {
+               if (iteration === 1) {
+                  this.finalizeCharacter(i, characters, config);
+               }
+            }
          }
+      }
+   }
+
+   private decideWildcardType(index: number, characters: Readonly<RegularCharacter[]>, config: GenerationConfig): void {
+      const char = characters[index];
+
+      let vowelsInRange = 0,
+         consonantsInRange = 0;
+      for (let j = -2; j <= 2; j++) {
+         if (characters[index + j]?.isVowel) {
+            vowelsInRange++;
+         } else if (characters[index + j]?.isConsonant) {
+            consonantsInRange++;
+         }
+      }
+
+      if (vowelsInRange === consonantsInRange) {
+         if (vowelsInRange === 2) {
+            if (characters[index + 1] === characters[index - 1]) {
+               char.assign(this.vowelIf(characters[index - 1].isConsonant));
+            } else {
+               char.assign(
+                  this.vowelIf(
+                     RandomUtils.byChance(LetterUtils.getVowelChance(config.excludedLetters, config.includedLetters))
+                  )
+               );
+            }
+         } else if (vowelsInRange === 1) {
+            char.assign(this.vowelIf(characters[index - 1]?.isConsonant));
+         } else {
+            char.assign(
+               this.vowelIf(
+                  RandomUtils.byChance(LetterUtils.getVowelChance(config.excludedLetters, config.includedLetters))
+               )
+            );
+         }
+      } else {
+         if (index === characters.length - 2 && characters[index + 1].isConsonant) {
+            char.assign(RegularUtils.symbols.vowel);
+         } else {
+            char.assign(this.vowelIf(consonantsInRange > vowelsInRange));
+         }
+      }
+   }
+
+   private finalizeCharacter(index: number, characters: RegularCharacter[], config: GenerationConfig): void {
+      const char = characters[index];
+
+      if (char.isVowel) {
+         char.assign(LetterUtils.random("vowel", this.getRandomLetterConfig(config)));
+      } else if (char.isConsonant) {
+         char.assign(LetterUtils.random("consonant", this.getRandomLetterConfig(config, characters[index - 1])));
+      } else {
+         throw new Error(`Invalid character during character finalization: '${char}!'`);
       }
 
       if (this.generationError) {
          this.errorService.popupError("generation", this.generationError);
          this.generationError = null;
       }
-
-      return name;
    }
 
-   private finalizeWildcardRegulars(regular: string, config: GenerationConfig): string {
-      for (let i = 0; i < regular.length; i++) {
-         if (regular[i] !== RegularUtils.symbols.wildcard) {
-            continue;
-         }
-         let vowelsInRange = 0,
-            consonantsInRange = 0;
-         for (let j = -2; j <= 2; j++) {
-            if (regular[i + j] === RegularUtils.symbols.vowel) {
-               vowelsInRange++;
-            } else if (regular[i + j] === RegularUtils.symbols.consonant) {
-               consonantsInRange++;
-            }
-         }
-         if (vowelsInRange === consonantsInRange) {
-            if (vowelsInRange === 2) {
-               if (regular[i + 1] === regular[i - 1]) {
-                  regular = replaceLetter(regular, i, this.vowelIf(regular[i - 1] === RegularUtils.symbols.consonant));
-               } else {
-                  regular = replaceLetter(
-                     regular,
-                     i,
-                     this.vowelIf(
-                        RandomUtils.byChance(LetterUtils.getVowelChance(config.excludedLetters, config.includedLetters))
-                     )
-                  );
-               }
-            } else if (vowelsInRange === 1) {
-               regular = replaceLetter(regular, i, this.vowelIf(regular[i - 1] === RegularUtils.symbols.consonant));
-            } else {
-               regular = replaceLetter(
-                  regular,
-                  i,
-                  this.vowelIf(
-                     RandomUtils.byChance(LetterUtils.getVowelChance(config.excludedLetters, config.includedLetters))
-                  )
-               );
-            }
-         } else {
-            if (i === regular.length - 2 && regular[i + 1] === RegularUtils.symbols.consonant) {
-               regular = replaceLetter(regular, i, RegularUtils.symbols.vowel);
-            } else {
-               regular = replaceLetter(regular, i, this.vowelIf(consonantsInRange > vowelsInRange));
-            }
-         }
-      }
-      return regular;
-   }
-
-   private getRandomLetterConfig(config: GenerationConfig, latestLetter?: string): RandomLetterConfig {
+   private getRandomLetterConfig(config: GenerationConfig, latestLetter?: RegularCharacter): RandomLetterConfig {
       const genConfig: GenerationConfig = { ...config };
       const randConfig: RandomLetterConfig = {};
 
       if (latestLetter) {
-         if (!genConfig.ignoreVoicedUnvoicedPairs) {
-            genConfig.excludedLetters += VoicedUnvoicedPairsUtils.pairOf(latestLetter) ?? "";
+         const pair = VoicedUnvoicedPairsUtils.pairOf(latestLetter.toString());
+         if (!genConfig.ignoreVoicedUnvoicedPairs && pair) {
+            genConfig.excludedLetters.add(pair);
          }
       }
 
-      if (genConfig.excludedLetters) {
+      if (!genConfig.excludedLetters.isEmpty()) {
          if (
-            LetterUtils.numberOf("vowel", genConfig.excludedLetters) < LetterUtils.numberOf("vowel") &&
-            LetterUtils.numberOf("consonant", genConfig.excludedLetters) < LetterUtils.numberOf("consonant")
+            LetterUtils.numberOf("vowel", genConfig.excludedLetters.toString()) < LetterUtils.numberOf("vowel") &&
+            LetterUtils.numberOf("consonant", genConfig.excludedLetters.toString()) < LetterUtils.numberOf("consonant")
          ) {
-            randConfig.excluded = genConfig.excludedLetters;
+            randConfig.excluded = genConfig.excludedLetters.toString();
          } else {
             this.generationError = "LETTER_SET_DEPLETED";
          }
       }
 
-      if (genConfig.includedLetters) {
+      if (!genConfig.includedLetters.isEmpty()) {
          if (
-            LetterUtils.numberOf("vowel", genConfig.includedLetters) > 0 &&
-            LetterUtils.numberOf("consonant", genConfig.includedLetters) > 0
+            LetterUtils.numberOf("vowel", genConfig.includedLetters.toString()) > 0 &&
+            LetterUtils.numberOf("consonant", genConfig.includedLetters.toString()) > 0
          ) {
-            randConfig.included = genConfig.includedLetters;
+            randConfig.included = genConfig.includedLetters.toString();
          } else {
             this.generationError = "LETTER_SET_DEPLETED";
          }

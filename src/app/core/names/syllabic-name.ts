@@ -1,6 +1,8 @@
+import { RegularString } from "@ngen-core/models";
+
 export interface SyllabicName {
    name: string;
-   regularBase: string;
+   regularBase: RegularString;
    syllabic: string[];
-   regularSyllabic: string[];
+   regularSyllabic: RegularString[];
 }

@@ -1,10 +1,12 @@
+import { LetterSet, RegularString } from "@ngen-core/models";
+
 export interface GenerationConfig {
    minLength: number;
    maxLength: number;
-   excludedLetters: string;
-   includedLetters: string;
+   excludedLetters: LetterSet;
+   includedLetters: LetterSet;
    ignoreVoicedUnvoicedPairs: boolean;
-   regularNameStart: string;
-   regularNameEnd: string;
-   regularNameBase: string;
+   regularNameStart: RegularString;
+   regularNameEnd: RegularString;
+   regularNameBase: RegularString;
 }

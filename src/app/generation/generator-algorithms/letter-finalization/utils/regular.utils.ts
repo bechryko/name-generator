@@ -1,10 +1,11 @@
+import { replaceLetter } from "@ngen-core/functions";
+import { RegularCharacter, RegularReference } from "@ngen-core/models";
 import { LetterUtils } from "./letter.utils";
 
 export class RegularUtils {
    public static readonly symbols = {
       vowel: "+",
       consonant: "-",
-      reference: "&",
       wildcard: "*"
    } as const;
 
@@ -20,43 +21,81 @@ export class RegularUtils {
       return !isNaN(Number(letter));
    }
 
-   public static matchRegular(regular: string, regularToMatch: string): string | false {
-      let matching = "";
-      for (let i = 0; i < regular.length; i++) {
-         if (this.isReference(regular[i]) || this.isReference(regularToMatch[i])) {
-            return false;
-         }
-         if (regular[i] === regularToMatch[i]) {
-            matching += regular[i];
-            continue;
-         }
-         const [isWildcard, other0] = this.either(regular[i], regularToMatch[i], this.symbols.wildcard);
-         if (isWildcard) {
-            matching += other0;
-            continue;
-         }
-         const [isVowel, other1] = this.either(regular[i], regularToMatch[i], this.symbols.vowel);
-         if (isVowel && LetterUtils.is("vowel", other1)) {
-            matching += other1;
-            continue;
-         }
-         const [isConsonant, other2] = this.either(regular[i], regularToMatch[i], this.symbols.consonant);
-         if (isConsonant && LetterUtils.is("consonant", other2)) {
-            matching += other2;
-            continue;
-         }
-         return false;
-      }
-      return matching;
+   public static parseStringToRegularCharacters(str: string): RegularCharacter[] {
+      return this.deleteNonRegulars(this.fixReferences(str.toLowerCase()))
+         .split("")
+         .map(char => {
+            if (this.isReference(char)) {
+               return new RegularReference(Number(char));
+            } else {
+               return new RegularCharacter(char);
+            }
+         });
    }
 
-   private static either(regular1: string, regular2: string, letterToMatch: string): [true, string] | [false] {
-      if (regular1 === letterToMatch) {
-         return [true, regular2];
+   private static deleteNonRegulars(input: string): string {
+      let output = "";
+      for (let i = 0; i < input.length; i++) {
+         if (LetterUtils.is("letter", input[i]) || RegularUtils.isRegular(input[i])) {
+            output += input[i];
+         } else {
+            output += RegularUtils.symbols.wildcard;
+         }
       }
-      if (regular2 === letterToMatch) {
-         return [true, regular1];
+      return output;
+   }
+
+   private static fixReferences(input: string): string {
+      let referenceRegular = "";
+      const referencingSets: Set<number>[] = [];
+
+      for (let i = 0; i < input.length; i++) {
+         referencingSets[i] = new Set();
       }
-      return [false];
+      for (let i = 0; i < input.length; i++) {
+         if (RegularUtils.isReference(input[i])) {
+            const referenceTo = Number(input[i]);
+            if (referenceTo === i || referenceTo >= input.length) {
+               referenceRegular += RegularUtils.symbols.wildcard;
+               continue;
+            } else {
+               if (referenceTo > i) {
+                  referencingSets[referenceTo].add(i);
+               } else {
+                  referencingSets[i].add(referenceTo);
+               }
+            }
+         }
+         referenceRegular += input[i];
+      }
+
+      for (let i = referencingSets.length - 1; i >= 0; i--) {
+         if (referencingSets[i].size <= 1) {
+            continue;
+         }
+         const references = referencingSets[i];
+         const nextReferenceInChain = Math.max(...Array.from(references));
+         referencingSets[i] = new Set([nextReferenceInChain]);
+         references.delete(nextReferenceInChain);
+         references.forEach(ref => referencingSets[nextReferenceInChain].add(ref));
+      }
+
+      const referencingNumbers: (number | undefined)[] = referencingSets.map(references => Array.from(references)[0]);
+      let output = "";
+      for (let i = 0; i < referenceRegular.length; i++) {
+         if (RegularUtils.isReference(referenceRegular[i])) {
+            output += referencingNumbers[i] ?? RegularUtils.symbols.wildcard;
+         } else if (referencingNumbers[i] === undefined) {
+            output += referenceRegular[i];
+         } else {
+            const letterToReference = referenceRegular[i];
+            let idx = i;
+            while (referencingNumbers[idx] !== undefined) {
+               idx = referencingNumbers[idx]!;
+            }
+            output = replaceLetter(output, idx, letterToReference) + referencingNumbers[i];
+         }
+      }
+      return output;
    }
 }

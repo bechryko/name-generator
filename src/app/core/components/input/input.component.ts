@@ -1,9 +1,11 @@
-import { ChangeDetectionStrategy, Component, input, model, output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, input, model, output } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { RegularString } from "@ngen-core/models";
+import { LetterSet } from "@ngen-core/models/letter-set";
 import { InputType } from "./input-type";
 
 @Component({
@@ -24,6 +26,7 @@ export class InputComponent implements ControlValueAccessor {
    public readonly label = input("");
    public readonly type = input<InputType>("text");
    public readonly value = model<any>();
+   public readonly displayValue = computed(() => this.transformToDisplayValue(this.value()));
    public readonly disabled = model(false);
    public readonly disabledTooltip = input<string>();
    public readonly blur = output<void>();
@@ -60,10 +63,7 @@ export class InputComponent implements ControlValueAccessor {
    }
 
    public onInputValueChange(event: any): void {
-      let value = event.target.value;
-      if (this.type() === "number") {
-         value = Number(value);
-      }
+      const value = this.transformToValue(event.target.value);
       this.onChange(value);
       this.writeValue(value);
    }
@@ -71,5 +71,29 @@ export class InputComponent implements ControlValueAccessor {
    public onCheckboxValueChange(event: MatCheckboxChange): void {
       this.onChange(event.checked);
       this.writeValue(event.checked);
+   }
+
+   private transformToDisplayValue(value: any): any {
+      switch (this.type()) {
+         case "letter-set":
+            return (value as LetterSet).toString();
+         case "regular-string":
+            return (value as RegularString).toString();
+         default:
+            return value;
+      }
+   }
+
+   private transformToValue(value: any): any {
+      switch (this.type()) {
+         case "number":
+            return Number(value);
+         case "letter-set":
+            return new LetterSet(value);
+         case "regular-string":
+            return new RegularString(value);
+         default:
+            return value;
+      }
    }
 }

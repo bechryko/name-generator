@@ -1,5 +1,7 @@
 import { ChangeDetectionStrategy, Component, Input, WritableSignal, computed, inject, signal } from "@angular/core";
 import { InputComponent } from "@ngen-core/components";
+import { InputType } from "@ngen-core/components/input";
+import { LetterSet, RegularString } from "@ngen-core/models";
 import { GenerationConfig } from "@ngen-generation/models/generation-config";
 import { ConfigurationStoreService } from "@ngen-generation/services";
 import { Generators } from "../enums";
@@ -10,7 +12,7 @@ import {
    syllabicDefaultConfig
 } from "./default-configs";
 import { BoundedConfigProperty, GeneratorConfigFields, PropertyBounds } from "./model";
-import { GenerationConfigUtils, InputFormatUtils } from "./utils";
+import { GenerationConfigUtils } from "./utils";
 
 type FieldName = keyof GenerationConfig;
 
@@ -22,8 +24,7 @@ interface FieldData<FN extends FieldName> {
 interface ConfigField {
    name: FieldName;
    label: string;
-   type: "number" | "text" | "checkbox";
-   formatter?: (input: any) => any;
+   type: InputType;
    disabledTooltip?: string;
 }
 
@@ -60,15 +61,13 @@ export class GenerationConfigComponent {
       {
          name: "excludedLetters",
          label: "Excluded letters",
-         type: "text",
-         formatter: InputFormatUtils.formatLetterSetInput.bind(InputFormatUtils),
+         type: "letter-set",
          disabledTooltip: "You cannot use the Excluded letters and the Included letters fields simultaneously"
       },
       {
          name: "includedLetters",
          label: "Included letters",
-         type: "text",
-         formatter: InputFormatUtils.formatLetterSetInput.bind(InputFormatUtils),
+         type: "letter-set",
          disabledTooltip: "You cannot use the Included letters and the Excluded letters fields simultaneously"
       },
       {
@@ -79,20 +78,17 @@ export class GenerationConfigComponent {
       {
          name: "regularNameStart",
          label: "Start of the name (regular)",
-         type: "text",
-         formatter: InputFormatUtils.formatRegularInput.bind(InputFormatUtils)
+         type: "regular-string"
       },
       {
          name: "regularNameEnd",
          label: "End of the name (regular)",
-         type: "text",
-         formatter: InputFormatUtils.formatRegularInput.bind(InputFormatUtils)
+         type: "regular-string"
       },
       {
          name: "regularNameBase",
          label: "Regular skeleton of the name",
-         type: "text",
-         formatter: InputFormatUtils.formatRegularInput.bind(InputFormatUtils),
+         type: "regular-string",
          disabledTooltip: "If you specified either a start or an end of a name, you cannot set the whole skeleton"
       }
    ];
@@ -136,8 +132,6 @@ export class GenerationConfigComponent {
    private correctFieldValue(field: ConfigField): void {
       if (!this.configFieldsData[field.name].value()) {
          this.resetField(field.name);
-      } else if (field.formatter) {
-         this.setFormFieldValue(field.name, field.formatter(this.configFieldsData[field.name].value()));
       }
 
       if (field.name === "minLength") {
@@ -168,17 +162,21 @@ export class GenerationConfigComponent {
 
       if (field.name === "excludedLetters" || field.name === "includedLetters") {
          const otherName = field.name === "excludedLetters" ? "includedLetters" : "excludedLetters";
-         this.configFieldsData[otherName].disabled.set(Boolean(this.configFieldsData[field.name].value()));
+         const fieldValue = this.configFieldsData[field.name].value() as LetterSet;
+         this.configFieldsData[otherName].disabled.set(!fieldValue.isEmpty());
       }
 
       if (field.name === "regularNameStart" || field.name === "regularNameEnd") {
          this.configFieldsData["regularNameBase"].disabled.set(
-            Boolean(this.configFieldsData.regularNameStart.value() || this.configFieldsData.regularNameEnd.value())
+            Boolean(
+               (this.configFieldsData.regularNameStart.value() as RegularString).length ||
+                  (this.configFieldsData.regularNameEnd.value() as RegularString).length
+            )
          );
       }
 
       if (field.name === "regularNameBase") {
-         const disabledState = Boolean(this.configFieldsData.regularNameBase.value());
+         const disabledState = Boolean((this.configFieldsData.regularNameBase.value() as RegularString).length);
          this.configFieldsData.minLength.disabled.set(disabledState);
          this.configFieldsData.maxLength.disabled.set(disabledState);
          this.configFieldsData.regularNameStart.disabled.set(disabledState);

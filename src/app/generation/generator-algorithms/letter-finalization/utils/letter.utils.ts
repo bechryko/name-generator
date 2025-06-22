@@ -1,4 +1,5 @@
 import { pluck } from "@ngen-core/functions";
+import { LetterSet } from "@ngen-core/models/letter-set";
 import { RandomUtils } from "@ngen-core/utils";
 import { Letter, RandomLetterConfig } from "../models";
 
@@ -48,13 +49,9 @@ export class LetterUtils {
       return RandomUtils.randomIndexWeighted(pluck(array, "letter"), pluck(array, "weight"));
    }
 
-   public static getVowelChance(excludedLetters = "", includedLetters = ""): number {
-      const usableVowels = this.vowel.filter(
-         v => !excludedLetters.includes(v.letter) && includedLetters.includes(v.letter)
-      );
-      const usableLetters = this.letter.filter(
-         l => !excludedLetters.includes(l.letter) && includedLetters.includes(l.letter)
-      );
+   public static getVowelChance(excludedLetters: LetterSet, includedLetters: LetterSet): number {
+      const usableVowels = this.vowel.filter(v => !excludedLetters.has(v.letter) && includedLetters.has(v.letter));
+      const usableLetters = this.letter.filter(l => !excludedLetters.has(l.letter) && includedLetters.has(l.letter));
       return usableVowels.reduce((acc, v) => acc + v.weight, 0) / usableLetters.reduce((acc, l) => acc + l.weight, 0); //TODO: pluckSum function
    }
 

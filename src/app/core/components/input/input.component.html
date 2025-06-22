@@ -1,16 +1,5 @@
 <div id="ngen-input-wrapper">
-   @if (type() === "number" || type() === "text") {
-      <mat-form-field>
-         <mat-label>{{ label() }}</mat-label>
-         <input
-            matInput
-            [type]="type()"
-            [value]="value()"
-            [disabled]="disabled()"
-            (blur)="onInputBlur()"
-            (change)="onInputValueChange($event)" />
-      </mat-form-field>
-   } @else if (type() === "checkbox") {
+   @if (type() === "checkbox") {
       <mat-checkbox
          [checked]="value()"
          [disabled]="disabled()"
@@ -18,6 +7,17 @@
          (change)="onCheckboxValueChange($event)"
          >{{ label() }}</mat-checkbox
       >
+   } @else {
+      <mat-form-field>
+         <mat-label>{{ label() }}</mat-label>
+         <input
+            matInput
+            type="text"
+            [value]="displayValue()"
+            [disabled]="disabled()"
+            (blur)="onInputBlur()"
+            (change)="onInputValueChange($event)" />
+      </mat-form-field>
    }
    @if (disabled()) {
       <span
