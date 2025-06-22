@@ -29,16 +29,11 @@ export class RegularCharacter {
    }
 
    public doesMatch(character: RegularCharacter): boolean {
-      if (this.letter === RegularUtils.symbols.wildcard || character.letter === RegularUtils.symbols.wildcard) {
+      if (this.isWildcard || character.isWildcard) {
          return true;
       }
 
-      if (this.isReference || character.isReference) {
-         // TODO: make the references know more about the character they are referencing
-         return false;
-      }
-
-      if (this.letter === character.letter) {
+      if (this.getValue() === character.getValue()) {
          return true;
       }
 
@@ -46,22 +41,22 @@ export class RegularCharacter {
          return false;
       }
 
-      const [regular, { letter }] = this.type === RegularCharacterType.REGULAR ? [this, character] : [character, this];
-      return regular.letter === RegularUtils.symbols.vowel
-         ? LetterUtils.is("vowel", letter)
-         : LetterUtils.is("consonant", letter);
+      const [regular, letter] = this.type === RegularCharacterType.REGULAR ? [this, character] : [character, this];
+      return regular.isVowel
+         ? LetterUtils.is("vowel", letter.getValue())
+         : LetterUtils.is("consonant", letter.getValue());
    }
 
    public get isVowel(): boolean {
-      return this.letter === RegularUtils.symbols.vowel || LetterUtils.is("vowel", this.letter);
+      return this.getValue() === RegularUtils.symbols.vowel || LetterUtils.is("vowel", this.getValue());
    }
 
    public get isConsonant(): boolean {
-      return this.letter === RegularUtils.symbols.consonant || LetterUtils.is("consonant", this.letter);
+      return this.getValue() === RegularUtils.symbols.consonant || LetterUtils.is("consonant", this.getValue());
    }
 
    public get isWildcard(): boolean {
-      return this.letter === RegularUtils.symbols.wildcard;
+      return this.getValue() === RegularUtils.symbols.wildcard;
    }
 
    public get isReference(): boolean {
