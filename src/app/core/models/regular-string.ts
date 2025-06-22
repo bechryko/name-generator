@@ -16,16 +16,21 @@ export class RegularString {
 
    public append(str: string | RegularString): void {
       const regular = typeof str === "string" ? new RegularString(str) : str;
-      this.characters.push(...regular.characters);
+      this.characters.push(...regular.getCharacters(true));
       this.assignReferences();
    }
 
-   public substring(start: number, end?: number): RegularString {
-      return new RegularString(this.toRawString().substring(start, end));
+   public substring(start: number, end?: number, cutReferences = false): RegularString {
+      const subRegular = new RegularString();
+      subRegular.characters.push(...this.characters.slice(start, end).map(c => c.clone()));
+      if (!cutReferences) {
+         subRegular.assignReferences();
+      }
+      return subRegular;
    }
 
-   public ending(size: number): RegularString {
-      return this.substring(this.length - size);
+   public ending(size: number, cutReferences = false): RegularString {
+      return this.substring(this.length - size, undefined, cutReferences);
    }
 
    public doesMatch(other: string | RegularString): boolean {
@@ -62,7 +67,10 @@ export class RegularString {
       }
    }
 
-   public getCharacters(): RegularCharacter[] {
+   public getCharacters(clone = false): RegularCharacter[] {
+      if (clone) {
+         return this.characters.map(c => c.clone());
+      }
       return [...this.characters];
    }
 
@@ -83,9 +91,12 @@ export class RegularString {
    }
 
    private assignReferences(): void {
-      this.characters.forEach(char => {
+      this.characters.forEach((char, index) => {
          if (char instanceof RegularReference) {
-            char.assignRegularString(this);
+            const success = char.assignRegularString(this);
+            if (!success) {
+               this.characters[index] = new RegularCharacter(char.getValue());
+            }
          }
       });
    }

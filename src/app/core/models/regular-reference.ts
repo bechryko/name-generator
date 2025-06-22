@@ -21,8 +21,18 @@ export class RegularReference extends RegularCharacter {
       this.referenceIndex = Number(character);
    }
 
-   public assignRegularString(regularString: RegularString): void {
+   public assignRegularString(regularString: RegularString): boolean {
+      if (this.regularString) {
+         const newIndexInOld = regularString.toRawString().indexOf(this.regularString.toRawString());
+         if (newIndexInOld !== -1) {
+            this.referenceIndex += newIndexInOld;
+         } else {
+            return false;
+         }
+      }
+
       this.regularString = regularString;
+      return true;
    }
 
    public override get isReference(): boolean {
@@ -42,7 +52,11 @@ export class RegularReference extends RegularCharacter {
    }
 
    public override clone(): RegularReference {
-      return new RegularReference(this.referenceIndex);
+      const newRef = new RegularReference(this.referenceIndex);
+      if (this.regularString) {
+         newRef.assignRegularString(this.regularString);
+      }
+      return newRef;
    }
 
    private dereference(): string {

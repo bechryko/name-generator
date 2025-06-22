@@ -6,7 +6,7 @@ import { nameEndings } from "./name-endings";
 
 export function matchNameEnding(regular: RegularString, config: GenerationConfig): RegularString {
    const matchingEndings = getFilteredNameEndings(config).filter(ending =>
-      regular.ending(ending.length).doesMatch(ending)
+      regular.ending(ending.length, true).doesMatch(ending)
    );
    const newRegular = regular.clone();
    if (matchingEndings.length) {
