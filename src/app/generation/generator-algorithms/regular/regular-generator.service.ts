@@ -8,13 +8,10 @@ import { GeneratorService } from "../generator-service.model";
 import { LetterFinalizerService } from "../letter-finalization/letter-finalizer.service";
 import { RegularUtils } from "../letter-finalization/utils";
 import { matchNameEnding } from "../name-endings";
-import { REGULAR_GENERATOR_VERSION } from "./regular-generator-version";
 
 @Injectable()
 export class RegularGeneratorService implements GeneratorService {
    private readonly letterFinalizerService = inject(LetterFinalizerService);
-
-   public readonly version = REGULAR_GENERATOR_VERSION;
 
    public generateName(config: GenerationConfig): RegularName {
       const regularBase = matchNameEnding(this.getRegularBase(config), config);

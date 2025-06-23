@@ -4,14 +4,11 @@ import { JapaneseName } from "@ngen-core/names";
 import { RandomUtils } from "@ngen-core/utils";
 import { GenerationConfig } from "@ngen-generation/models";
 import { GeneratorService } from "../generator-service.model";
-import { JAPANESE_GENERATOR_VERSION } from "./japanese-generator-version";
 import { JapaneseLetter } from "./japanese-letter";
 import { japaneseLetterList } from "./japanese-letter-list";
 
 @Injectable()
 export class JapaneseGeneratorService implements GeneratorService {
-   public readonly version = JAPANESE_GENERATOR_VERSION;
-
    public generateName(config: GenerationConfig): JapaneseName {
       let length = RandomUtils.between(config.minLength, config.maxLength);
       let name: JapaneseName = { romaji: "", hiragana: "", katakana: "" };

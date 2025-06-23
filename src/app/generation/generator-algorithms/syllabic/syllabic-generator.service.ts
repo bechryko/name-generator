@@ -7,13 +7,10 @@ import { GenerationConfig } from "@ngen-generation/models";
 import { GeneratorService } from "../generator-service.model";
 import { LetterFinalizerService } from "../letter-finalization/letter-finalizer.service";
 import { matchNameEnding } from "../name-endings";
-import { SYLLABIC_GENERATOR_VERSION } from "./syllabic-generator-version";
 
 @Injectable()
 export class SyllabicGeneratorService implements GeneratorService {
    private readonly letterFinalizerService = inject(LetterFinalizerService);
-
-   public readonly version = SYLLABIC_GENERATOR_VERSION;
 
    private readonly syllableLengthWeights = [0.1, 0.35, 0.5, 0.05];
 

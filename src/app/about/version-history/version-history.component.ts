@@ -17,7 +17,6 @@ export class VersionHistoryComponent {
    private readonly versions: VersionDetails[] = [
       {
          id: "1.0",
-         name: "Vetlarrmeltheld",
          content: [
             "Where it all began",
             "Added japanese generator algorithm (on version 1.0)",
@@ -30,7 +29,7 @@ export class VersionHistoryComponent {
    ];
 
    public get namedVersions(): VersionDetails[] {
-      return this.versions.filter(v => v.name).sort((a, b) => b.id.localeCompare(a.id));
+      return this.versions.sort((a, b) => b.id.localeCompare(a.id));
    }
 
    public getPatchVersions(mainVersion: VersionDetails): VersionDetails[] {
