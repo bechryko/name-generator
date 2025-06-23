@@ -117,8 +117,10 @@ export class GenerationConfigComponent {
    }
 
    public onBlur(field: ConfigField): void {
-      this.correctFieldValue(field);
-      this.configStoreService.saveConfig(this.selectedGenerator, this.configObject());
+      setTimeout(() => {
+         this.correctFieldValue(field);
+         this.configStoreService.saveConfig(this.selectedGenerator, this.configObject());
+      }, 0);
    }
 
    public getBounds(property: BoundedConfigProperty): Partial<PropertyBounds> {

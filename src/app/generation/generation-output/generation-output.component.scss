@@ -2,7 +2,8 @@
 
 :host {
    $border: var(--ngen-container-border-width) solid var(--clr-primary);
-   display: flex;
+   display: grid;
+   grid-template-columns: minmax(0, 1fr) max-content;
    padding: 1rem;
    border: $border;
    border-radius: var(--ngen-container-border-radius);
@@ -29,7 +30,8 @@
       margin: 0.25rem;
       line-height: 1.25;
       text-wrap: nowrap;
-      // TODO
+      text-overflow: ellipsis;
+      overflow: hidden;
 
       @include mixins.mq(medium) {
          font-size: 1.25rem;
@@ -40,7 +42,6 @@
 
 .icons {
    align-self: start;
-   margin-left: auto;
    display: flex;
    flex-direction: column;
 

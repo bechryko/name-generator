@@ -10,13 +10,13 @@
          type="clipboard"
          [data]="displayName.name"
          tooltipPosition="left"></ngen-interactive-icon>
-      @if (!nameSaved) {
+      <!-- @if (!nameSaved) {
          <ngen-interactive-icon
             type="saveName"
             [data]="displayName.name"
             (click)="nameSaved = true"
             tooltipPosition="left"></ngen-interactive-icon>
-      }
+      } -->
    </div>
 } @else {
    <p class="no-name-message">Generated names will appear here!</p>
