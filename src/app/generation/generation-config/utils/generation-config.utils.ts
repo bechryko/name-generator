@@ -38,12 +38,12 @@ export class GenerationConfigUtils {
          case "lengthInSyllables":
             return {
                min: 1,
-               max: 20
+               max: 10
             };
          case "lengthInLetters":
             return {
                min: 2,
-               max: 50
+               max: 25
             };
          default:
             return {};
