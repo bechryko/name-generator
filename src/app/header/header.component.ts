@@ -1,6 +1,7 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import { Router } from "@angular/router";
+import { APP_VERSION } from "@ngen-core/constants";
 import { RouteUrl } from "@ngen-core/enums";
 
 interface NavMenuItem {
@@ -23,6 +24,8 @@ export class HeaderComponent {
       { label: "About", path: RouteUrl.ABOUT }
    ];
    public readonly appTitle = document.title;
+   public readonly appVersion = APP_VERSION;
+   public readonly currentYear = new Date().getFullYear();
 
    public navigateTo(path: string): void {
       this.router.navigateByUrl(path);

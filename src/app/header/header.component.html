@@ -1,4 +1,7 @@
-<h1>{{ appTitle }}</h1>
+<hgroup>
+   <h1>{{ appTitle }}</h1>
+   <span class="app-version">&copy; bechryko 2022-{{ currentYear }} - Version {{ appVersion }}</span>
+</hgroup>
 <nav>
    @for (item of navMenuItems; track $index) {
       <button
