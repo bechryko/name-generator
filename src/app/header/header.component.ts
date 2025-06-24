@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { MatButton } from "@angular/material/button";
 import { Router } from "@angular/router";
-import { APP_VERSION } from "@ngen-core/constants";
-import { RouteUrl } from "@ngen-core/enums";
+import { APP_VERSION } from "@ngen-shared/constants";
+import { RouteUrl } from "@ngen-shared/enums";
 
 interface NavMenuItem {
    label: string;

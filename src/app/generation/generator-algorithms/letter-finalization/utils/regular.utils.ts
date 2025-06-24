@@ -1,5 +1,5 @@
-import { replaceLetter } from "@ngen-core/functions";
-import { RegularCharacter, RegularReference } from "@ngen-core/models";
+import { replaceLetter } from "@ngen-shared/functions";
+import { RegularCharacter, RegularReference } from "@ngen-shared/models";
 import { LetterUtils } from "./letter.utils";
 
 export class RegularUtils {

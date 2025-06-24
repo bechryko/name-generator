@@ -1,4 +1,4 @@
-import { LetterSet, RegularString } from "@ngen-core/models";
+import { LetterSet, RegularString } from "@ngen-shared/models";
 
 export interface GenerationConfig {
    minLength: number;

@@ -1,8 +1,8 @@
 import { Injectable, inject } from "@angular/core";
-import { ErrorMessageId, ErrorService } from "@ngen-core/error-handling";
-import { RegularCharacter, RegularString } from "@ngen-core/models";
-import { RandomUtils } from "@ngen-core/utils";
 import { GenerationConfig } from "@ngen-generation/models";
+import { ErrorMessageId, ErrorService } from "@ngen-shared/error-handling";
+import { RegularCharacter, RegularString } from "@ngen-shared/models";
+import { RandomUtils } from "@ngen-shared/utils";
 import { RandomLetterConfig } from "./models";
 import { LetterUtils, RegularUtils, VoicedUnvoicedPairsUtils } from "./utils";
 

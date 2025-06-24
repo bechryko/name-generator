@@ -1,5 +1,5 @@
 import { Routes } from "@angular/router";
-import { RouteUrl } from "@ngen-core/enums";
+import { RouteUrl } from "@ngen-shared/enums";
 
 export const routes: Routes = [
    {

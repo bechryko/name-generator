@@ -22,7 +22,7 @@
     "baseUrl": "./src",
     "paths": {
       "@ngen-about/*": ["app/about/*"],
-      "@ngen-core/*": ["app/core/*"],
+      "@ngen-shared/*": ["app/shared/*"],
       "@ngen-generation/*": ["app/generation/*"],
       "@ngen-header/*": ["app/header/*"]
     }

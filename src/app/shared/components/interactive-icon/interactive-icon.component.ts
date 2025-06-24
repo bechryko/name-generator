@@ -3,8 +3,8 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTooltipModule, TooltipPosition } from "@angular/material/tooltip";
-import { ClipboardService, PageStateHandlerService } from "@ngen-core/services";
 import { Generators } from "@ngen-generation/enums";
+import { ClipboardService, PageStateHandlerService } from "@ngen-shared/services";
 import { BehaviorSubject } from "rxjs";
 
 type InteractiveIconType = "clipboard" | "saveName";

@@ -2,9 +2,9 @@ import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
 import { Router, RouterOutlet } from "@angular/router";
-import { SidebarComponent } from "@ngen-core/components";
-import { NgenSidebarSelectable } from "@ngen-core/models";
-import { PageStateHandlerService } from "@ngen-core/services";
+import { SidebarComponent } from "@ngen-shared/components";
+import { NgenSidebarSelectable } from "@ngen-shared/models";
+import { PageStateHandlerService } from "@ngen-shared/services";
 import { Observable, tap } from "rxjs";
 import { AboutSubpages } from "./about-subpages";
 

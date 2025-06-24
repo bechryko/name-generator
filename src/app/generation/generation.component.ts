@@ -1,9 +1,9 @@
 import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { MatButton } from "@angular/material/button";
-import { SidebarComponent } from "@ngen-core/components";
-import { Name } from "@ngen-core/names";
-import { PageStateHandlerService } from "@ngen-core/services";
+import { SidebarComponent } from "@ngen-shared/components";
+import { Name } from "@ngen-shared/names";
+import { PageStateHandlerService } from "@ngen-shared/services";
 import { Observable } from "rxjs";
 import { Generators } from "./enums";
 import { GenerationConfigComponent } from "./generation-config/generation-config.component";

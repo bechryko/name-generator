@@ -4,8 +4,7 @@ import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
 import { MatTooltipModule } from "@angular/material/tooltip";
-import { RegularString } from "@ngen-core/models";
-import { LetterSet } from "@ngen-core/models/letter-set";
+import { LetterSet, RegularString } from "@ngen-shared/models";
 import { InputType } from "./input-type";
 
 @Component({

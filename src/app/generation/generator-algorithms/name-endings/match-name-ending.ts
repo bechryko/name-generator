@@ -1,6 +1,6 @@
-import { RegularString } from "@ngen-core/models";
-import { RandomUtils } from "@ngen-core/utils";
 import { GenerationConfig } from "@ngen-generation/models";
+import { RegularString } from "@ngen-shared/models";
+import { RandomUtils } from "@ngen-shared/utils";
 import { LetterUtils } from "../letter-finalization/utils";
 import { nameEndings } from "./name-endings";
 

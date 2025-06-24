@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
-import { InteractiveIconComponent } from "@ngen-core/components";
-import { Name } from "@ngen-core/names";
+import { InteractiveIconComponent } from "@ngen-shared/components";
+import { Name } from "@ngen-shared/names";
 
 interface DisplayName {
    name: string;

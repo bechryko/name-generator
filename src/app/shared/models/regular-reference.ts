@@ -1,5 +1,5 @@
-import { RegularCharacterPriority } from "@ngen-core/enums";
 import { RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
+import { RegularCharacterPriority } from "@ngen-shared/enums";
 import { RegularCharacter } from "./regular-character";
 import { RegularString } from "./regular-string";
 

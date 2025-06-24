@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, input, output } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MatTooltipModule } from "@angular/material/tooltip";
-import { NgenSidebarSelectable } from "@ngen-core/models";
+import { NgenSidebarSelectable } from "@ngen-shared/models";
 
 @Component({
    selector: "ngen-sidebar",

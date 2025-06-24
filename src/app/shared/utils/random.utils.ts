@@ -1,4 +1,4 @@
-import { last } from "@ngen-core/functions";
+import { last } from "@ngen-shared/functions";
 
 interface RandomBetweenConfig {
    isMaxIncluded?: boolean;

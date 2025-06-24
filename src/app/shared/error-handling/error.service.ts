@@ -1,6 +1,6 @@
 import { Injectable, inject } from "@angular/core";
 import { MatSnackBar } from "@angular/material/snack-bar";
-import { capitalize } from "@ngen-core/functions";
+import { capitalize } from "@ngen-shared/functions";
 import { ErrorMessageId } from "./error-message-id";
 import { ErrorMessages } from "./error-messages";
 import { ErrorSource } from "./error-source";

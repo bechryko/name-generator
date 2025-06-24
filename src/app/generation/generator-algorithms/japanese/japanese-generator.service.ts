@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
-import { capitalize } from "@ngen-core/functions";
-import { JapaneseName } from "@ngen-core/names";
-import { RandomUtils } from "@ngen-core/utils";
 import { GenerationConfig } from "@ngen-generation/models";
+import { capitalize } from "@ngen-shared/functions";
+import { JapaneseName } from "@ngen-shared/names";
+import { RandomUtils } from "@ngen-shared/utils";
 import { GeneratorService } from "../generator-service.model";
 import { JapaneseLetter } from "./japanese-letter";
 import { japaneseLetterList } from "./japanese-letter-list";

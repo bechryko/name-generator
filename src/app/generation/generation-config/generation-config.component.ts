@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, Input, WritableSignal, computed, inject, signal } from "@angular/core";
-import { InputComponent } from "@ngen-core/components";
-import { InputType } from "@ngen-core/components/input";
-import { LetterSet, RegularString } from "@ngen-core/models";
 import { GenerationConfig } from "@ngen-generation/models/generation-config";
 import { ConfigurationStoreService } from "@ngen-generation/services";
+import { InputComponent } from "@ngen-shared/components";
+import { InputType } from "@ngen-shared/components/input";
+import { LetterSet, RegularString } from "@ngen-shared/models";
 import { Generators } from "../enums";
 import {
    basicDefaultConfig,

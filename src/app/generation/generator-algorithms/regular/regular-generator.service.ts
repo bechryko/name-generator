@@ -1,9 +1,9 @@
 import { Injectable, inject } from "@angular/core";
-import { capitalize } from "@ngen-core/functions";
-import { RegularString } from "@ngen-core/models";
-import { RegularName } from "@ngen-core/names";
-import { RandomUtils } from "@ngen-core/utils";
 import { GenerationConfig } from "@ngen-generation/models";
+import { capitalize } from "@ngen-shared/functions";
+import { RegularString } from "@ngen-shared/models";
+import { RegularName } from "@ngen-shared/names";
+import { RandomUtils } from "@ngen-shared/utils";
 import { GeneratorService } from "../generator-service.model";
 import { LetterFinalizerService } from "../letter-finalization/letter-finalizer.service";
 import { RegularUtils } from "../letter-finalization/utils";

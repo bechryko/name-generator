@@ -1,6 +1,6 @@
 import { CommonModule } from "@angular/common";
 import { NgModule } from "@angular/core";
-import { SidebarComponent } from "@ngen-core/components";
+import { SidebarComponent } from "@ngen-shared/components";
 import { AboutRoutingModule } from "./about-routing.module";
 import { AboutComponent } from "./about.component";
 import { GeneratorInfoComponent } from "./generator-info/generator-info.component";
