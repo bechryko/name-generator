@@ -3,9 +3,9 @@ import { AlgorithmDataType } from "./algorithm-data-type";
 
 interface AlgorithmDataTypeMap {
    [AlgorithmDataType.VOID]: undefined;
-   [AlgorithmDataType.STRING]: string;
-   [AlgorithmDataType.REGULAR_STRING]: RegularString;
    [AlgorithmDataType.REGULAR_STRING_WITH_WILDCARDS]: RegularString;
+   [AlgorithmDataType.REGULAR_STRING]: RegularString;
+   [AlgorithmDataType.NAME]: string;
 }
 
 export abstract class AlgorithmPart<I extends AlgorithmDataType, O extends AlgorithmDataType, C = undefined> {
