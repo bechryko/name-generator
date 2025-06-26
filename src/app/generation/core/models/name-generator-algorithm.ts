@@ -6,22 +6,27 @@ import { GenerationData } from "./generation-data";
 export class NameGeneratorAlgorithm {
    constructor(
       public readonly name: string,
-      private readonly segments: AlgorithmSegment<any, any, any>[]
+      private readonly segments: AlgorithmSegment<any, any, any>[],
+      private readonly postGenerationDataModifier?: (name: string, data: GenerationData) => GenerationData
    ) {
       this.checkSegmentPipeline();
    }
 
    public generateName(config: GenerationConfig): [string, GenerationData] {
-      let currentData: any = undefined;
+      let currentNameState: any = undefined;
       let generationData: GenerationData = {
          generationSteps: 0
       };
 
       this.segments.forEach(segment => {
-         [currentData, generationData] = segment.transform(currentData, config, generationData);
+         [currentNameState, generationData] = segment.transform(currentNameState, config, generationData);
       });
 
-      return [currentData, generationData];
+      if (this.postGenerationDataModifier) {
+         generationData = this.postGenerationDataModifier(currentNameState, generationData);
+      }
+
+      return [currentNameState, generationData];
    }
 
    private checkSegmentPipeline(): void {
