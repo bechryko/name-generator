@@ -1,14 +1,14 @@
 import { LetterUtils, RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 import { LetterSet, RegularCharacter, RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
-import { AlgorithmDataType, AlgorithmPart, GenerationData } from "../models";
+import { AlgorithmDataType, AlgorithmSegment, GenerationData } from "../models";
 
 export interface ProximityWildcardResolverConfig {
    excludedLetters: LetterSet;
    includedLetters: LetterSet;
 }
 
-export class ProximityWildcardResolver extends AlgorithmPart<
+export class ProximityWildcardResolver extends AlgorithmSegment<
    AlgorithmDataType.REGULAR_STRING_WITH_WILDCARDS,
    AlgorithmDataType.REGULAR_STRING,
    ProximityWildcardResolverConfig

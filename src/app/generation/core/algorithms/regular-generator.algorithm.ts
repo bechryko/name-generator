@@ -4,7 +4,7 @@ import {
    NameEndingApplier,
    ProximityWildcardResolver,
    TemplateBasedRegularStructureGenerator
-} from "../algorithm-parts";
+} from "../algorithm-segments";
 import { NameGeneratorAlgorithm } from "../models";
 
 export const regularGeneratorAlgorithm = new NameGeneratorAlgorithm("Regular", [

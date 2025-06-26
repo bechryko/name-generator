@@ -1,14 +1,14 @@
 import { LetterUtils, RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 import { LetterSet, RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
-import { AlgorithmDataType, AlgorithmPart, GenerationData } from "../models";
+import { AlgorithmDataType, AlgorithmSegment, GenerationData } from "../models";
 
 export interface NameEndingApplierConfig {
    excludedLetters: LetterSet;
    includedLetters: LetterSet;
 }
 
-export class NameEndingApplier extends AlgorithmPart<
+export class NameEndingApplier extends AlgorithmSegment<
    AlgorithmDataType.REGULAR_STRING,
    AlgorithmDataType.REGULAR_STRING,
    {}

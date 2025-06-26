@@ -1,7 +1,7 @@
 import { RandomLetterConfig } from "@ngen-generation/generator-algorithms/letter-finalization/models";
 import { LetterUtils, VoicedUnvoicedPairsUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 import { LetterSet, RegularCharacter, RegularString } from "@ngen-shared/models";
-import { AlgorithmDataType, AlgorithmPart, GenerationData } from "../models";
+import { AlgorithmDataType, AlgorithmSegment, GenerationData } from "../models";
 
 export interface BasicLetterFinalizerConfig {
    excludedLetters: LetterSet;
@@ -9,7 +9,7 @@ export interface BasicLetterFinalizerConfig {
    ignoreVoicedUnvoicedPairs: boolean;
 }
 
-export class BasicLetterFinalizer extends AlgorithmPart<
+export class BasicLetterFinalizer extends AlgorithmSegment<
    AlgorithmDataType.REGULAR_STRING,
    AlgorithmDataType.NAME,
    BasicLetterFinalizerConfig

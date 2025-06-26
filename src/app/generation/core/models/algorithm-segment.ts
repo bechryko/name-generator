@@ -9,7 +9,7 @@ interface AlgorithmDataTypeMap {
    [AlgorithmDataType.NAME]: string;
 }
 
-export abstract class AlgorithmPart<I extends AlgorithmDataType, O extends AlgorithmDataType, C = undefined> {
+export abstract class AlgorithmSegment<I extends AlgorithmDataType, O extends AlgorithmDataType, C = undefined> {
    public abstract transform(
       input: AlgorithmDataTypeMap[I],
       config: C,

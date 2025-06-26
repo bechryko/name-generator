@@ -1,12 +1,12 @@
 import { GenerationConfig } from "@ngen-generation/models";
 import { AlgorithmDataType } from "./algorithm-data-type";
-import { AlgorithmPart } from "./algorithm-part";
+import { AlgorithmSegment } from "./algorithm-segment";
 import { GenerationData } from "./generation-data";
 
 export class NameGeneratorAlgorithm {
    constructor(
       public readonly name: string,
-      private readonly segments: AlgorithmPart<any, any, any>[]
+      private readonly segments: AlgorithmSegment<any, any, any>[]
    ) {
       this.checkSegmentPipeline();
    }

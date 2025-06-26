@@ -1,8 +1,8 @@
-import { AlgorithmDataType, AlgorithmPart, GenerationData } from "../models";
+import { AlgorithmDataType, AlgorithmSegment, GenerationData } from "../models";
 
 export interface CapitalizerConfig {}
 
-export class Capitalizer extends AlgorithmPart<AlgorithmDataType.NAME, AlgorithmDataType.NAME, CapitalizerConfig> {
+export class Capitalizer extends AlgorithmSegment<AlgorithmDataType.NAME, AlgorithmDataType.NAME, CapitalizerConfig> {
    public override transform(input: string, _: CapitalizerConfig, data: GenerationData): [string, GenerationData] {
       return [
          this.capitalize(input),
