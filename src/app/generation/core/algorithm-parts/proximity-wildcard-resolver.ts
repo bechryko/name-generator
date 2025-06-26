@@ -1,7 +1,7 @@
 import { LetterUtils, RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 import { LetterSet, RegularCharacter, RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
-import { AlgorithmDataType, AlgorithmPart } from "../models";
+import { AlgorithmDataType, AlgorithmPart, GenerationData } from "../models";
 
 export interface ProximityWildcardResolverConfig {
    excludedLetters: LetterSet;
@@ -13,7 +13,11 @@ export class ProximityWildcardResolver extends AlgorithmPart<
    AlgorithmDataType.REGULAR_STRING,
    ProximityWildcardResolverConfig
 > {
-   public override transform(input: RegularString, config: ProximityWildcardResolverConfig): RegularString {
+   public override transform(
+      input: RegularString,
+      config: ProximityWildcardResolverConfig,
+      data: GenerationData
+   ): [RegularString, GenerationData] {
       const regular = input.clone();
       const characters = regular.getCharacters();
 
@@ -21,7 +25,12 @@ export class ProximityWildcardResolver extends AlgorithmPart<
          .filter(char => char.isWildcard)
          .forEach((_, index) => this.decideWildcardType(index, characters, config));
 
-      return regular;
+      const newData: GenerationData = {
+         ...data,
+         generationSteps: data.generationSteps + 1,
+         regularTemplate: regular.toString()
+      };
+      return [regular, newData];
    }
 
    public override getInputType(): AlgorithmDataType.REGULAR_STRING_WITH_WILDCARDS {

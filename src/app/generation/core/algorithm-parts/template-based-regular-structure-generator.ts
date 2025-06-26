@@ -1,7 +1,7 @@
 import { RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 import { RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
-import { AlgorithmDataType, AlgorithmPart } from "../models";
+import { AlgorithmDataType, AlgorithmPart, GenerationData } from "../models";
 
 export interface TemplateBasedRegularStructureGeneratorConfig {
    minLength: number;
@@ -16,7 +16,29 @@ export class TemplateBasedRegularStructureGenerator extends AlgorithmPart<
    AlgorithmDataType.REGULAR_STRING_WITH_WILDCARDS,
    TemplateBasedRegularStructureGeneratorConfig
 > {
-   public override transform(_: undefined, config: TemplateBasedRegularStructureGeneratorConfig): RegularString {
+   public override transform(
+      _: undefined,
+      config: TemplateBasedRegularStructureGeneratorConfig,
+      data: GenerationData
+   ): [RegularString, GenerationData] {
+      const template = this.getRegularTemplate(config);
+      const newData: GenerationData = {
+         ...data,
+         generationSteps: data.generationSteps + 1,
+         regularTemplate: template.toString()
+      };
+      return [template, newData];
+   }
+
+   public override getInputType(): AlgorithmDataType.VOID {
+      return AlgorithmDataType.VOID;
+   }
+
+   public override getOutputType(): AlgorithmDataType.REGULAR_STRING_WITH_WILDCARDS {
+      return AlgorithmDataType.REGULAR_STRING_WITH_WILDCARDS;
+   }
+
+   private getRegularTemplate(config: TemplateBasedRegularStructureGeneratorConfig): RegularString {
       if (config.regularNameBase.length) {
          return config.regularNameBase.clone();
       }
@@ -28,13 +50,5 @@ export class TemplateBasedRegularStructureGenerator extends AlgorithmPart<
       }
       regularBase.append(config.regularNameEnd);
       return regularBase;
-   }
-
-   public override getInputType(): AlgorithmDataType.VOID {
-      return AlgorithmDataType.VOID;
-   }
-
-   public override getOutputType(): AlgorithmDataType.REGULAR_STRING_WITH_WILDCARDS {
-      return AlgorithmDataType.REGULAR_STRING_WITH_WILDCARDS;
    }
 }

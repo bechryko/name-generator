@@ -1,6 +1,7 @@
 import { GenerationConfig } from "@ngen-generation/models";
 import { AlgorithmDataType } from "./algorithm-data-type";
 import { AlgorithmPart } from "./algorithm-part";
+import { GenerationData } from "./generation-data";
 
 export class NameGeneratorAlgorithm {
    constructor(
@@ -10,14 +11,17 @@ export class NameGeneratorAlgorithm {
       this.checkSegmentPipeline();
    }
 
-   public generateName(config: GenerationConfig): string {
+   public generateName(config: GenerationConfig): [string, GenerationData] {
       let currentData: any = undefined;
+      let generationData: GenerationData = {
+         generationSteps: 0
+      };
 
       this.segments.forEach(segment => {
-         currentData = segment.transform(currentData, config);
+         [currentData, generationData] = segment.transform(currentData, config, generationData);
       });
 
-      return currentData;
+      return [currentData, generationData];
    }
 
    private checkSegmentPipeline(): void {

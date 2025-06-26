@@ -1,7 +1,7 @@
 import { RandomLetterConfig } from "@ngen-generation/generator-algorithms/letter-finalization/models";
 import { LetterUtils, VoicedUnvoicedPairsUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 import { LetterSet, RegularCharacter, RegularString } from "@ngen-shared/models";
-import { AlgorithmDataType, AlgorithmPart } from "../models";
+import { AlgorithmDataType, AlgorithmPart, GenerationData } from "../models";
 
 export interface BasicLetterFinalizerConfig {
    excludedLetters: LetterSet;
@@ -14,7 +14,11 @@ export class BasicLetterFinalizer extends AlgorithmPart<
    AlgorithmDataType.NAME,
    BasicLetterFinalizerConfig
 > {
-   public override transform(input: RegularString, config: BasicLetterFinalizerConfig): string {
+   public override transform(
+      input: RegularString,
+      config: BasicLetterFinalizerConfig,
+      data: GenerationData
+   ): [string, GenerationData] {
       const regular = input.clone();
       const characters = regular.getCharacters();
       for (let i = 0; i < characters.length; i++) {
@@ -25,7 +29,12 @@ export class BasicLetterFinalizer extends AlgorithmPart<
          }
          this.finalizeCharacter(i, characters, config);
       }
-      return regular.getValue();
+
+      const newData: GenerationData = {
+         ...data,
+         generationSteps: data.generationSteps + 1
+      };
+      return [regular.getValue(), newData];
    }
 
    public override getInputType(): AlgorithmDataType.REGULAR_STRING {

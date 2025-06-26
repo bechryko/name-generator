@@ -1,7 +1,7 @@
 import { LetterUtils, RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 import { LetterSet, RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
-import { AlgorithmDataType, AlgorithmPart } from "../models";
+import { AlgorithmDataType, AlgorithmPart, GenerationData } from "../models";
 
 export interface NameEndingApplierConfig {
    excludedLetters: LetterSet;
@@ -28,7 +28,11 @@ export class NameEndingApplier extends AlgorithmPart<
       ...this.DOUBLE_CONSONANT_ENDINGS.map(e => RegularUtils.symbols.vowel + e)
    ];
 
-   public override transform(input: RegularString, config: NameEndingApplierConfig): RegularString {
+   public override transform(
+      input: RegularString,
+      config: NameEndingApplierConfig,
+      data: GenerationData
+   ): [RegularString, GenerationData] {
       const matchingEndings = this.getFilteredNameEndings(config).filter(ending =>
          input.ending(ending.length, true).doesMatch(ending)
       );
@@ -37,7 +41,13 @@ export class NameEndingApplier extends AlgorithmPart<
          const chosenEnding = RandomUtils.randomIndex(matchingEndings);
          regular.match(chosenEnding, regular.length - chosenEnding.length);
       }
-      return regular;
+
+      const newData: GenerationData = {
+         ...data,
+         generationSteps: data.generationSteps + 1,
+         regularTemplate: regular.toString()
+      };
+      return [regular, newData];
    }
 
    public override getInputType(): AlgorithmDataType.REGULAR_STRING {
