@@ -1,5 +1,6 @@
 import {
    BasicLetterFinalizer,
+   Capitalizer,
    NameEndingApplier,
    ProximityWildcardResolver,
    TemplateBasedRegularStructureGenerator
@@ -10,5 +11,6 @@ export const regularGeneratorAlgorithm = new NameGeneratorAlgorithm("Regular", [
    new TemplateBasedRegularStructureGenerator(),
    new ProximityWildcardResolver(),
    new NameEndingApplier(),
-   new BasicLetterFinalizer()
+   new BasicLetterFinalizer(),
+   new Capitalizer()
 ]);
