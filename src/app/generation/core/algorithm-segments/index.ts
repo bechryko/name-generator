@@ -4,6 +4,10 @@ export { Capitalizer, CapitalizerConfig } from "./capitalizer";
 export { NameEndingApplier, NameEndingApplierConfig } from "./name-ending-applier";
 export { ProximityWildcardResolver, ProximityWildcardResolverConfig } from "./proximity-wildcard-resolver";
 export {
+   SyllabicRegularStructureGenerator,
+   SyllabicRegularStructureGeneratorConfig
+} from "./syllabic-regular-structure-generator";
+export {
    TemplateBasedRegularStructureGenerator,
    TemplateBasedRegularStructureGeneratorConfig
 } from "./template-based-regular-structure-generator";
