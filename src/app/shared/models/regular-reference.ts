@@ -59,6 +59,10 @@ export class RegularReference extends RegularCharacter {
       return newRef;
    }
 
+   public override equals(other: unknown): boolean {
+      throw new Error("Equality check not implemented for regular references!");
+   }
+
    private dereference(): string {
       if (!this.regularString) {
          throw new Error("Cannot dereference without an assigned regular string!");

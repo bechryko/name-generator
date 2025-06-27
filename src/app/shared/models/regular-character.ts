@@ -89,4 +89,12 @@ export class RegularCharacter {
    public clone(): RegularCharacter {
       return new RegularCharacter(this.toString());
    }
+
+   public equals(other: unknown): boolean {
+      if (!(other instanceof RegularCharacter)) {
+         return false;
+      }
+
+      return this.type === other.type && this.letter === other.letter;
+   }
 }

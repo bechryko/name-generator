@@ -50,8 +50,13 @@ export class LetterUtils {
    }
 
    public static getVowelChance(excludedLetters: LetterSet, includedLetters: LetterSet): number {
-      const usableVowels = this.vowel.filter(v => !excludedLetters.has(v.letter) && includedLetters.has(v.letter));
-      const usableLetters = this.letter.filter(l => !excludedLetters.has(l.letter) && includedLetters.has(l.letter));
+      const usableVowels = this.vowel.filter(
+         v => !excludedLetters.has(v.letter) && (includedLetters.isEmpty() || includedLetters.has(v.letter))
+      );
+      const usableLetters = this.letter.filter(
+         l => !excludedLetters.has(l.letter) && (includedLetters.isEmpty() || includedLetters.has(l.letter))
+      );
+      console.log(usableVowels.length, usableLetters.length);
       return usableVowels.reduce((acc, v) => acc + v.weight, 0) / usableLetters.reduce((acc, l) => acc + l.weight, 0); //TODO: pluckSum function
    }
 

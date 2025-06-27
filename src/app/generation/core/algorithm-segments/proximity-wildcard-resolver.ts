@@ -59,33 +59,38 @@ export class ProximityWildcardResolver extends AlgorithmSegment<
          }
       }
 
+      const previousChar = characters[index - 1];
+      const nextChar = characters[index + 1];
+
       if (vowelsInRange === consonantsInRange) {
          if (vowelsInRange === 2) {
-            if (characters[index + 1] === characters[index - 1]) {
-               char.assign(this.vowelIf(characters[index - 1].isConsonant));
+            if (nextChar.equals(previousChar) && characters[index - 1].isConsonant) {
+               char.assign(RegularUtils.symbols.vowel);
             } else {
-               char.assign(
-                  this.vowelIf(
-                     RandomUtils.byChance(LetterUtils.getVowelChance(config.excludedLetters, config.includedLetters))
-                  )
-               );
+               char.assign(this.getRandomRegularByConfig(config));
             }
-         } else if (vowelsInRange === 1) {
-            char.assign(this.vowelIf(characters[index - 1]?.isConsonant));
+         } else if (vowelsInRange === 1 && previousChar) {
+            if (consonantsInRange >= 2) {
+               char.assign(this.vowelIf(previousChar.isConsonant));
+            } else {
+               char.assign(this.getRandomRegularByConfig(config));
+            }
          } else {
-            char.assign(
-               this.vowelIf(
-                  RandomUtils.byChance(LetterUtils.getVowelChance(config.excludedLetters, config.includedLetters))
-               )
-            );
+            char.assign(this.getRandomRegularByConfig(config));
          }
       } else {
-         if (index === characters.length - 2 && characters[index + 1].isConsonant) {
+         if (index === characters.length - 2 && nextChar.isConsonant) {
             char.assign(RegularUtils.symbols.vowel);
          } else {
             char.assign(this.vowelIf(consonantsInRange > vowelsInRange));
          }
       }
+   }
+
+   private getRandomRegularByConfig(config: ProximityWildcardResolverConfig): string {
+      return this.vowelIf(
+         RandomUtils.byChance(LetterUtils.getVowelChance(config.excludedLetters, config.includedLetters))
+      );
    }
 
    private vowelIf(condition: boolean): string {
