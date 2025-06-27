@@ -1,6 +1,7 @@
 import { RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
-import { AlgorithmDataType, AlgorithmSegment, GenerationData } from "../models";
+import { AlgorithmDataType } from "../enums";
+import { AlgorithmSegment, GenerationData } from "../models";
 
 export interface SyllabicRegularStructureGeneratorConfig {
    minLength: number;

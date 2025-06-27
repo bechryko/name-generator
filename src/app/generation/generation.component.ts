@@ -4,11 +4,10 @@ import { MatButton } from "@angular/material/button";
 import { SidebarComponent } from "@ngen-shared/components";
 import { PageStateHandlerService } from "@ngen-shared/services";
 import { japaneseGeneratorAlgorithm, regularGeneratorAlgorithm, syllabicGeneratorAlgorithm } from "./core/algorithms";
+import { GeneratorAlgorithmName } from "./core/enums";
 import { GenerationData, NameGeneratorAlgorithm } from "./core/models";
-import { GeneratorAlgorithmName } from "./enums";
 import { GenerationConfigComponent } from "./generation-config/generation-config.component";
 import { GenerationOutputComponent } from "./generation-output/generation-output.component";
-import { VoicedUnvoicedPairsUtils } from "./generator-algorithms/letter-finalization/utils";
 import { ConfigurationStoreService } from "./services";
 
 @Component({
@@ -37,8 +36,6 @@ export class GenerationComponent {
       for (const generator of Object.values(GeneratorAlgorithmName)) {
          this.GENERATORS.push({ label: generator, value: generator });
       }
-
-      VoicedUnvoicedPairsUtils.initPairs();
    }
 
    public generateName(generator: GeneratorAlgorithmName): void {

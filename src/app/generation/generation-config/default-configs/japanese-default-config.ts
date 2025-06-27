@@ -1,4 +1,4 @@
-import { GenerationConfig } from "@ngen-generation/models";
+import { GenerationConfig } from "@ngen-generation/core/models";
 import { basicDefaultConfig } from "./basic-default-config";
 
 export const japaneseDefaultConfig: GenerationConfig = {

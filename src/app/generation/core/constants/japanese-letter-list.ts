@@ -1,4 +1,4 @@
-import { JapaneseLetter } from "./japanese-letter";
+import { JapaneseLetter } from "../../core/models/japanese-letter";
 
 export const japaneseLetterList: JapaneseLetter[] = [
    { romaji: "a", hiragana: "あ", katakana: "ア" },

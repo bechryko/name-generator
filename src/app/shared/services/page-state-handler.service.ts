@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { AboutSubpages } from "@ngen-about/about-subpages";
 import { generatorFlags } from "@ngen-generation/constants";
-import { GeneratorAlgorithmName } from "@ngen-generation/enums";
+import { GeneratorAlgorithmName } from "@ngen-generation/core/enums";
 import { BehaviorSubject, Observable } from "rxjs";
 
 @Injectable({

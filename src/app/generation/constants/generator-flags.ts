@@ -1,4 +1,4 @@
-import { GeneratorAlgorithmName } from "../enums";
+import { GeneratorAlgorithmName } from "../core/enums";
 import { GeneratorFlagKey } from "../models";
 
 /**

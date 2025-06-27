@@ -1,4 +1,4 @@
-import { GenerationConfig } from "@ngen-generation/models";
+import { GenerationConfig } from "@ngen-generation/core/models";
 import { LetterSet, RegularString } from "@ngen-shared/models";
 
 export const basicDefaultConfig: GenerationConfig = {

@@ -1,4 +1,4 @@
-import { LetterUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
+import { LetterUtils } from "@ngen-generation/core/utils";
 
 export class LetterSet {
    private static deleteNonLetters(input: string): string {

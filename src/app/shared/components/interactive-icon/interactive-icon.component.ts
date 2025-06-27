@@ -3,7 +3,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTooltipModule, TooltipPosition } from "@angular/material/tooltip";
-import { GeneratorAlgorithmName } from "@ngen-generation/enums";
+import { GeneratorAlgorithmName } from "@ngen-generation/core/enums";
 import { ClipboardService, PageStateHandlerService } from "@ngen-shared/services";
 import { BehaviorSubject } from "rxjs";
 

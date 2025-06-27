@@ -1,5 +1,5 @@
 import { RegularString } from "@ngen-shared/models";
-import { AlgorithmDataType } from "./algorithm-data-type";
+import { AlgorithmDataType } from "../enums/algorithm-data-type";
 import { GenerationData } from "./generation-data";
 
 interface AlgorithmDataTypeMap {

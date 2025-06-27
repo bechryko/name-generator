@@ -1,7 +1,7 @@
-import { RandomLetterConfig } from "@ngen-generation/generator-algorithms/letter-finalization/models";
-import { LetterUtils, VoicedUnvoicedPairsUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 import { LetterSet, RegularCharacter, RegularString } from "@ngen-shared/models";
-import { AlgorithmDataType, AlgorithmSegment, GenerationData } from "../models";
+import { AlgorithmDataType } from "../enums";
+import { AlgorithmSegment, GenerationData, RandomLetterConfig } from "../models";
+import { LetterUtils, VoicedUnvoicedPairsUtils } from "../utils";
 
 export interface BasicLetterFinalizerConfig {
    excludedLetters: LetterSet;

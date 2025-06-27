@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, effect, input } from "@angular/core";
+import { GeneratorAlgorithmName } from "@ngen-generation/core/enums";
 import { GenerationData } from "@ngen-generation/core/models";
-import { GeneratorAlgorithmName } from "@ngen-generation/enums";
 import { InteractiveIconComponent } from "@ngen-shared/components";
 
 @Component({

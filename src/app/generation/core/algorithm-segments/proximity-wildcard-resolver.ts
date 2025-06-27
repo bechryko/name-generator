@@ -1,7 +1,8 @@
-import { LetterUtils, RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 import { LetterSet, RegularCharacter, RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
-import { AlgorithmDataType, AlgorithmSegment, GenerationData } from "../models";
+import { AlgorithmDataType } from "../enums";
+import { AlgorithmSegment, GenerationData } from "../models";
+import { LetterUtils, RegularUtils } from "../utils";
 
 export interface ProximityWildcardResolverConfig {
    excludedLetters: LetterSet;

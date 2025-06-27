@@ -1,4 +1,4 @@
-import { RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
+import { RegularUtils } from "@ngen-generation/core/utils";
 import { RegularCharacter } from "./regular-character";
 import { RegularReference } from "./regular-reference";
 

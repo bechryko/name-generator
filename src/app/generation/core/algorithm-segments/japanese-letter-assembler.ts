@@ -1,7 +1,7 @@
-import { JapaneseLetter } from "@ngen-generation/generator-algorithms/japanese/japanese-letter";
-import { japaneseLetterList } from "@ngen-generation/generator-algorithms/japanese/japanese-letter-list";
 import { RandomUtils } from "@ngen-shared/utils";
-import { AlgorithmDataType, AlgorithmSegment, GenerationData } from "../models";
+import { japaneseLetterList } from "../constants";
+import { AlgorithmDataType } from "../enums";
+import { AlgorithmSegment, GenerationData, JapaneseLetter } from "../models";
 
 export interface JapaneseLetterAssemblerConfig {
    minLength: number;

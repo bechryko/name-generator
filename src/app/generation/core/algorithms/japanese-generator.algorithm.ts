@@ -1,4 +1,4 @@
-import { GeneratorAlgorithmName } from "@ngen-generation/enums";
+import { GeneratorAlgorithmName } from "@ngen-generation/core/enums";
 import { Capitalizer, JapaneseLetterAssembler } from "../algorithm-segments";
 import { NameGeneratorAlgorithm } from "../models";
 

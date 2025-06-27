@@ -1,4 +1,5 @@
-import { AlgorithmDataType, AlgorithmSegment, GenerationData } from "../models";
+import { AlgorithmDataType } from "../enums";
+import { AlgorithmSegment, GenerationData } from "../models";
 
 export interface CapitalizerConfig {}
 

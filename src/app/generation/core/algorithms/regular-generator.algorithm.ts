@@ -1,4 +1,4 @@
-import { GeneratorAlgorithmName } from "@ngen-generation/enums";
+import { GeneratorAlgorithmName } from "@ngen-generation/core/enums";
 import {
    BasicLetterFinalizer,
    Capitalizer,

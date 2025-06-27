@@ -1,15 +1,12 @@
 export class VoicedUnvoicedPairsUtils {
-   private static pairsInitialized = false;
    private static readonly pairs: [string, string][] = [];
 
-   public static initPairs() {
-      if (this.pairsInitialized) return;
+   static {
       this.addPair("p", "b");
       this.addPair("t", "d");
       this.addPair("k", "g");
       this.addPair("f", "v");
       this.addPair("s", "z");
-      this.pairsInitialized = true;
    }
 
    public static pairOf(letter: string): string | undefined {

@@ -1,6 +1,6 @@
-import { GenerationConfig } from "@ngen-generation/models";
-import { AlgorithmDataType } from "./algorithm-data-type";
+import { AlgorithmDataType } from "../enums/algorithm-data-type";
 import { AlgorithmSegment } from "./algorithm-segment";
+import { GenerationConfig } from "./generation-config";
 import { GenerationData } from "./generation-data";
 
 export class NameGeneratorAlgorithm {
