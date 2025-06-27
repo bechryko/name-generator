@@ -1,15 +1,15 @@
-import { Generators } from "@ngen-generation/enums";
+import { GeneratorAlgorithmName } from "@ngen-generation/enums";
 import { BoundedConfigProperty, GeneratorConfigFields, PropertyBounds } from "../model";
 
 export class GenerationConfigUtils {
-   public static getConfig(generator: Generators | undefined): GeneratorConfigFields {
+   public static getConfig(generator: GeneratorAlgorithmName | undefined): GeneratorConfigFields {
       switch (generator) {
-         case Generators.JAPANESE:
+         case GeneratorAlgorithmName.JAPANESE:
             return {
                minLength: true,
                maxLength: true
             };
-         case Generators.SYLLABIC:
+         case GeneratorAlgorithmName.SYLLABIC:
             return {
                minLength: true,
                maxLength: true,
@@ -17,7 +17,7 @@ export class GenerationConfigUtils {
                includedLetters: true,
                ignoreVoicedUnvoicedPairs: true
             };
-         case Generators.REGULAR:
+         case GeneratorAlgorithmName.REGULAR:
             return {
                minLength: true,
                maxLength: true,

@@ -4,7 +4,7 @@ import { ConfigurationStoreService } from "@ngen-generation/services";
 import { InputComponent } from "@ngen-shared/components";
 import { InputType } from "@ngen-shared/components/input";
 import { LetterSet, RegularString } from "@ngen-shared/models";
-import { Generators } from "../enums";
+import { GeneratorAlgorithmName } from "../enums";
 import {
    basicDefaultConfig,
    japaneseDefaultConfig,
@@ -38,8 +38,8 @@ interface ConfigField {
 export class GenerationConfigComponent {
    private readonly configStoreService = inject(ConfigurationStoreService);
 
-   public selectedGenerator: Generators = Generators.JAPANESE;
-   @Input() set generator(value: Generators) {
+   public selectedGenerator: GeneratorAlgorithmName = GeneratorAlgorithmName.JAPANESE;
+   @Input() set generator(value: GeneratorAlgorithmName) {
       this.selectedGenerator = value;
       this.setConfigValue(this.configStoreService.loadConfig(value));
       for (const field of this.configFields) {
@@ -138,7 +138,7 @@ export class GenerationConfigComponent {
 
       if (field.name === "minLength") {
          const minBound = this.getBounds(
-            this.selectedGenerator === Generators.REGULAR ? "lengthInLetters" : "lengthInSyllables"
+            this.selectedGenerator === GeneratorAlgorithmName.REGULAR ? "lengthInLetters" : "lengthInSyllables"
          ).min!;
          if ((this.configFieldsData.minLength.value() as number) < minBound) {
             this.setFormFieldValue("minLength", minBound);
@@ -151,7 +151,7 @@ export class GenerationConfigComponent {
 
       if (field.name === "maxLength") {
          const maxBound = this.getBounds(
-            this.selectedGenerator === Generators.REGULAR ? "lengthInLetters" : "lengthInSyllables"
+            this.selectedGenerator === GeneratorAlgorithmName.REGULAR ? "lengthInLetters" : "lengthInSyllables"
          ).max!;
          if ((this.configFieldsData.maxLength.value() as number) > maxBound) {
             this.setFormFieldValue("maxLength", maxBound);
@@ -209,13 +209,13 @@ export class GenerationConfigComponent {
    private resetField(fieldName: FieldName): void {
       let selectedConfig;
       switch (this.selectedGenerator) {
-         case Generators.JAPANESE:
+         case GeneratorAlgorithmName.JAPANESE:
             selectedConfig = japaneseDefaultConfig;
             break;
-         case Generators.REGULAR:
+         case GeneratorAlgorithmName.REGULAR:
             selectedConfig = regularDefaultConfig;
             break;
-         case Generators.SYLLABIC:
+         case GeneratorAlgorithmName.SYLLABIC:
             selectedConfig = syllabicDefaultConfig;
             break;
          default:

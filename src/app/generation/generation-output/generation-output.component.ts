@@ -1,11 +1,7 @@
-import { ChangeDetectionStrategy, Component, Input } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, input } from "@angular/core";
+import { GenerationData } from "@ngen-generation/core/models";
+import { GeneratorAlgorithmName } from "@ngen-generation/enums";
 import { InteractiveIconComponent } from "@ngen-shared/components";
-import { Name } from "@ngen-shared/names";
-
-interface DisplayName {
-   name: string;
-   props: { propName: string; propValue: string }[];
-}
 
 @Component({
    selector: "ngen-generation-output",
@@ -15,42 +11,34 @@ interface DisplayName {
    imports: [InteractiveIconComponent]
 })
 export class GenerationOutputComponent {
-   public nameSaved = false; // TODO
-   private _generatedName: Name | null = null;
-   @Input() set generatedName(name: Name | null) {
-      this._generatedName = name;
-      this.nameSaved = false;
+   public readonly generatedName = input.required<string | null>();
+   public readonly generationData = input.required<GenerationData | null>();
+   public readonly generator = input.required<GeneratorAlgorithmName>();
+   private currentGenerator?: GeneratorAlgorithmName;
+
+   constructor() {
+      effect(() => (this.currentGenerator = this.generator()));
    }
 
-   public get displayName(): DisplayName | null {
-      if (!this._generatedName) {
-         return null;
+   public readonly displayedGenerationData = computed(() => {
+      const data = this.generationData();
+      if (!data || !this.currentGenerator) {
+         return [];
       }
-      return this.getDisplayName(this._generatedName);
-   }
 
-   private getDisplayName(name: Name): DisplayName {
-      if ("romaji" in name) {
-         return {
-            name: name.romaji,
-            props: [
-               { propName: "Hiragana", propValue: name.hiragana },
-               { propName: "Katakana", propValue: name.katakana }
-            ]
-         };
+      const displayedData: Array<[string, string]> = [];
+      switch (this.currentGenerator) {
+         case GeneratorAlgorithmName.JAPANESE:
+            displayedData.push(["Katakana", data.katakana!]);
+            displayedData.push(["Hiragana", data.hiragana!]);
+            break;
+         case GeneratorAlgorithmName.SYLLABIC:
+            displayedData.push(["Syllabized", data.syllabized!]);
+            break;
+         case GeneratorAlgorithmName.REGULAR:
+            displayedData.push(["Regular", data.regularTemplate!]);
+            break;
       }
-      if ("syllabic" in name) {
-         return {
-            name: name.name,
-            props: [{ propName: "Syllabized", propValue: name.syllabic.join("-") }]
-         };
-      }
-      if ("regularBase" in name) {
-         return {
-            name: name.name,
-            props: [{ propName: "Regular", propValue: name.regularBase.toString() }]
-         };
-      }
-      return { name: "", props: [] };
-   }
+      return displayedData;
+   });
 }

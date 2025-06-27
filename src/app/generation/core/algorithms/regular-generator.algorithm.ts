@@ -1,3 +1,4 @@
+import { GeneratorAlgorithmName } from "@ngen-generation/enums";
 import {
    BasicLetterFinalizer,
    Capitalizer,
@@ -7,7 +8,7 @@ import {
 } from "../algorithm-segments";
 import { NameGeneratorAlgorithm } from "../models";
 
-export const regularGeneratorAlgorithm = new NameGeneratorAlgorithm("Regular", [
+export const regularGeneratorAlgorithm = new NameGeneratorAlgorithm(GeneratorAlgorithmName.REGULAR, [
    new TemplateBasedRegularStructureGenerator(),
    new ProximityWildcardResolver(),
    new NameEndingApplier(),

@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { Generators } from "@ngen-generation/enums";
+import { GeneratorAlgorithmName } from "@ngen-generation/enums";
 import {
    japaneseDefaultConfig,
    regularDefaultConfig,
@@ -11,17 +11,17 @@ import { GenerationConfig } from "@ngen-generation/models";
    providedIn: "root"
 })
 export class ConfigurationStoreService {
-   private readonly storedConfigs: Record<Generators, GenerationConfig> = {
-      [Generators.JAPANESE]: japaneseDefaultConfig,
-      [Generators.SYLLABIC]: syllabicDefaultConfig,
-      [Generators.REGULAR]: regularDefaultConfig
+   private readonly storedConfigs: Record<GeneratorAlgorithmName, GenerationConfig> = {
+      [GeneratorAlgorithmName.JAPANESE]: japaneseDefaultConfig,
+      [GeneratorAlgorithmName.SYLLABIC]: syllabicDefaultConfig,
+      [GeneratorAlgorithmName.REGULAR]: regularDefaultConfig
    };
 
-   public saveConfig(generator: Generators, config: GenerationConfig): void {
+   public saveConfig(generator: GeneratorAlgorithmName, config: GenerationConfig): void {
       this.storedConfigs[generator] = config;
    }
 
-   public loadConfig(generator: Generators): GenerationConfig {
+   public loadConfig(generator: GeneratorAlgorithmName): GenerationConfig {
       return this.storedConfigs[generator];
    }
 }

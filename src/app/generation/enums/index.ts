@@ -1,3 +1,3 @@
 //@index("./*.ts", (f, _) => `export { ${_.pascalCase(f.name)} } from "${f.path}";`)
-export { Generators } from "./generators";
+export { GeneratorAlgorithmName } from "./generator-algorithm-name";
 //@endindex

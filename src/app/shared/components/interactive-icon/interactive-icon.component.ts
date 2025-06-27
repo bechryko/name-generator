@@ -3,7 +3,7 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatSnackBarModule } from "@angular/material/snack-bar";
 import { MatTooltipModule, TooltipPosition } from "@angular/material/tooltip";
-import { Generators } from "@ngen-generation/enums";
+import { GeneratorAlgorithmName } from "@ngen-generation/enums";
 import { ClipboardService, PageStateHandlerService } from "@ngen-shared/services";
 import { BehaviorSubject } from "rxjs";
 
@@ -30,7 +30,7 @@ export class InteractiveIconComponent {
    public readonly data = input<any>();
    public readonly tooltipPosition = input<TooltipPosition>("below");
    public readonly click = output<Event>();
-   private readonly selectedGenerator$ = new BehaviorSubject<Generators>(Generators.JAPANESE);
+   private readonly selectedGenerator$ = new BehaviorSubject<GeneratorAlgorithmName>(GeneratorAlgorithmName.JAPANESE);
 
    public readonly ICONS: Record<InteractiveIconType, InteractiveIconTypeDescription> = {
       clipboard: {

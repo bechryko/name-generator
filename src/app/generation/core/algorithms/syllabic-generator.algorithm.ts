@@ -1,3 +1,4 @@
+import { GeneratorAlgorithmName } from "@ngen-generation/enums";
 import { LetterUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 import {
    BasicLetterFinalizer,
@@ -8,7 +9,7 @@ import {
 import { GenerationData, NameGeneratorAlgorithm } from "../models";
 
 export const syllabicGeneratorAlgorithm = new NameGeneratorAlgorithm(
-   "Syllabic",
+   GeneratorAlgorithmName.SYLLABIC,
    [new SyllabicRegularStructureGenerator(), new NameEndingApplier(), new BasicLetterFinalizer(), new Capitalizer()],
    (name, data) => {
       const syllables = syllabize(name);
