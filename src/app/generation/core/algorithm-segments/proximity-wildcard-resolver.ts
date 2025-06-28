@@ -1,0 +1,99 @@
+import { LetterSet, RegularCharacter, RegularString } from "@ngen-shared/models";
+import { RandomUtils } from "@ngen-shared/utils";
+import { AlgorithmDataType } from "../enums";
+import { AlgorithmSegment, GenerationData } from "../models";
+import { LetterUtils, RegularUtils } from "../utils";
+
+export interface ProximityWildcardResolverConfig {
+   excludedLetters: LetterSet;
+   includedLetters: LetterSet;
+}
+
+export class ProximityWildcardResolver extends AlgorithmSegment<
+   AlgorithmDataType.REGULAR_STRING_WITH_WILDCARDS,
+   AlgorithmDataType.REGULAR_STRING,
+   ProximityWildcardResolverConfig
+> {
+   public override transform(
+      input: RegularString,
+      config: ProximityWildcardResolverConfig,
+      data: GenerationData
+   ): [RegularString, GenerationData] {
+      const regular = input.clone();
+      const characters = regular.getCharacters();
+
+      characters
+         .filter(char => char.isWildcard)
+         .forEach((_, index) => this.decideWildcardType(index, characters, config));
+
+      const newData: GenerationData = {
+         ...data,
+         generationSteps: data.generationSteps + 1,
+         regularTemplate: regular.toString()
+      };
+      return [regular, newData];
+   }
+
+   public override getInputType(): AlgorithmDataType.REGULAR_STRING_WITH_WILDCARDS {
+      return AlgorithmDataType.REGULAR_STRING_WITH_WILDCARDS;
+   }
+
+   public override getOutputType(): AlgorithmDataType.REGULAR_STRING {
+      return AlgorithmDataType.REGULAR_STRING;
+   }
+
+   private decideWildcardType(
+      index: number,
+      characters: Readonly<RegularCharacter[]>,
+      config: ProximityWildcardResolverConfig
+   ): void {
+      const char = characters[index];
+
+      let vowelsInRange = 0,
+         consonantsInRange = 0;
+      for (let j = -2; j <= 2; j++) {
+         if (characters[index + j]?.isVowel) {
+            vowelsInRange++;
+         } else if (characters[index + j]?.isConsonant) {
+            consonantsInRange++;
+         }
+      }
+
+      const previousChar = characters[index - 1];
+      const nextChar = characters[index + 1];
+
+      if (vowelsInRange === consonantsInRange) {
+         if (vowelsInRange === 2) {
+            if (nextChar.equals(previousChar) && characters[index - 1].isConsonant) {
+               char.assign(RegularUtils.symbols.vowel);
+            } else {
+               char.assign(this.getRandomRegularByConfig(config));
+            }
+         } else if (vowelsInRange === 1 && previousChar) {
+            if (consonantsInRange >= 2) {
+               char.assign(this.vowelIf(previousChar.isConsonant));
+            } else {
+               char.assign(this.getRandomRegularByConfig(config));
+            }
+         } else {
+            char.assign(this.getRandomRegularByConfig(config));
+         }
+      } else {
+         if (index === characters.length - 2 && nextChar.isConsonant) {
+            char.assign(RegularUtils.symbols.vowel);
+         } else {
+            char.assign(this.vowelIf(consonantsInRange > vowelsInRange));
+         }
+      }
+   }
+
+   private getRandomRegularByConfig(config: ProximityWildcardResolverConfig): string {
+      return this.vowelIf(
+         RandomUtils.byChance(LetterUtils.getVowelChance(config.excludedLetters, config.includedLetters))
+      );
+   }
+
+   private vowelIf(condition: boolean): string {
+      return condition ? RegularUtils.symbols.vowel : RegularUtils.symbols.consonant;
+   }
+}

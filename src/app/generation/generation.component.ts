@@ -1,17 +1,13 @@
-import { AsyncPipe } from "@angular/common";
-import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, Signal } from "@angular/core";
+import { toSignal } from "@angular/core/rxjs-interop";
 import { MatButton } from "@angular/material/button";
-import { SidebarComponent } from "@ngen-core/components";
-import { Name } from "@ngen-core/names";
-import { PageStateHandlerService } from "@ngen-core/services";
-import { Observable } from "rxjs";
-import { Generators } from "./enums";
+import { SidebarComponent } from "@ngen-shared/components";
+import { PageStateHandlerService } from "@ngen-shared/services";
+import { japaneseGeneratorAlgorithm, regularGeneratorAlgorithm, syllabicGeneratorAlgorithm } from "./core/algorithms";
+import { GeneratorAlgorithmName } from "./core/enums";
+import { GenerationData, NameGeneratorAlgorithm } from "./core/models";
 import { GenerationConfigComponent } from "./generation-config/generation-config.component";
 import { GenerationOutputComponent } from "./generation-output/generation-output.component";
-import { JapaneseGeneratorService, RegularGeneratorService, SyllabicGeneratorService } from "./generator-algorithms";
-import { GeneratorService } from "./generator-algorithms/generator-service.model";
-import { LetterFinalizerService } from "./generator-algorithms/letter-finalization/letter-finalizer.service";
-import { VoicedUnvoicedPairsUtils } from "./generator-algorithms/letter-finalization/utils";
 import { ConfigurationStoreService } from "./services";
 
 @Component({
@@ -19,39 +15,44 @@ import { ConfigurationStoreService } from "./services";
    templateUrl: "./generation.component.html",
    styleUrl: "./generation.component.scss",
    changeDetection: ChangeDetectionStrategy.OnPush,
-   imports: [SidebarComponent, GenerationConfigComponent, MatButton, GenerationOutputComponent, AsyncPipe],
-   providers: [JapaneseGeneratorService, RegularGeneratorService, SyllabicGeneratorService, LetterFinalizerService]
+   imports: [SidebarComponent, GenerationConfigComponent, MatButton, GenerationOutputComponent]
 })
 export class GenerationComponent {
    private readonly pageStateHandlerService = inject(PageStateHandlerService);
    private readonly configurationStoreService = inject(ConfigurationStoreService);
 
-   public readonly GENERATORS: { label: string; value: Generators }[] = [];
-   public selectedGenerator$: Observable<Generators>;
-   public generatedName?: Name;
-
-   private generatorServices: Record<Generators, GeneratorService> = {
-      [Generators.JAPANESE]: inject(JapaneseGeneratorService),
-      [Generators.SYLLABIC]: inject(SyllabicGeneratorService),
-      [Generators.REGULAR]: inject(RegularGeneratorService)
-   };
+   public readonly GENERATORS: { label: string; value: GeneratorAlgorithmName }[] = [];
+   public readonly selectedGenerator: Signal<GeneratorAlgorithmName | undefined>;
+   public generatedName?: string;
+   public generationData?: GenerationData;
+   private readonly generatorAlgorithms = [
+      japaneseGeneratorAlgorithm,
+      regularGeneratorAlgorithm,
+      syllabicGeneratorAlgorithm
+   ];
 
    constructor() {
-      this.selectedGenerator$ = this.pageStateHandlerService.generator$;
-      for (const generator of Object.values(Generators)) {
+      this.selectedGenerator = toSignal(this.pageStateHandlerService.generator$);
+      for (const generator of Object.values(GeneratorAlgorithmName)) {
          this.GENERATORS.push({ label: generator, value: generator });
       }
-
-      VoicedUnvoicedPairsUtils.initPairs();
    }
 
-   public generateName(generator: Generators): void {
-      this.generatedName = this.generatorServices[generator].generateName(
+   public generateName(generator: GeneratorAlgorithmName): void {
+      [this.generatedName, this.generationData] = this.findAlgorithm(generator).generateName(
          this.configurationStoreService.loadConfig(generator)
       );
    }
 
-   public selectGenerator(generator: Generators): void {
+   public selectGenerator(generator: GeneratorAlgorithmName): void {
       this.pageStateHandlerService.setGenerator(generator);
+   }
+
+   private findAlgorithm(algorithmName: GeneratorAlgorithmName): NameGeneratorAlgorithm {
+      const algorithm = this.generatorAlgorithms.find(algorithm => algorithm.name === algorithmName);
+      if (!algorithm) {
+         throw new Error("Cannot find generator algorithm: " + algorithmName);
+      }
+      return algorithm;
    }
 }

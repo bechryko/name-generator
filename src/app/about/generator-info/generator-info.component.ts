@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from "@angular/core";
+import { RegularUtils } from "@ngen-generation/core/utils";
 import { BoundedConfigProperty, PropertyBounds } from "@ngen-generation/generation-config/model";
 import { GenerationConfigUtils } from "@ngen-generation/generation-config/utils";
-import { RegularUtils } from "@ngen-generation/generator-algorithms/letter-finalization/utils";
 
 @Component({
    selector: "ngen-generator-info",

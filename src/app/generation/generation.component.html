@@ -1,23 +1,28 @@
-@let selectedGenerator = (selectedGenerator$ | async)!;
-<ngen-sidebar
-   [selectableList]="GENERATORS"
-   [selectedValue]="selectedGenerator"
-   (select)="selectGenerator($event)"
-   placeholderText="No generation algorithms!"></ngen-sidebar>
-<main>
-   <div class="left-corner"></div>
-   <div class="title-container">
-      <h2>{{ selectedGenerator }} Name Generation</h2>
-   </div>
-   <div class="right-corner"></div>
-   <div class="generation-settings-wrapper">
-      <ngen-generation-config [generator]="selectedGenerator"></ngen-generation-config>
-      <button
-         mat-raised-button
-         (click)="generateName(selectedGenerator)"
-         class="generate-button">
-         Generate Name
-      </button>
-   </div>
-   <ngen-generation-output [generatedName]="generatedName ?? null"></ngen-generation-output>
-</main>
+@let generator = selectedGenerator();
+@if (generator) {
+   <ngen-sidebar
+      [selectableList]="GENERATORS"
+      [selectedValue]="generator"
+      (select)="selectGenerator($event)"
+      placeholderText="No generation algorithms!"></ngen-sidebar>
+   <main>
+      <div class="left-corner"></div>
+      <div class="title-container">
+         <h2>{{ generator }} Name Generation</h2>
+      </div>
+      <div class="right-corner"></div>
+      <div class="generation-settings-wrapper">
+         <ngen-generation-config [generator]="generator"></ngen-generation-config>
+         <button
+            mat-raised-button
+            (click)="generateName(generator)"
+            class="generate-button">
+            Generate Name
+         </button>
+      </div>
+      <ngen-generation-output
+         [generatedName]="generatedName ?? null"
+         [generationData]="generationData ?? null"
+         [generator]="generator"></ngen-generation-output>
+   </main>
+}

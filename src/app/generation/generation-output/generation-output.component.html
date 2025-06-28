@@ -1,14 +1,15 @@
-@if (displayName) {
+@let name = generatedName();
+@if (name) {
    <div class="display-name">
-      <p>{{ displayName.name }}</p>
-      @for (prop of displayName.props; track $index) {
-         <p>{{ prop.propName }}: {{ prop.propValue }}</p>
+      <p>{{ name }}</p>
+      @for (data of displayedGenerationData(); track $index) {
+         <p class="generation-data">{{ data[0] }}: {{ data[1] }}</p>
       }
    </div>
    <div class="icons">
       <ngen-interactive-icon
          type="clipboard"
-         [data]="displayName.name"
+         [data]="name"
          tooltipPosition="left"></ngen-interactive-icon>
       <!-- @if (!nameSaved) {
          <ngen-interactive-icon

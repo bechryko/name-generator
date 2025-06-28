@@ -1,9 +1,5 @@
-import { Generators } from "../enums";
-import { GeneratorFlagKey } from "../models";
+import { GeneratorAlgorithmName } from "../core/enums";
 
-/**
- * Marks for special generators.
- */
-export const generatorFlags: Record<GeneratorFlagKey, Generators> = {
-   best: Generators.SYLLABIC
+export const generatorFlags = {
+   best: GeneratorAlgorithmName.SYLLABIC
 };
