@@ -66,10 +66,15 @@
       given place. The <code>{{ regulars.wildcard }}</code> (wildcard) symbol tells that any letter (taking into account
       other configuration rules) can be placed there, while <code>{{ regulars.vowel }}</code> and
       <code>{{ regulars.consonant }}</code> mean a random vowel or consonant, respectively. Using regular reference
-      symbols you can reference to other parts of your name, using letters from 0 to 9. Currently, you cannot reference
-      to letters with indexes higher than 9, but this will change in the future. For an example, if your regular
-      structure is "<code>+--0</code>", the first letter will be a random vowel, the second and third a random consonant
-      which are independent, and the last letter references the first (the one with index 0), so they will always be the
-      same. One possible name generated with this structure is "Ansa".
+      symbols you can reference to other parts of your name, using <code>0</code> and positive integer numbers.
+      (Indexing starts from 0.) (If you are using references with higher index than 9, you have to put curly brackets
+      around them, like <code>{{ "{11}" }}</code
+      >.) For an example, if your regular structure is "<code>+--0</code>", the first letter will be a random vowel, the
+      second and third a random consonant which are independent, and the last letter references the first (the one with
+      index 0), so they will always be the same. One possible name generated with this structure is "Ansa".
+   </p>
+   <p>
+      Note that, regular name start and end are regular strings on their own. So if you write a <code>0</code> in the
+      regular name end, it will reference the first character of the regular name end, not the whole name!
    </p>
 </section>
