@@ -4,18 +4,17 @@ import { RegularCharacter } from "./regular-character";
 import { RegularString } from "./regular-string";
 
 export class RegularReference extends RegularCharacter {
-   private referenceIndex!: number;
    private regularString?: RegularString;
 
-   constructor(referenceIndex: number) {
-      super(String(referenceIndex));
+   constructor(private referenceIndex: number) {
+      super("");
    }
 
    public override assign(character: string): void {
       character = character[0];
 
       if (!RegularUtils.isReference(character)) {
-         throw new Error(`Invalid reference: ${character}`);
+         return;
       }
 
       this.referenceIndex = Number(character);
@@ -44,6 +43,9 @@ export class RegularReference extends RegularCharacter {
    }
 
    public override toString(): string {
+      if (this.referenceIndex >= 10) {
+         return `{${this.referenceIndex}}`;
+      }
       return String(this.referenceIndex);
    }
 
