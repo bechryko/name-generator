@@ -2,5 +2,4 @@
 export { capitalize } from "./capitalize";
 export { last } from "./last";
 export { pluck } from "./pluck";
-export { replaceLetter } from "./replace-letter";
 //@endindex
