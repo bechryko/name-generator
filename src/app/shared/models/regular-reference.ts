@@ -11,8 +11,6 @@ export class RegularReference extends RegularCharacter {
    }
 
    public override assign(character: string): void {
-      character = character[0];
-
       if (!RegularUtils.isReference(character)) {
          return;
       }
