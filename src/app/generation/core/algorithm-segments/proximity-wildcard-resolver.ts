@@ -22,9 +22,11 @@ export class ProximityWildcardResolver extends AlgorithmSegment<
       const regular = input.clone();
       const characters = regular.getCharacters();
 
-      characters
-         .filter(char => char.isWildcard)
-         .forEach((_, index) => this.decideWildcardType(index, characters, config));
+      characters.forEach((char, index) => {
+         if (char.isWildcard) {
+            this.decideWildcardType(index, characters, config);
+         }
+      });
 
       const newData: GenerationData = {
          ...data,

@@ -1,4 +1,3 @@
-import { replaceLetter } from "@ngen-shared/functions";
 import { RegularCharacter, RegularReference } from "@ngen-shared/models";
 import { LetterUtils } from "./letter.utils";
 
@@ -6,7 +5,9 @@ export class RegularUtils {
    public static readonly symbols = {
       vowel: "+",
       consonant: "-",
-      wildcard: "*"
+      wildcard: "*",
+      groupStart: "{",
+      groupEnd: "}"
    } as const;
 
    public static isRegular(letter: string): boolean {
@@ -22,15 +23,18 @@ export class RegularUtils {
    }
 
    public static parseStringToRegularCharacters(str: string): RegularCharacter[] {
-      return this.deleteNonRegulars(this.fixReferences(str.toLowerCase()))
-         .split("")
-         .map(char => {
-            if (this.isReference(char)) {
-               return new RegularReference(Number(char));
-            } else {
-               return new RegularCharacter(char);
-            }
-         });
+      const parsedString = this.deleteNonRegulars(str.toLowerCase());
+      const regularCharacterBases = this.splitToRegularCharacterBases(parsedString);
+      const regularCharacterBasesWithFixedReferences = this.fixReferences(regularCharacterBases);
+      return regularCharacterBasesWithFixedReferences.map(char => {
+         if (this.isReference(char)) {
+            return new RegularReference(Number(char));
+         } else if (char.length > 1) {
+            throw new Error(`Invalid regular character base: ${char}`);
+         } else {
+            return new RegularCharacter(char);
+         }
+      });
    }
 
    private static deleteNonRegulars(input: string): string {
@@ -45,8 +49,8 @@ export class RegularUtils {
       return output;
    }
 
-   private static fixReferences(input: string): string {
-      let referenceRegular = "";
+   private static fixReferences(input: string[]): string[] {
+      const referenceRegularChars: string[] = [];
       const referencingSets: Set<number>[] = [];
 
       for (let i = 0; i < input.length; i++) {
@@ -56,7 +60,7 @@ export class RegularUtils {
          if (RegularUtils.isReference(input[i])) {
             const referenceTo = Number(input[i]);
             if (referenceTo === i || referenceTo >= input.length) {
-               referenceRegular += RegularUtils.symbols.wildcard;
+               referenceRegularChars.push(RegularUtils.symbols.wildcard);
                continue;
             } else {
                if (referenceTo > i) {
@@ -66,7 +70,7 @@ export class RegularUtils {
                }
             }
          }
-         referenceRegular += input[i];
+         referenceRegularChars.push(input[i]);
       }
 
       for (let i = referencingSets.length - 1; i >= 0; i--) {
@@ -81,21 +85,47 @@ export class RegularUtils {
       }
 
       const referencingNumbers: (number | undefined)[] = referencingSets.map(references => Array.from(references)[0]);
-      let output = "";
-      for (let i = 0; i < referenceRegular.length; i++) {
-         if (RegularUtils.isReference(referenceRegular[i])) {
-            output += referencingNumbers[i] ?? RegularUtils.symbols.wildcard;
+      const output: string[] = [];
+      for (let i = 0; i < referenceRegularChars.length; i++) {
+         if (RegularUtils.isReference(referenceRegularChars[i])) {
+            output.push(String(referencingNumbers[i]) ?? RegularUtils.symbols.wildcard);
          } else if (referencingNumbers[i] === undefined) {
-            output += referenceRegular[i];
+            output.push(referenceRegularChars[i]);
          } else {
-            const letterToReference = referenceRegular[i];
+            const letterToReference = referenceRegularChars[i];
             let idx = i;
             while (referencingNumbers[idx] !== undefined) {
                idx = referencingNumbers[idx]!;
             }
-            output = replaceLetter(output, idx, letterToReference) + referencingNumbers[i];
+            output[idx] = letterToReference;
+            output.push(String(referencingNumbers[i]));
          }
       }
       return output;
+   }
+
+   private static splitToRegularCharacterBases(str: string): string[] {
+      const characters: string[] = [];
+
+      for (let i = 0; i < str.length; i++) {
+         if (str[i] === this.symbols.groupStart) {
+            let foundEnd = false;
+            for (let j = i + 1; j < str.length; j++) {
+               if (str[j] === this.symbols.groupEnd) {
+                  characters.push(str.substring(i + 1, j));
+                  foundEnd = true;
+                  i = j;
+               }
+            }
+
+            if (!foundEnd) {
+               throw new Error("Syntax error: regular group is not closed!");
+            }
+         } else {
+            characters.push(str[i]);
+         }
+      }
+
+      return characters;
    }
 }

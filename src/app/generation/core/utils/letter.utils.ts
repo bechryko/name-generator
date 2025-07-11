@@ -56,7 +56,6 @@ export class LetterUtils {
       const usableLetters = this.letter.filter(
          l => !excludedLetters.has(l.letter) && (includedLetters.isEmpty() || includedLetters.has(l.letter))
       );
-      console.log(usableVowels.length, usableLetters.length);
       return usableVowels.reduce((acc, v) => acc + v.weight, 0) / usableLetters.reduce((acc, l) => acc + l.weight, 0); //TODO: pluckSum function
    }
 
