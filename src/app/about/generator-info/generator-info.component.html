@@ -75,6 +75,10 @@
    </p>
    <p>
       Note that, regular name start and end are regular strings on their own. So if you write a <code>0</code> in the
-      regular name end, it will reference the first character of the regular name end, not the whole name!
+      regular name end, it will reference the first character of the regular name end, not the whole name! If you want
+      to create an external reference (to reference a character that is not in the current regular string), use the
+      following syntax: <code>{{ "{e\<referenceIndex\>}" }}</code
+      >! For example, if you want to reference the 2nd character in the regular start, from the regular end, you have to
+      use a <code>{{ "{e1}" }}</code> reference.
    </p>
 </section>
