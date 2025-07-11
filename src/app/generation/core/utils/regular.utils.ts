@@ -1,6 +1,11 @@
 import { RegularCharacter, RegularReference } from "@ngen-shared/models";
 import { LetterUtils } from "./letter.utils";
 
+interface ReferenceData {
+   referenceIndex: number;
+   isExternal: boolean;
+}
+
 export class RegularUtils {
    public static readonly symbols = {
       vowel: "+",
@@ -8,6 +13,9 @@ export class RegularUtils {
       wildcard: "*",
       groupStart: "{",
       groupEnd: "}"
+   } as const;
+   public static readonly modifierFlags = {
+      externalReference: "e"
    } as const;
 
    public static isRegular(letter: string): boolean {
@@ -18,8 +26,27 @@ export class RegularUtils {
       return Object.values(this.symbols).includes(letter as any);
    }
 
-   public static isReference(letter: string): boolean {
-      return !isNaN(Number(letter));
+   public static isReference(letter: string, externalFilter?: boolean): boolean {
+      try {
+         const { isExternal } = this.extractReferenceData(letter);
+         return externalFilter === undefined || isExternal === externalFilter;
+      } catch (_) {
+         return false;
+      }
+   }
+
+   public static extractReferenceData(base: string): ReferenceData {
+      const isExternal = base.startsWith(this.modifierFlags.externalReference);
+      if (isExternal) {
+         base = base.substring(1);
+      }
+
+      const referenceIndex = Number(base);
+      if (base === "" || isNaN(referenceIndex)) {
+         throw new Error(`Invalid reference index: ${base}!`);
+      }
+
+      return { referenceIndex, isExternal };
    }
 
    public static parseStringToRegularCharacters(str: string): RegularCharacter[] {
@@ -28,7 +55,8 @@ export class RegularUtils {
       const regularCharacterBasesWithFixedReferences = this.fixReferences(regularCharacterBases);
       return regularCharacterBasesWithFixedReferences.map(char => {
          if (this.isReference(char)) {
-            return new RegularReference(Number(char));
+            const { referenceIndex, isExternal } = this.extractReferenceData(char);
+            return new RegularReference(referenceIndex, isExternal);
          } else if (char.length > 1) {
             throw new Error(`Invalid regular character base: ${char}`);
          } else {
@@ -57,7 +85,7 @@ export class RegularUtils {
          referencingSets[i] = new Set();
       }
       for (let i = 0; i < input.length; i++) {
-         if (RegularUtils.isReference(input[i])) {
+         if (RegularUtils.isReference(input[i], false)) {
             const referenceTo = Number(input[i]);
             if (referenceTo === i || referenceTo >= input.length) {
                referenceRegularChars.push(RegularUtils.symbols.wildcard);
@@ -87,7 +115,7 @@ export class RegularUtils {
       const referencingNumbers: (number | undefined)[] = referencingSets.map(references => Array.from(references)[0]);
       const output: string[] = [];
       for (let i = 0; i < referenceRegularChars.length; i++) {
-         if (RegularUtils.isReference(referenceRegularChars[i])) {
+         if (RegularUtils.isReference(referenceRegularChars[i], false)) {
             output.push(String(referencingNumbers[i]) ?? RegularUtils.symbols.wildcard);
          } else if (referencingNumbers[i] === undefined) {
             output.push(referenceRegularChars[i]);

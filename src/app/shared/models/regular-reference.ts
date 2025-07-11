@@ -6,7 +6,10 @@ import { RegularString } from "./regular-string";
 export class RegularReference extends RegularCharacter {
    private regularString?: RegularString;
 
-   constructor(private referenceIndex: number) {
+   constructor(
+      private referenceIndex: number,
+      private isExternal: boolean
+   ) {
       super("");
    }
 
@@ -22,7 +25,9 @@ export class RegularReference extends RegularCharacter {
       if (this.regularString) {
          const newIndexInOld = regularString.toString().indexOf(this.regularString.toString());
          if (newIndexInOld !== -1) {
-            this.referenceIndex += newIndexInOld;
+            if (!this.isExternal) {
+               this.referenceIndex += newIndexInOld;
+            }
          } else {
             return false;
          }
@@ -41,10 +46,13 @@ export class RegularReference extends RegularCharacter {
    }
 
    public override toString(): string {
-      if (this.referenceIndex >= 10) {
-         return `{${this.referenceIndex}}`;
+      let str = String(this.referenceIndex);
+
+      if (this.isExternal) {
+         str = RegularUtils.modifierFlags.externalReference + str;
       }
-      return String(this.referenceIndex);
+
+      return str.length === 1 ? str : `{${str}}`;
    }
 
    public override getValue(): string {
@@ -52,7 +60,7 @@ export class RegularReference extends RegularCharacter {
    }
 
    public override clone(): RegularReference {
-      const newRef = new RegularReference(this.referenceIndex);
+      const newRef = new RegularReference(this.referenceIndex, this.isExternal);
       if (this.regularString) {
          newRef.assignRegularString(this.regularString);
       }
