@@ -1,8 +1,12 @@
-import { ChangeDetectionStrategy, Component, inject, Signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, inject, Signal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
-import { MatButton } from "@angular/material/button";
+import { MatButtonModule } from "@angular/material/button";
+import { MatDialog } from "@angular/material/dialog";
+import { MatIconModule } from "@angular/material/icon";
+import { MatTooltipModule } from "@angular/material/tooltip";
 import { SidebarComponent } from "@ngen-shared/components";
 import { PageStateHandlerService } from "@ngen-shared/services";
+import { BulkGenerationDialogComponent } from "./bulk-generation-dialog/bulk-generation-dialog.component";
 import { japaneseGeneratorAlgorithm, regularGeneratorAlgorithm, syllabicGeneratorAlgorithm } from "./core/algorithms";
 import { GeneratorAlgorithmName } from "./core/enums";
 import { GenerationData, NameGeneratorAlgorithm } from "./core/models";
@@ -15,14 +19,30 @@ import { ConfigurationStoreService } from "./services";
    templateUrl: "./generation.component.html",
    styleUrl: "./generation.component.scss",
    changeDetection: ChangeDetectionStrategy.OnPush,
-   imports: [SidebarComponent, GenerationConfigComponent, MatButton, GenerationOutputComponent]
+   imports: [
+      SidebarComponent,
+      GenerationConfigComponent,
+      MatButtonModule,
+      GenerationOutputComponent,
+      MatIconModule,
+      MatTooltipModule
+   ]
 })
 export class GenerationComponent {
    private readonly pageStateHandlerService = inject(PageStateHandlerService);
    private readonly configurationStoreService = inject(ConfigurationStoreService);
+   private readonly dialog = inject(MatDialog);
 
    public readonly GENERATORS: { label: string; value: GeneratorAlgorithmName }[] = [];
    public readonly selectedGenerator: Signal<GeneratorAlgorithmName | undefined>;
+   public readonly generationFn = computed(() => {
+      const generator = this.selectedGenerator();
+      if (!generator) {
+         return null;
+      }
+
+      return () => this.findAlgorithm(generator).generateName(this.configurationStoreService.loadConfig(generator));
+   });
    public generatedName?: string;
    public generationData?: GenerationData;
    private readonly generatorAlgorithms = [
@@ -38,10 +58,24 @@ export class GenerationComponent {
       }
    }
 
-   public generateName(generator: GeneratorAlgorithmName): void {
-      [this.generatedName, this.generationData] = this.findAlgorithm(generator).generateName(
-         this.configurationStoreService.loadConfig(generator)
-      );
+   public generateName(): void {
+      const generationFn = this.generationFn();
+      if (!generationFn) {
+         return;
+      }
+
+      [this.generatedName, this.generationData] = generationFn();
+   }
+
+   public openBulkGenerationDialog(): void {
+      const generationFn = this.generationFn();
+      if (!generationFn) {
+         return;
+      }
+
+      this.dialog.open(BulkGenerationDialogComponent, {
+         data: generationFn
+      });
    }
 
    public selectGenerator(generator: GeneratorAlgorithmName): void {

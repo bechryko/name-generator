@@ -1,0 +1,92 @@
+@use "mixins";
+
+$table-height: 80dvh;
+
+:host {
+   display: grid;
+   grid-template-rows: auto $table-height;
+   max-width: 80dvw;
+   max-height: 100dvh;
+   background-color: var(--clr-primary-lighter);
+   overflow: hidden;
+
+   @include mixins.mq(medium) {
+      max-width: 100dvw;
+   }
+}
+
+.header-container {
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+   grid-template-areas: ". generate-name generation-times-input";
+   gap: 1rem;
+   place-items: center;
+   padding: 1rem;
+
+   button {
+      grid-area: generate-name;
+      width: 100%;
+   }
+
+   .generation-times-input-container {
+      grid-area: generation-times-input;
+      font-size: 1.25rem;
+      user-select: none;
+      text-align: center;
+
+      input {
+         font-size: inherit;
+         text-align: center;
+         max-width: 5rem;
+         border: none;
+         border-radius: 0.25rem;
+         outline: none;
+         margin-inline: 0.25rem;
+      }
+   }
+}
+
+.generated-name-list {
+   display: block;
+   align-self: start;
+   font-size: 1.125rem;
+   width: 100%;
+   height: $table-height;
+   user-select: none;
+   overflow-y: scroll;
+
+   table {
+      table-layout: fixed;
+      width: 100%;
+      border-collapse: collapse;
+
+      tr {
+         background-color: var(--clr-primary-lightest);
+
+         &:nth-child(even) {
+            background-color: var(--clr-primary-lighter-alt);
+         }
+      }
+
+      td {
+         padding: 0.25rem 0.75rem;
+
+         &:not(:nth-child(2)) {
+            width: 8%;
+            max-width: 1rem;
+         }
+
+         &.name {
+            user-select: text;
+         }
+
+         &.number {
+            text-align: end;
+         }
+
+         ngen-interactive-icon {
+            cursor: pointer;
+         }
+      }
+   }
+}

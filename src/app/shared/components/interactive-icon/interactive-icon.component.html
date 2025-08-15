@@ -1,7 +1,17 @@
-<button
-   mat-icon-button
-   [matTooltip]="ICONS[type()].tooltip"
-   [matTooltipPosition]="tooltipPosition()"
-   (click)="onClick($event)">
-   <mat-icon>{{ ICONS[type()].icon }}</mat-icon>
-</button>
+@if (isButton()) {
+   <button
+      mat-icon-button
+      [matTooltip]="ICONS[type()].tooltip"
+      [matTooltipPosition]="tooltipPosition()"
+      (click)="onClick($event)">
+      <mat-icon>{{ ICONS[type()].icon }}</mat-icon>
+   </button>
+} @else {
+   <mat-icon
+      [inline]="true"
+      [matTooltip]="ICONS[type()].tooltip"
+      [matTooltipPosition]="tooltipPosition()"
+      (click)="onClick($event)"
+      >{{ ICONS[type()].icon }}</mat-icon
+   >
+}

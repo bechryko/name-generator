@@ -7,7 +7,7 @@ import { GeneratorAlgorithmName } from "@ngen-generation/core/enums";
 import { ClipboardService, PageStateHandlerService } from "@ngen-shared/services";
 import { BehaviorSubject } from "rxjs";
 
-type InteractiveIconType = "clipboard" | "saveName";
+type InteractiveIconType = "clipboard" | "saveName" | "delete";
 
 interface InteractiveIconTypeDescription {
    icon: string;
@@ -29,7 +29,8 @@ export class InteractiveIconComponent {
    public readonly type = input.required<InteractiveIconType>();
    public readonly data = input<any>();
    public readonly tooltipPosition = input<TooltipPosition>("below");
-   public readonly click = output<Event>();
+   public readonly isButton = input(true);
+   public readonly iconClick = output<Event>();
    private readonly selectedGenerator$ = new BehaviorSubject<GeneratorAlgorithmName>(GeneratorAlgorithmName.JAPANESE);
 
    public readonly ICONS: Record<InteractiveIconType, InteractiveIconTypeDescription> = {
@@ -40,9 +41,12 @@ export class InteractiveIconComponent {
       },
       saveName: {
          icon: "queue",
-         tooltip: "Save name to database",
+         tooltip: "Save name to database"
          // clickEvent: (name: string) => this.nameDatabaseService.addName(name, this.selectedGenerator$.value)
-         clickEvent: () => {}
+      },
+      delete: {
+         icon: "delete",
+         tooltip: "Delete"
       }
    };
 
@@ -51,7 +55,7 @@ export class InteractiveIconComponent {
    }
 
    public onClick(event: Event): void {
-      this.click.emit(event);
+      this.iconClick.emit(event);
       this.ICONS[this.type()].clickEvent?.(this.data());
    }
 }

@@ -13,12 +13,19 @@
       <div class="right-corner"></div>
       <div class="generation-settings-wrapper">
          <ngen-generation-config [generator]="generator"></ngen-generation-config>
-         <button
-            mat-raised-button
-            (click)="generateName(generator)"
-            class="generate-button">
-            Generate Name
-         </button>
+         <div class="generate-buttons buttons-container button-group">
+            <button
+               mat-raised-button
+               (click)="generateName()">
+               Generate Name
+            </button>
+            <button
+               mat-raised-button
+               matTooltip="Bulk generation"
+               (click)="openBulkGenerationDialog()">
+               <mat-icon>table_view</mat-icon>
+            </button>
+         </div>
       </div>
       <ngen-generation-output
          [generatedName]="generatedName ?? null"

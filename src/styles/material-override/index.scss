@@ -1,6 +1,7 @@
 //@index("./*.scss", (f, _) => `@forward "${f.name}";`)
 @forward "mat-button";
 @forward "mat-checkbox";
+@forward "mat-dialog";
 @forward "mat-form-field";
 @forward "mat-snackbar";
 @forward "mat-table";
