@@ -113,13 +113,11 @@ main {
          box-sizing: border-box;
       }
 
-      .generate-button {
+      .generate-buttons {
          position: relative;
          left: 50%;
          translate: -50% 0;
-         font-size: 1.5rem;
          color: var(--clr-primary-contrast);
-         height: 3rem;
          border-top-right-radius: 0;
          border-top-left-radius: 0;
 
@@ -127,6 +125,23 @@ main {
             left: 0;
             translate: 0;
             border-bottom-left-radius: 0;
+         }
+
+         button {
+            $size: 1.5rem;
+
+            font-size: $size;
+            color: var(--clr-primary-contrast);
+            height: 3rem;
+            background-color: var(--clr-primary);
+
+            mat-icon {
+               font-size: $size;
+               color: var(--clr-primary-contrast);
+               width: $size;
+               height: $size;
+               margin: 0;
+            }
          }
       }
    }

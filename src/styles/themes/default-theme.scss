@@ -5,6 +5,7 @@ $error-base: hsl(0, 100%, 50%);
 
 :root {
    --clr-primary-lightest: #{color.mix($primary-base, white, 20%)};
+   --clr-primary-lighter-alt: #{color.mix($primary-base, white, 30%)};
    --clr-primary-lighter: #{color.mix($primary-base, white, 40%)};
    --clr-primary: #{$primary-base};
    --clr-primary-darker: #{color.mix($primary-base, black, 50%)};

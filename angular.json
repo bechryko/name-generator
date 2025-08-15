@@ -35,14 +35,14 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss",
-          "standalone": false,
-          "changeDetection": "OnPush"
+          "changeDetection": "OnPush",
+          "skipTests": true
         },
         "@schematics/angular:directive": {
-          "standalone": false
+          "skipTests": true
         },
         "@schematics/angular:pipe": {
-          "standalone": false
+          "skipTests": true
         }
       },
       "root": "",
