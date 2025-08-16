@@ -13,7 +13,7 @@
   "editor.guides.bracketPairsHorizontal": "active",
   "files.eol": "\r\n",
   "prettier.endOfLine": "crlf",
-  "cSpell.words": ["ngen", "endindex", "checkmark", "Bechryko", "romaji"],
+  "cSpell.words": ["ngen", "endindex", "checkmark", "Bechryko", "romaji", "subpage", "subpages"],
   "[typescript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   }

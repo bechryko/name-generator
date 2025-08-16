@@ -37,6 +37,11 @@ main {
          text-align: center;
          margin-bottom: 0.8rem;
          margin-inline: 1.6rem;
+
+         .info-page-icon {
+            margin-bottom: -0.3rem;
+            cursor: pointer;
+         }
       }
 
       &::after {

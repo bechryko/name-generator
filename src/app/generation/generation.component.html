@@ -8,7 +8,16 @@
    <main>
       <div class="left-corner"></div>
       <div class="title-container">
-         <h2>{{ generator }} Name Generation</h2>
+         <h2>
+            {{ generator }} Name Generation
+            <mat-icon
+               class="info-page-icon"
+               matTooltip="See generator info"
+               matTooltipPosition="right"
+               (click)="navigateToInfoPage()"
+               >info</mat-icon
+            >
+         </h2>
       </div>
       <div class="right-corner"></div>
       <div class="generation-settings-wrapper">

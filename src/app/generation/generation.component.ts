@@ -4,7 +4,10 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatDialog } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
+import { Router } from "@angular/router";
+import { AboutSubpages } from "@ngen-about/about-subpages";
 import { SidebarComponent } from "@ngen-shared/components";
+import { RouteUrl } from "@ngen-shared/enums";
 import { PageStateHandlerService } from "@ngen-shared/services";
 import { BulkGenerationDialogComponent } from "./bulk-generation-dialog/bulk-generation-dialog.component";
 import { japaneseGeneratorAlgorithm, regularGeneratorAlgorithm, syllabicGeneratorAlgorithm } from "./core/algorithms";
@@ -32,6 +35,7 @@ export class GenerationComponent {
    private readonly pageStateHandlerService = inject(PageStateHandlerService);
    private readonly configurationStoreService = inject(ConfigurationStoreService);
    private readonly dialog = inject(MatDialog);
+   private readonly router = inject(Router);
 
    public readonly GENERATORS: { label: string; value: GeneratorAlgorithmName }[] = [];
    public readonly selectedGenerator: Signal<GeneratorAlgorithmName | undefined>;
@@ -56,6 +60,11 @@ export class GenerationComponent {
       for (const generator of Object.values(GeneratorAlgorithmName)) {
          this.GENERATORS.push({ label: generator, value: generator });
       }
+   }
+
+   public navigateToInfoPage(): void {
+      this.router.navigateByUrl(RouteUrl.ABOUT);
+      this.pageStateHandlerService.setAboutSubpage(AboutSubpages.GENERATORS);
    }
 
    public generateName(): void {
