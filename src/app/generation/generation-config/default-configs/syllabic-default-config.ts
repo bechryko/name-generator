@@ -3,6 +3,6 @@ import { basicDefaultConfig } from "./basic-default-config";
 
 export const syllabicDefaultConfig: GenerationConfig = {
    ...basicDefaultConfig,
-   minLength: 1,
-   maxLength: 5
+   minLength: 2,
+   maxLength: 4
 };

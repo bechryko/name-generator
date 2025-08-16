@@ -1,7 +1,8 @@
 import { LetterSet, RegularCharacter, RegularString } from "@ngen-shared/models";
+import { RandomUtils } from "@ngen-shared/utils";
 import { AlgorithmDataType } from "../enums";
 import { AlgorithmSegment, GenerationData, RandomLetterConfig } from "../models";
-import { LetterUtils, VoicedUnvoicedPairsUtils } from "../utils";
+import { LetterUtils, NameStartingDoubleConsonantUtils, VoicedUnvoicedPairsUtils } from "../utils";
 
 export interface BasicLetterFinalizerConfig {
    excludedLetters: LetterSet;
@@ -21,12 +22,27 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
    ): [string, GenerationData] {
       const regular = input.clone();
       const characters = regular.getCharacters();
+
       for (let i = 0; i < characters.length; i++) {
          const char = characters[i];
 
-         if (char.isReference || LetterUtils.is("letter", char.toString())) {
+         if (this.isCharacterUnfinalizable(char)) {
             continue;
          }
+
+         const nextChar: RegularCharacter | undefined = characters[i + 1];
+         if (
+            i === 0 &&
+            char.isConsonant &&
+            nextChar?.isConsonant &&
+            !this.isCharacterUnfinalizable(nextChar) &&
+            NameStartingDoubleConsonantUtils.canStartWithDoubleConsonant(config)
+         ) {
+            this.finalizeNameStartingDoubleConsonant(i, characters, config);
+            i++;
+            continue;
+         }
+
          this.finalizeCharacter(i, characters, config);
       }
 
@@ -45,6 +61,10 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
       return AlgorithmDataType.NAME;
    }
 
+   private isCharacterUnfinalizable(char: RegularCharacter): boolean {
+      return char.isReference || LetterUtils.is("letter", char.toString());
+   }
+
    private finalizeCharacter(index: number, characters: RegularCharacter[], config: BasicLetterFinalizerConfig): void {
       const char = characters[index];
 
@@ -55,6 +75,18 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
       } else {
          throw new Error(`Invalid character during character finalization: '${char}!'`);
       }
+   }
+
+   private finalizeNameStartingDoubleConsonant(
+      index: number,
+      characters: RegularCharacter[],
+      config: BasicLetterFinalizerConfig
+   ): void {
+      const doubleConsonants = NameStartingDoubleConsonantUtils.getNameStartingDoubleConsonants(config);
+      const chosenDoubleConsonant = RandomUtils.randomIndex(doubleConsonants);
+
+      characters[index].assign(chosenDoubleConsonant[0]);
+      characters[index + 1].assign(chosenDoubleConsonant[1]);
    }
 
    private getRandomLetterConfig(

@@ -23,11 +23,28 @@ export const syllabicGeneratorAlgorithm = new NameGeneratorAlgorithm(
 
 function syllabize(name: string): string[] {
    const syllables: string[] = [""];
+
    for (let i = 0; i < name.length; i++) {
-      if (LetterUtils.is("vowel", name[i + 1]) && !LetterUtils.is("vowel", name[i])) {
+      syllables[0] += name[i];
+
+      if (isVowel(name[i])) {
+         break;
+      }
+   }
+
+   for (let i = syllables[0].length; i < name.length; i++) {
+      if ((isVowel(name[i + 1]) && !isVowel(name[i])) || (isVowel(name[i - 1]) && isVowel(name[i]))) {
          syllables.push("");
       }
       syllables[syllables.length - 1] += name[i];
    }
+
    return syllables.filter(syllable => syllable.length > 0);
+}
+
+function isVowel(char?: string): boolean {
+   if (!char) {
+      return false;
+   }
+   return LetterUtils.is("vowel", char.toLowerCase());
 }
