@@ -2,7 +2,7 @@ import { LetterSet, RegularCharacter, RegularString } from "@ngen-shared/models"
 import { RandomUtils } from "@ngen-shared/utils";
 import { AlgorithmDataType } from "../enums";
 import { AlgorithmSegment, GenerationData } from "../models";
-import { LetterUtils, RegularUtils } from "../utils";
+import { LetterUtils, NameStartingDoubleConsonantUtils, RegularUtils } from "../utils";
 
 export interface ProximityWildcardResolverConfig {
    excludedLetters: LetterSet;
@@ -14,6 +14,8 @@ export class ProximityWildcardResolver extends AlgorithmSegment<
    AlgorithmDataType.REGULAR_STRING,
    ProximityWildcardResolverConfig
 > {
+   private static readonly DOUBLE_CONSONANT_START_CHANCE = 0.1;
+
    public override transform(
       input: RegularString,
       config: ProximityWildcardResolverConfig,
@@ -66,7 +68,7 @@ export class ProximityWildcardResolver extends AlgorithmSegment<
 
       if (vowelsInRange === consonantsInRange) {
          if (vowelsInRange === 2) {
-            if (nextChar.equals(previousChar) && characters[index - 1].isConsonant) {
+            if (nextChar.equals(previousChar) && previousChar.isConsonant) {
                char.assign(RegularUtils.symbols.vowel);
             } else {
                char.assign(this.getRandomRegularByConfig(config));
@@ -83,6 +85,13 @@ export class ProximityWildcardResolver extends AlgorithmSegment<
       } else {
          if (index === characters.length - 2 && nextChar.isConsonant) {
             char.assign(RegularUtils.symbols.vowel);
+         } else if (
+            index === 1 &&
+            previousChar.isConsonant &&
+            NameStartingDoubleConsonantUtils.canStartWithDoubleConsonant(config) &&
+            RandomUtils.byChance(ProximityWildcardResolver.DOUBLE_CONSONANT_START_CHANCE)
+         ) {
+            char.assign(RegularUtils.symbols.consonant);
          } else {
             char.assign(this.vowelIf(consonantsInRange > vowelsInRange));
          }

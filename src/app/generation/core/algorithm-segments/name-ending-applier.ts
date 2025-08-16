@@ -2,7 +2,7 @@ import { LetterSet, RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
 import { AlgorithmDataType } from "../enums";
 import { AlgorithmSegment, GenerationData } from "../models";
-import { LetterUtils, RegularUtils } from "../utils";
+import { AvailableLetterUtils, RegularUtils } from "../utils";
 
 export interface NameEndingApplierConfig {
    excludedLetters: LetterSet;
@@ -34,9 +34,11 @@ export class NameEndingApplier extends AlgorithmSegment<
       config: NameEndingApplierConfig,
       data: GenerationData
    ): [RegularString, GenerationData] {
-      const matchingEndings = this.getFilteredNameEndings(config).filter(ending =>
-         input.ending(ending.length, true).doesMatch(ending)
-      );
+      const matchingEndings = AvailableLetterUtils.filterByAvailableLetters(
+         NameEndingApplier.NAME_ENDINGS,
+         config
+      ).filter(ending => input.ending(ending.length, true).doesMatch(ending));
+
       const regular = input.clone();
       if (matchingEndings.length) {
          const chosenEnding = RandomUtils.randomIndex(matchingEndings);
@@ -57,22 +59,5 @@ export class NameEndingApplier extends AlgorithmSegment<
 
    public override getOutputType(): AlgorithmDataType.REGULAR_STRING {
       return AlgorithmDataType.REGULAR_STRING;
-   }
-
-   private getFilteredNameEndings(config: NameEndingApplierConfig): string[] {
-      let endings = NameEndingApplier.NAME_ENDINGS;
-      if (!config.excludedLetters.isEmpty()) {
-         endings = endings.filter(ending => !config.excludedLetters.includesLetterFrom(ending));
-      }
-      if (!config.includedLetters.isEmpty()) {
-         endings = endings.filter(ending =>
-            ending
-               .split("")
-               .every(
-                  endingLetter => !LetterUtils.is("letter", endingLetter) || config.includedLetters.has(endingLetter)
-               )
-         );
-      }
-      return endings;
    }
 }

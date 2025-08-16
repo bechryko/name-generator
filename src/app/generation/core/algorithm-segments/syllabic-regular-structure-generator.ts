@@ -1,11 +1,14 @@
-import { RegularString } from "@ngen-shared/models";
+import { LetterSet, RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
 import { AlgorithmDataType } from "../enums";
 import { AlgorithmSegment, GenerationData } from "../models";
+import { NameStartingDoubleConsonantUtils } from "../utils";
 
 export interface SyllabicRegularStructureGeneratorConfig {
    minLength: number;
    maxLength: number;
+   includedLetters: LetterSet;
+   excludedLetters: LetterSet;
 }
 
 export class SyllabicRegularStructureGenerator extends AlgorithmSegment<
@@ -14,6 +17,7 @@ export class SyllabicRegularStructureGenerator extends AlgorithmSegment<
    SyllabicRegularStructureGeneratorConfig
 > {
    private static readonly SYLLABLE_LENGTH_WEIGHTS = [0.1, 0.35, 0.5, 0.05];
+   private static readonly DOUBLE_CONSONANT_START_CHANCE = 0.05;
 
    public override transform(
       _: undefined,
@@ -33,7 +37,7 @@ export class SyllabicRegularStructureGenerator extends AlgorithmSegment<
          }
 
          const syllableSize = RandomUtils.randomIndexWeighted([1, 2, 3, 4], weights);
-         lastSyllable = this.createRegularSyllable(syllableSize);
+         lastSyllable = this.createRegularSyllable(syllableSize, config);
          regularBase.append(lastSyllable);
       }
 
@@ -53,15 +57,31 @@ export class SyllabicRegularStructureGenerator extends AlgorithmSegment<
       return AlgorithmDataType.REGULAR_STRING;
    }
 
-   private createRegularSyllable(size: number): RegularString {
+   private createRegularSyllable(size: number, config: SyllabicRegularStructureGeneratorConfig): RegularString {
       const regular = new RegularString();
+      let currentLetters = 0;
+
       if (size > 1) {
          regular.append("-");
+         currentLetters++;
+
+         if (
+            NameStartingDoubleConsonantUtils.canStartWithDoubleConsonant(config) &&
+            RandomUtils.byChance(SyllabicRegularStructureGenerator.DOUBLE_CONSONANT_START_CHANCE)
+         ) {
+            regular.append("-");
+            currentLetters++;
+         }
       }
+
       regular.append("+");
-      for (let j = 2; j < size; j++) {
+      currentLetters++;
+
+      while (currentLetters < size) {
          regular.append("-");
+         currentLetters++;
       }
+
       return regular;
    }
 }
