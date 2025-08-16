@@ -1,11 +1,11 @@
 import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { Router, RouterOutlet } from "@angular/router";
+import { EventType, Router, RouterOutlet } from "@angular/router";
 import { SidebarComponent } from "@ngen-shared/components";
 import { NgenSidebarSelectable } from "@ngen-shared/models";
 import { PageStateHandlerService } from "@ngen-shared/services";
-import { Observable, tap } from "rxjs";
+import { filter, Observable, tap } from "rxjs";
 import { AboutSubpages } from "./about-subpages";
 
 @Component({
@@ -43,6 +43,13 @@ export class AboutComponent {
          takeUntilDestroyed(),
          tap(subpage => this.navigate(subpage))
       );
+
+      this.router.events
+         .pipe(
+            takeUntilDestroyed(),
+            filter(event => event.type === EventType.NavigationEnd)
+         )
+         .subscribe(event => this.selectSubpage(this.getSubpageFromUrl(event.urlAfterRedirects)));
    }
 
    public selectSubpage(subpage: AboutSubpages): void {
@@ -51,5 +58,10 @@ export class AboutComponent {
 
    private navigate(subpage: AboutSubpages): void {
       this.router.navigateByUrl(`/about/${subpage}`);
+   }
+
+   private getSubpageFromUrl(url: string): AboutSubpages {
+      const subpage = url.split("/").at(-1);
+      return subpage as AboutSubpages;
    }
 }
