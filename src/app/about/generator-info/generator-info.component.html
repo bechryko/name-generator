@@ -1,7 +1,18 @@
+@let generationNavigationIconTooltip = "Try the generator!";
+
 <h2>Generators</h2>
 <p>Here you can find everything about your favorite generator algorithms and their configuration.</p>
 <section>
-   <h3>Japanese generator algorithm</h3>
+   <h3>
+      Japanese generator algorithm
+      <mat-icon
+         class="title-icon"
+         [matTooltip]="generationNavigationIconTooltip"
+         matTooltipPosition="right"
+         (click)="navigateToGeneratorAlgorithm(GeneratorAlgorithmName.JAPANESE)"
+         >create</mat-icon
+      >
+   </h3>
    <p>
       This algorithm is based on the japanese letters. It is a syllabic alphabet, which means that letters placed after
       each other create an easily pronounceable word - a name.
@@ -13,7 +24,16 @@
    </p>
 </section>
 <section>
-   <h3>Syllabic generator algorithm</h3>
+   <h3>
+      Syllabic generator algorithm
+      <mat-icon
+         class="title-icon"
+         [matTooltip]="generationNavigationIconTooltip"
+         matTooltipPosition="right"
+         (click)="navigateToGeneratorAlgorithm(GeneratorAlgorithmName.SYLLABIC)"
+         >create</mat-icon
+      >
+   </h3>
    <p>
       This algorithm manually creates syllables and places them after each other. It uses a special regular language to
       decide if the given letter should be vowel or consonant. This means it is highly configurable in terms of the used
@@ -38,7 +58,16 @@
    </p>
 </section>
 <section>
-   <h3>Regular generator algorithm</h3>
+   <h3>
+      Regular generator algorithm
+      <mat-icon
+         class="title-icon"
+         [matTooltip]="generationNavigationIconTooltip"
+         matTooltipPosition="right"
+         (click)="navigateToGeneratorAlgorithm(GeneratorAlgorithmName.REGULAR)"
+         >create</mat-icon
+      >
+   </h3>
    <p>
       This algorithm uses the full potential of the application's regular language. It has a lot of customizability,
       although it is built more for customization, than to generate names with the basic configs. So with this
