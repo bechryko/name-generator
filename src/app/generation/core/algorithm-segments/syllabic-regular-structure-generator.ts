@@ -16,7 +16,7 @@ export class SyllabicRegularStructureGenerator extends AlgorithmSegment<
    AlgorithmDataType.REGULAR_STRING,
    SyllabicRegularStructureGeneratorConfig
 > {
-   private static readonly SYLLABLE_LENGTH_WEIGHTS = [0.1, 0.35, 0.5, 0.05];
+   private static readonly SYLLABLE_LENGTH_WEIGHTS = [0.2, 0.5, 0.25, 0.05];
    private static readonly DOUBLE_CONSONANT_START_CHANCE = 0.05;
 
    public override transform(
