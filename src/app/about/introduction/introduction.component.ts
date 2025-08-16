@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
-import { AboutSubpages } from "@ngen-about/about-subpages";
+import { AboutSubpage } from "@ngen-about/about-subpage";
 import { PageStateHandlerService } from "@ngen-shared/services";
 
 @Component({
@@ -11,9 +11,9 @@ import { PageStateHandlerService } from "@ngen-shared/services";
 export class IntroductionComponent {
    private readonly pageStateHandlerService = inject(PageStateHandlerService);
 
-   public readonly AboutSubpages = AboutSubpages;
+   public readonly AboutSubpages = AboutSubpage;
 
-   public navigateToSubpage(subpage: AboutSubpages): void {
+   public navigateToSubpage(subpage: AboutSubpage): void {
       this.pageStateHandlerService.setAboutSubpage(subpage);
    }
 }

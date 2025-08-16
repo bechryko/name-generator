@@ -1,6 +1,6 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
-import { AboutSubpages } from "./about-subpages";
+import { AboutSubpage } from "./about-subpage";
 import { AboutComponent } from "./about.component";
 import { GeneratorInfoComponent } from "./generator-info/generator-info.component";
 import { IntroductionComponent } from "./introduction/introduction.component";
@@ -13,19 +13,19 @@ const routes: Routes = [
       children: [
          {
             path: "",
-            redirectTo: AboutSubpages.INTRODUCTION,
+            redirectTo: AboutSubpage.INTRODUCTION,
             pathMatch: "full"
          },
          {
-            path: AboutSubpages.INTRODUCTION,
+            path: AboutSubpage.INTRODUCTION,
             component: IntroductionComponent
          },
          {
-            path: AboutSubpages.GENERATORS,
+            path: AboutSubpage.GENERATORS,
             component: GeneratorInfoComponent
          },
          {
-            path: AboutSubpages.VERSIONS,
+            path: AboutSubpage.VERSIONS,
             component: VersionHistoryComponent
          }
       ]
