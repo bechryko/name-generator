@@ -39,8 +39,13 @@ main {
          margin-inline: 1.6rem;
 
          .info-page-icon {
+            color: var(--clr-primary-darker);
             margin-bottom: -0.3rem;
             cursor: pointer;
+
+            &:hover {
+               color: var(--clr-primary);
+            }
          }
       }
 

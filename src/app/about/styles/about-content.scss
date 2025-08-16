@@ -24,8 +24,13 @@
    }
 
    .title-icon {
+      color: var(--clr-primary-darker);
       margin-bottom: -0.25rem;
       cursor: pointer;
+
+      &:hover {
+         color: var(--clr-primary);
+      }
    }
 
    p {
