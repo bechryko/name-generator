@@ -52,6 +52,7 @@
       text-underline-offset: 0.125em;
       color: var(--clr-primary-darker);
       margin-inline-start: 0.5em;
+      cursor: pointer;
 
       &:hover {
          text-decoration: underline;

@@ -1,12 +1,12 @@
 import { AsyncPipe } from "@angular/common";
 import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { takeUntilDestroyed } from "@angular/core/rxjs-interop";
-import { Router, RouterOutlet } from "@angular/router";
+import { EventType, Router, RouterOutlet } from "@angular/router";
 import { SidebarComponent } from "@ngen-shared/components";
 import { NgenSidebarSelectable } from "@ngen-shared/models";
 import { PageStateHandlerService } from "@ngen-shared/services";
-import { Observable, tap } from "rxjs";
-import { AboutSubpages } from "./about-subpages";
+import { filter, Observable, tap } from "rxjs";
+import { AboutSubpage } from "./about-subpage";
 
 @Component({
    selector: "ngen-about",
@@ -19,37 +19,49 @@ export class AboutComponent {
    private readonly router = inject(Router);
    private readonly pageStateHandlerService = inject(PageStateHandlerService);
 
-   public readonly subpages: NgenSidebarSelectable<AboutSubpages>[] = [
+   public readonly subpages: NgenSidebarSelectable<AboutSubpage>[] = [
       {
          label: "Introduction",
          description: "Learn about the purpose of this application and how it can help you.",
-         value: AboutSubpages.INTRODUCTION
+         value: AboutSubpage.INTRODUCTION
       },
       {
          label: "Generators",
          description: "Learn about the available name generators and their usage.",
-         value: AboutSubpages.GENERATORS
+         value: AboutSubpage.GENERATORS
       },
       {
          label: "Versions",
          description: "Learn about the version history of this application.",
-         value: AboutSubpages.VERSIONS
+         value: AboutSubpage.VERSIONS
       }
    ];
-   public readonly currentSubpage$: Observable<AboutSubpages>;
+   public readonly currentSubpage$: Observable<AboutSubpage>;
 
    constructor() {
       this.currentSubpage$ = this.pageStateHandlerService.aboutSubpage$.pipe(
          takeUntilDestroyed(),
          tap(subpage => this.navigate(subpage))
       );
+
+      this.router.events
+         .pipe(
+            takeUntilDestroyed(),
+            filter(event => event.type === EventType.NavigationEnd)
+         )
+         .subscribe(event => this.selectSubpage(this.getSubpageFromUrl(event.urlAfterRedirects)));
    }
 
-   public selectSubpage(subpage: AboutSubpages): void {
+   public selectSubpage(subpage: AboutSubpage): void {
       this.pageStateHandlerService.setAboutSubpage(subpage);
    }
 
-   private navigate(subpage: AboutSubpages): void {
+   private navigate(subpage: AboutSubpage): void {
       this.router.navigateByUrl(`/about/${subpage}`);
+   }
+
+   private getSubpageFromUrl(url: string): AboutSubpage {
+      const subpage = url.split("/").at(-1);
+      return subpage as AboutSubpage;
    }
 }

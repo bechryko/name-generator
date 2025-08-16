@@ -5,7 +5,7 @@ import { MatDialog } from "@angular/material/dialog";
 import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { Router } from "@angular/router";
-import { AboutSubpages } from "@ngen-about/about-subpages";
+import { AboutSubpage } from "@ngen-about/about-subpage";
 import { SidebarComponent } from "@ngen-shared/components";
 import { RouteUrl } from "@ngen-shared/enums";
 import { PageStateHandlerService } from "@ngen-shared/services";
@@ -64,7 +64,7 @@ export class GenerationComponent {
 
    public navigateToInfoPage(): void {
       this.router.navigateByUrl(RouteUrl.ABOUT);
-      this.pageStateHandlerService.setAboutSubpage(AboutSubpages.GENERATORS);
+      this.pageStateHandlerService.setAboutSubpage(AboutSubpage.GENERATORS);
    }
 
    public generateName(): void {

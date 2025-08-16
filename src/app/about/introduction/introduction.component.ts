@@ -1,14 +1,19 @@
-import { ChangeDetectionStrategy, Component } from "@angular/core";
-import { RouterLink } from "@angular/router";
-import { AboutSubpages } from "@ngen-about/about-subpages";
+import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
+import { AboutSubpage } from "@ngen-about/about-subpage";
+import { PageStateHandlerService } from "@ngen-shared/services";
 
 @Component({
    selector: "ngen-introduction",
    templateUrl: "./introduction.component.html",
    styleUrl: "../styles/about-content.scss",
-   changeDetection: ChangeDetectionStrategy.OnPush,
-   imports: [RouterLink]
+   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class IntroductionComponent {
-   public readonly subpages = AboutSubpages;
+   private readonly pageStateHandlerService = inject(PageStateHandlerService);
+
+   public readonly AboutSubpages = AboutSubpage;
+
+   public navigateToSubpage(subpage: AboutSubpage): void {
+      this.pageStateHandlerService.setAboutSubpage(subpage);
+   }
 }
