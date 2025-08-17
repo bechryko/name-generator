@@ -9,5 +9,6 @@ export const basicDefaultConfig: GenerationConfig = {
    ignoreVoicedUnvoicedPairs: false,
    regularNameStart: new RegularString(),
    regularNameEnd: new RegularString(),
-   regularNameBase: new RegularString()
+   regularNameBase: new RegularString(),
+   syllableAlleviation: true
 };

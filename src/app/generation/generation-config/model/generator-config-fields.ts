@@ -1,3 +1,5 @@
+import { GenerationConfig } from "@ngen-generation/core/models";
+
 const fields = [
    "minLength",
    "maxLength",
@@ -6,8 +8,9 @@ const fields = [
    "ignoreVoicedUnvoicedPairs",
    "regularNameStart",
    "regularNameEnd",
-   "regularNameBase"
-] as const;
+   "regularNameBase",
+   "syllableAlleviation"
+] as const satisfies (keyof GenerationConfig)[];
 
 /**
  * Describes whether the fields are needed for the given generator.
