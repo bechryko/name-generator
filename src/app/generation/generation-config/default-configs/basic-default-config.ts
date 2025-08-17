@@ -10,5 +10,6 @@ export const basicDefaultConfig: GenerationConfig = {
    regularNameStart: new RegularString(),
    regularNameEnd: new RegularString(),
    regularNameBase: new RegularString(),
-   syllableAlleviation: true
+   syllableAlleviation: true,
+   disableLetterWeights: false
 };

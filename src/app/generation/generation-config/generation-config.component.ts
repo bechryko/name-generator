@@ -104,6 +104,11 @@ export class GenerationConfigComponent {
          name: "syllableAlleviation",
          label: "Syllable alleviation",
          type: "checkbox"
+      },
+      {
+         name: "disableLetterWeights",
+         label: "Disable letter weights",
+         type: "checkbox"
       }
    ];
    public readonly configFieldsData: Record<FieldName, FieldData<FieldName>>;

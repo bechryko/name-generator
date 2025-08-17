@@ -9,7 +9,8 @@ const fields = [
    "regularNameStart",
    "regularNameEnd",
    "regularNameBase",
-   "syllableAlleviation"
+   "syllableAlleviation",
+   "disableLetterWeights"
 ] as const satisfies (keyof GenerationConfig)[];
 
 /**
