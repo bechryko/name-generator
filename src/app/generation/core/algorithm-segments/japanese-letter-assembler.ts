@@ -1,7 +1,7 @@
 import { RandomUtils } from "@ngen-shared/utils";
 import { japaneseLetterList } from "../constants";
 import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationData, JapaneseLetter } from "../models";
+import { AlgorithmSegment, GenerationData } from "../models";
 
 export interface JapaneseLetterAssemblerConfig {
    minLength: number;
@@ -25,12 +25,12 @@ export class JapaneseLetterAssembler extends AlgorithmSegment<
          katakana: ""
       };
 
+      const letterWeights = japaneseLetterList.map(letter => letter.weight ?? 1);
       for (let i = 0; i < length; i++) {
-         const letter = RandomUtils.randomIndex(japaneseLetterList);
-
-         for (const key in letter) {
-            name[key as keyof JapaneseLetter] += letter[key as keyof JapaneseLetter];
-         }
+         const letter = RandomUtils.randomIndexWeighted(japaneseLetterList, letterWeights);
+         name.romaji += letter.romaji;
+         name.hiragana += letter.hiragana;
+         name.katakana += letter.katakana;
       }
 
       const newData: GenerationData = {
