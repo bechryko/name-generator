@@ -63,8 +63,7 @@ export class GenerationComponent {
    }
 
    public navigateToInfoPage(): void {
-      this.router.navigateByUrl(RouteUrl.ABOUT);
-      this.pageStateHandlerService.setAboutSubpage(AboutSubpage.GENERATORS);
+      this.router.navigateByUrl(RouteUrl.ABOUT + "/" + AboutSubpage.GENERATORS);
    }
 
    public generateName(): void {

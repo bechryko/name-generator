@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, Component, Input, WritableSignal, computed, inject, signal } from "@angular/core";
+import {
+   ChangeDetectionStrategy,
+   Component,
+   Input,
+   WritableSignal,
+   computed,
+   effect,
+   inject,
+   signal
+} from "@angular/core";
 import { GenerationConfig } from "@ngen-generation/core/models/generation-config";
 import { ConfigurationStoreService } from "@ngen-generation/services";
 import { InputComponent } from "@ngen-shared/components";
@@ -90,6 +99,11 @@ export class GenerationConfigComponent {
          label: "Regular skeleton of the name",
          type: "regular-string",
          disabledTooltip: "If you specified either a start or an end of a name, you cannot set the whole skeleton"
+      },
+      {
+         name: "syllableAlleviation",
+         label: "Syllable alleviation",
+         type: "checkbox"
       }
    ];
    public readonly configFieldsData: Record<FieldName, FieldData<FieldName>>;
@@ -114,6 +128,8 @@ export class GenerationConfigComponent {
          }),
          {} as any
       );
+
+      effect(() => this.configStoreService.saveConfig(this.selectedGenerator, this.configObject()));
    }
 
    public onBlur(field: ConfigField): void {

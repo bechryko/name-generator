@@ -15,7 +15,8 @@ export class GenerationConfigUtils {
                maxLength: true,
                excludedLetters: true,
                includedLetters: true,
-               ignoreVoicedUnvoicedPairs: true
+               ignoreVoicedUnvoicedPairs: true,
+               syllableAlleviation: true
             };
          case GeneratorAlgorithmName.REGULAR:
             return {

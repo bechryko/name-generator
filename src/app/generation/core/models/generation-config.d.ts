@@ -9,4 +9,5 @@ export interface GenerationConfig {
    regularNameStart: RegularString;
    regularNameEnd: RegularString;
    regularNameBase: RegularString;
+   syllableAlleviation: boolean;
 }
