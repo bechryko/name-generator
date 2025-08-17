@@ -1,14 +1,13 @@
-import { LetterSet, RegularCharacter, RegularString } from "@ngen-shared/models";
+import { RegularCharacter, RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
 import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationData, RandomLetterConfig } from "../models";
+import { AlgorithmSegment, GenerationConfig, GenerationData, RandomLetterConfig } from "../models";
 import { LetterUtils, NameStartingDoubleConsonantUtils, VoicedUnvoicedPairsUtils } from "../utils";
 
-export interface BasicLetterFinalizerConfig {
-   excludedLetters: LetterSet;
-   includedLetters: LetterSet;
-   ignoreVoicedUnvoicedPairs: boolean;
-}
+export type BasicLetterFinalizerConfig = Pick<
+   GenerationConfig,
+   "excludedLetters" | "includedLetters" | "ignoreVoicedUnvoicedPairs" | "disableLetterWeights"
+>;
 
 export class BasicLetterFinalizer extends AlgorithmSegment<
    AlgorithmDataType.REGULAR_STRING,
@@ -94,7 +93,9 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
       latestLetter?: RegularCharacter
    ): RandomLetterConfig {
       const genConfig: BasicLetterFinalizerConfig = { ...config };
-      const randConfig: RandomLetterConfig = {};
+      const randConfig: RandomLetterConfig = {
+         disableLetterWeights: config.disableLetterWeights
+      };
 
       if (latestLetter) {
          const pair = VoicedUnvoicedPairsUtils.pairOf(latestLetter.toString());

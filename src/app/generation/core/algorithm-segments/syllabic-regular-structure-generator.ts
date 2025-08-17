@@ -1,16 +1,13 @@
-import { LetterSet, RegularString } from "@ngen-shared/models";
+import { RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
 import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationData } from "../models";
+import { AlgorithmSegment, GenerationConfig, GenerationData } from "../models";
 import { NameStartingDoubleConsonantUtils } from "../utils";
 
-export interface SyllabicRegularStructureGeneratorConfig {
-   minLength: number;
-   maxLength: number;
-   includedLetters: LetterSet;
-   excludedLetters: LetterSet;
-   syllableAlleviation: boolean;
-}
+export type SyllabicRegularStructureGeneratorConfig = Pick<
+   GenerationConfig,
+   "minLength" | "maxLength" | "includedLetters" | "excludedLetters" | "syllableAlleviation"
+>;
 
 export class SyllabicRegularStructureGenerator extends AlgorithmSegment<
    AlgorithmDataType.VOID,

@@ -1,12 +1,9 @@
 import { RandomUtils } from "@ngen-shared/utils";
 import { japaneseLetterList } from "../constants";
 import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationData } from "../models";
+import { AlgorithmSegment, GenerationConfig, GenerationData, JapaneseLetter } from "../models";
 
-export interface JapaneseLetterAssemblerConfig {
-   minLength: number;
-   maxLength: number;
-}
+export type JapaneseLetterAssemblerConfig = Pick<GenerationConfig, "minLength" | "maxLength" | "disableLetterWeights">;
 
 export class JapaneseLetterAssembler extends AlgorithmSegment<
    AlgorithmDataType.VOID,
@@ -25,7 +22,7 @@ export class JapaneseLetterAssembler extends AlgorithmSegment<
          katakana: ""
       };
 
-      const letterWeights = japaneseLetterList.map(letter => letter.weight ?? 1);
+      const letterWeights = japaneseLetterList.map(letter => this.getLetterWeight(letter, config));
       for (let i = 0; i < length; i++) {
          const letter = RandomUtils.randomIndexWeighted(japaneseLetterList, letterWeights);
          name.romaji += letter.romaji;
@@ -48,5 +45,12 @@ export class JapaneseLetterAssembler extends AlgorithmSegment<
 
    public override getOutputType(): AlgorithmDataType.NAME {
       return AlgorithmDataType.NAME;
+   }
+
+   private getLetterWeight(letter: JapaneseLetter, config: JapaneseLetterAssemblerConfig): number {
+      if (config.disableLetterWeights) {
+         return 1;
+      }
+      return letter.weight ?? 1;
    }
 }

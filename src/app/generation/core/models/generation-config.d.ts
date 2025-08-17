@@ -10,4 +10,5 @@ export interface GenerationConfig {
    regularNameEnd: RegularString;
    regularNameBase: RegularString;
    syllableAlleviation: boolean;
+   disableLetterWeights: boolean;
 }

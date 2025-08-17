@@ -7,7 +7,8 @@ export class GenerationConfigUtils {
          case GeneratorAlgorithmName.JAPANESE:
             return {
                minLength: true,
-               maxLength: true
+               maxLength: true,
+               disableLetterWeights: true
             };
          case GeneratorAlgorithmName.SYLLABIC:
             return {
@@ -16,7 +17,8 @@ export class GenerationConfigUtils {
                excludedLetters: true,
                includedLetters: true,
                ignoreVoicedUnvoicedPairs: true,
-               syllableAlleviation: true
+               syllableAlleviation: true,
+               disableLetterWeights: true
             };
          case GeneratorAlgorithmName.REGULAR:
             return {
@@ -27,7 +29,8 @@ export class GenerationConfigUtils {
                ignoreVoicedUnvoicedPairs: true,
                regularNameStart: true,
                regularNameEnd: true,
-               regularNameBase: true
+               regularNameBase: true,
+               disableLetterWeights: true
             };
          default:
             return {};

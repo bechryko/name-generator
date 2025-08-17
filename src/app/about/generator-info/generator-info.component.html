@@ -22,6 +22,11 @@
       name. The length can be between {{ configPropertyBounds.lengthInSyllables.min }} and
       {{ configPropertyBounds.lengthInSyllables.max }}.
    </p>
+   <p>
+      The <strong>Disable letter weights</strong> checkbox makes it possible to ignore the default weights for each
+      Japanese letter. By default, there is a weight assigned to each letter, based on real Japanese texts. By checking
+      this rule, these weights are not taken into account when choosing each letter for the generated word.
+   </p>
 </section>
 <section>
    <h3>
@@ -60,6 +65,11 @@
       The <strong>Syllable alleviation</strong> checkbox turns on and off the syllable alleviation. This rule prevents
       two or three neighboring syllables to have too many or too few consonants. Overall, this rule helps prevent names
       with only short or only long syllables.
+   </p>
+   <p>
+      The <strong>Disable letter weights</strong> checkbox is available here too, which works the same as for the
+      Japanese generator. In this generator the letter weights are calculated using English texts, checking this rule
+      disables it.
    </p>
 </section>
 <section>
@@ -114,5 +124,9 @@
       following syntax: <code>{{ "{e\<referenceIndex\>}" }}</code
       >! For example, if you want to reference the 2nd character in the regular start, from the regular end, you have to
       use a <code>{{ "{e1}" }}</code> reference.
+   </p>
+   <p>
+      The <strong>Disable letter weights</strong> checkbox works exactly the same as for the Syllabic generator
+      algorithm.
    </p>
 </section>
