@@ -8,6 +8,7 @@ export interface BasicLetterFinalizerConfig {
    excludedLetters: LetterSet;
    includedLetters: LetterSet;
    ignoreVoicedUnvoicedPairs: boolean;
+   disableLetterWeights: boolean;
 }
 
 export class BasicLetterFinalizer extends AlgorithmSegment<
@@ -94,7 +95,9 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
       latestLetter?: RegularCharacter
    ): RandomLetterConfig {
       const genConfig: BasicLetterFinalizerConfig = { ...config };
-      const randConfig: RandomLetterConfig = {};
+      const randConfig: RandomLetterConfig = {
+         disableLetterWeights: config.disableLetterWeights
+      };
 
       if (latestLetter) {
          const pair = VoicedUnvoicedPairsUtils.pairOf(latestLetter.toString());

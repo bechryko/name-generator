@@ -7,6 +7,7 @@ import { LetterUtils, NameStartingDoubleConsonantUtils, RegularUtils } from "../
 export interface ProximityWildcardResolverConfig {
    excludedLetters: LetterSet;
    includedLetters: LetterSet;
+   disableLetterWeights: boolean;
 }
 
 export class ProximityWildcardResolver extends AlgorithmSegment<
@@ -99,9 +100,7 @@ export class ProximityWildcardResolver extends AlgorithmSegment<
    }
 
    private getRandomRegularByConfig(config: ProximityWildcardResolverConfig): string {
-      return this.vowelIf(
-         RandomUtils.byChance(LetterUtils.getVowelChance(config.excludedLetters, config.includedLetters))
-      );
+      return this.vowelIf(RandomUtils.byChance(LetterUtils.getVowelChance(config)));
    }
 
    private vowelIf(condition: boolean): string {

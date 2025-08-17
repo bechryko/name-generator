@@ -1,11 +1,14 @@
 import { pluck } from "@ngen-shared/functions";
-import { LetterSet } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
-import { Letter, RandomLetterConfig } from "../models";
+import { GenerationConfig, Letter, RandomLetterConfig } from "../models";
 
 type LetterType = "vowel" | "consonant" | "letter";
 
+type GetVowelChanceConfig = Pick<GenerationConfig, "includedLetters" | "excludedLetters" | "disableLetterWeights">;
+
 export class LetterUtils {
+   private static readonly DEFAULT_VOWEL_CHANCE = 3 / 8;
+
    private static readonly vowel: Letter[] = [
       { letter: "a", weight: 43.31 },
       { letter: "e", weight: 56.88 },
@@ -46,15 +49,27 @@ export class LetterUtils {
       if (config.included) {
          array = array.filter(l => config.included!.includes(l.letter));
       }
+
+      if (config.disableLetterWeights) {
+         return RandomUtils.randomIndex(pluck(array, "letter"));
+      }
       return RandomUtils.randomIndexWeighted(pluck(array, "letter"), pluck(array, "weight"));
    }
 
-   public static getVowelChance(excludedLetters: LetterSet, includedLetters: LetterSet): number {
+   public static getVowelChance(config: GetVowelChanceConfig): number {
+      if (config.disableLetterWeights) {
+         return this.DEFAULT_VOWEL_CHANCE;
+      }
+
       const usableVowels = this.vowel.filter(
-         v => !excludedLetters.has(v.letter) && (includedLetters.isEmpty() || includedLetters.has(v.letter))
+         v =>
+            !config.excludedLetters.has(v.letter) &&
+            (config.includedLetters.isEmpty() || config.includedLetters.has(v.letter))
       );
       const usableLetters = this.letter.filter(
-         l => !excludedLetters.has(l.letter) && (includedLetters.isEmpty() || includedLetters.has(l.letter))
+         l =>
+            !config.excludedLetters.has(l.letter) &&
+            (config.includedLetters.isEmpty() || config.includedLetters.has(l.letter))
       );
       return usableVowels.reduce((acc, v) => acc + v.weight, 0) / usableLetters.reduce((acc, l) => acc + l.weight, 0); //TODO: pluckSum function
    }
