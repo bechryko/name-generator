@@ -1,16 +1,13 @@
 import { RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
 import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationData } from "../models";
+import { AlgorithmSegment, GenerationConfig, GenerationData } from "../models";
 import { RegularUtils } from "../utils";
 
-export interface TemplateBasedRegularStructureGeneratorConfig {
-   minLength: number;
-   maxLength: number;
-   regularNameStart: RegularString;
-   regularNameEnd: RegularString;
-   regularNameBase: RegularString;
-}
+export type TemplateBasedRegularStructureGeneratorConfig = Pick<
+   GenerationConfig,
+   "minLength" | "maxLength" | "regularNameStart" | "regularNameEnd" | "regularNameBase"
+>;
 
 export class TemplateBasedRegularStructureGenerator extends AlgorithmSegment<
    AlgorithmDataType.VOID,

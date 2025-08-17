@@ -1,7 +1,7 @@
 import { AlgorithmDataType } from "../enums";
 import { AlgorithmSegment, GenerationData } from "../models";
 
-export interface CapitalizerConfig {}
+export type CapitalizerConfig = void;
 
 export class Capitalizer extends AlgorithmSegment<AlgorithmDataType.NAME, AlgorithmDataType.NAME, CapitalizerConfig> {
    public override transform(input: string, _: CapitalizerConfig, data: GenerationData): [string, GenerationData] {

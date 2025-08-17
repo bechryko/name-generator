@@ -1,13 +1,10 @@
-import { LetterSet, RegularString } from "@ngen-shared/models";
+import { RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
 import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationData } from "../models";
+import { AlgorithmSegment, GenerationConfig, GenerationData } from "../models";
 import { AvailableLetterUtils, RegularUtils } from "../utils";
 
-export interface NameEndingApplierConfig {
-   excludedLetters: LetterSet;
-   includedLetters: LetterSet;
-}
+export type NameEndingApplierConfig = Pick<GenerationConfig, "excludedLetters" | "includedLetters">;
 
 export class NameEndingApplier extends AlgorithmSegment<
    AlgorithmDataType.REGULAR_STRING,

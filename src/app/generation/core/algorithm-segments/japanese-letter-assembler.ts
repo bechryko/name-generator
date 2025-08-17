@@ -1,13 +1,9 @@
 import { RandomUtils } from "@ngen-shared/utils";
 import { japaneseLetterList } from "../constants";
 import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationData, JapaneseLetter } from "../models";
+import { AlgorithmSegment, GenerationConfig, GenerationData, JapaneseLetter } from "../models";
 
-export interface JapaneseLetterAssemblerConfig {
-   minLength: number;
-   maxLength: number;
-   disableLetterWeights: boolean;
-}
+export type JapaneseLetterAssemblerConfig = Pick<GenerationConfig, "minLength" | "maxLength" | "disableLetterWeights">;
 
 export class JapaneseLetterAssembler extends AlgorithmSegment<
    AlgorithmDataType.VOID,

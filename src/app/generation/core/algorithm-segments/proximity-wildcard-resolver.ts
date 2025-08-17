@@ -1,14 +1,13 @@
-import { LetterSet, RegularCharacter, RegularString } from "@ngen-shared/models";
+import { RegularCharacter, RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
 import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationData } from "../models";
+import { AlgorithmSegment, GenerationConfig, GenerationData } from "../models";
 import { LetterUtils, NameStartingDoubleConsonantUtils, RegularUtils } from "../utils";
 
-export interface ProximityWildcardResolverConfig {
-   excludedLetters: LetterSet;
-   includedLetters: LetterSet;
-   disableLetterWeights: boolean;
-}
+export type ProximityWildcardResolverConfig = Pick<
+   GenerationConfig,
+   "excludedLetters" | "includedLetters" | "disableLetterWeights"
+>;
 
 export class ProximityWildcardResolver extends AlgorithmSegment<
    AlgorithmDataType.REGULAR_STRING_WITH_WILDCARDS,
