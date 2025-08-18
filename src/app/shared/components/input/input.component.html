@@ -3,12 +3,16 @@
       <mat-checkbox
          [checked]="value()"
          [disabled]="disabled()"
+         [matTooltip]="tooltip()"
+         [matTooltipDisabled]="!tooltip()"
          (blur)="onInputBlur()"
          (change)="onCheckboxValueChange($event)"
          >{{ label() }}</mat-checkbox
       >
    } @else {
-      <mat-form-field>
+      <mat-form-field
+         [matTooltip]="tooltip()"
+         [matTooltipDisabled]="!tooltip()">
          <mat-label>{{ label() }}</mat-label>
          <input
             matInput

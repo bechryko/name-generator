@@ -3,7 +3,7 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatInputModule } from "@angular/material/input";
-import { MatTooltipModule } from "@angular/material/tooltip";
+import { MAT_TOOLTIP_DEFAULT_OPTIONS, MatTooltipDefaultOptions, MatTooltipModule } from "@angular/material/tooltip";
 import { LetterSet, RegularString } from "@ngen-shared/models";
 import { InputType } from "./input-type";
 
@@ -17,6 +17,16 @@ import { InputType } from "./input-type";
          provide: NG_VALUE_ACCESSOR,
          multi: true,
          useExisting: InputComponent
+      },
+      {
+         provide: MAT_TOOLTIP_DEFAULT_OPTIONS,
+         useValue: {
+            showDelay: 0,
+            hideDelay: 0,
+            touchendHideDelay: 0,
+            disableTooltipInteractivity: true,
+            position: "right"
+         } satisfies MatTooltipDefaultOptions
       }
    ],
    changeDetection: ChangeDetectionStrategy.OnPush
@@ -27,6 +37,7 @@ export class InputComponent implements ControlValueAccessor {
    public readonly value = model<any>();
    public readonly displayValue = computed(() => this.transformToDisplayValue(this.value()));
    public readonly disabled = model(false);
+   public readonly tooltip = input<string>();
    public readonly disabledTooltip = input<string>();
    public readonly blur = output<void>();
    public onChange = (value: any) => {};
