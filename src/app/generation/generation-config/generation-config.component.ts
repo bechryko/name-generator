@@ -2,6 +2,7 @@ import {
    ChangeDetectionStrategy,
    Component,
    Input,
+   Signal,
    WritableSignal,
    computed,
    effect,
@@ -21,7 +22,7 @@ import {
    syllabicDefaultConfig
 } from "./default-configs";
 import { BoundedConfigProperty, GeneratorConfigFields, PropertyBounds } from "./model";
-import { GenerationConfigUtils } from "./utils";
+import { ConfigTooltipUtils, GenerationConfigUtils } from "./utils";
 
 type FieldName = keyof GenerationConfig;
 
@@ -34,6 +35,7 @@ interface ConfigField {
    name: FieldName;
    label: string;
    type: InputType;
+   tooltip?: Signal<string>;
    disabledTooltip?: string;
 }
 
@@ -47,9 +49,9 @@ interface ConfigField {
 export class GenerationConfigComponent {
    private readonly configStoreService = inject(ConfigurationStoreService);
 
-   public selectedGenerator: GeneratorAlgorithmName = GeneratorAlgorithmName.JAPANESE;
+   public readonly selectedGenerator = signal(GeneratorAlgorithmName.JAPANESE);
    @Input() set generator(value: GeneratorAlgorithmName) {
-      this.selectedGenerator = value;
+      this.selectedGenerator.set(value);
       this.setConfigValue(this.configStoreService.loadConfig(value));
       for (const field of this.configFields) {
          this.correctFieldValue(field);
@@ -60,55 +62,65 @@ export class GenerationConfigComponent {
       {
          name: "minLength",
          label: "Minimum length",
-         type: "number"
+         type: "number",
+         tooltip: computed(() => ConfigTooltipUtils.getMinLengthTooltip(this.selectedGenerator()))
       },
       {
          name: "maxLength",
          label: "Maximum length",
-         type: "number"
+         type: "number",
+         tooltip: computed(() => ConfigTooltipUtils.getMaxLengthTooltip(this.selectedGenerator()))
       },
       {
          name: "excludedLetters",
          label: "Excluded letters",
          type: "letter-set",
-         disabledTooltip: "You cannot use the Excluded letters and the Included letters fields simultaneously"
+         disabledTooltip: "You cannot use the Excluded letters and the Included letters fields simultaneously",
+         tooltip: computed(() => ConfigTooltipUtils.getExcludedLettersTooltip(this.selectedGenerator()))
       },
       {
          name: "includedLetters",
          label: "Included letters",
          type: "letter-set",
-         disabledTooltip: "You cannot use the Included letters and the Excluded letters fields simultaneously"
+         disabledTooltip: "You cannot use the Included letters and the Excluded letters fields simultaneously",
+         tooltip: computed(() => ConfigTooltipUtils.getIncludedLettersTooltip(this.selectedGenerator()))
       },
       {
          name: "ignoreVoicedUnvoicedPairs",
          label: "Ignore voiced-unvoiced neighbors",
-         type: "checkbox"
+         type: "checkbox",
+         tooltip: computed(() => ConfigTooltipUtils.getIgnoreVoicedUnvoicedPairsTooltip(this.selectedGenerator()))
       },
       {
          name: "regularNameStart",
          label: "Start of the name (regular)",
-         type: "regular-string"
+         type: "regular-string",
+         tooltip: computed(() => ConfigTooltipUtils.getRegularFieldTooltip(this.selectedGenerator()))
       },
       {
          name: "regularNameEnd",
          label: "End of the name (regular)",
-         type: "regular-string"
+         type: "regular-string",
+         tooltip: computed(() => ConfigTooltipUtils.getRegularFieldTooltip(this.selectedGenerator()))
       },
       {
          name: "regularNameBase",
          label: "Regular skeleton of the name",
          type: "regular-string",
-         disabledTooltip: "If you specified either a start or an end of a name, you cannot set the whole skeleton"
+         disabledTooltip: "If you specified either a start or an end of a name, you cannot set the whole skeleton",
+         tooltip: computed(() => ConfigTooltipUtils.getRegularFieldTooltip(this.selectedGenerator()))
       },
       {
          name: "syllableAlleviation",
          label: "Syllable alleviation",
-         type: "checkbox"
+         type: "checkbox",
+         tooltip: computed(() => ConfigTooltipUtils.getSyllableAlleviationTooltip(this.selectedGenerator()))
       },
       {
          name: "disableLetterWeights",
          label: "Disable letter weights",
-         type: "checkbox"
+         type: "checkbox",
+         tooltip: computed(() => ConfigTooltipUtils.getDisableLetterWeightsTooltip(this.selectedGenerator()))
       }
    ];
    public readonly configFieldsData: Record<FieldName, FieldData<FieldName>>;
@@ -134,13 +146,13 @@ export class GenerationConfigComponent {
          {} as any
       );
 
-      effect(() => this.configStoreService.saveConfig(this.selectedGenerator, this.configObject()));
+      effect(() => this.configStoreService.saveConfig(this.selectedGenerator(), this.configObject()));
    }
 
    public onBlur(field: ConfigField): void {
       setTimeout(() => {
          this.correctFieldValue(field);
-         this.configStoreService.saveConfig(this.selectedGenerator, this.configObject());
+         this.configStoreService.saveConfig(this.selectedGenerator(), this.configObject());
       }, 0);
    }
 
@@ -149,7 +161,7 @@ export class GenerationConfigComponent {
    }
 
    get generatorConfigFields(): GeneratorConfigFields {
-      return GenerationConfigUtils.getConfig(this.selectedGenerator);
+      return GenerationConfigUtils.getConfig(this.selectedGenerator());
    }
 
    private correctFieldValue(field: ConfigField): void {
@@ -159,7 +171,7 @@ export class GenerationConfigComponent {
 
       if (field.name === "minLength") {
          const minBound = this.getBounds(
-            this.selectedGenerator === GeneratorAlgorithmName.REGULAR ? "lengthInLetters" : "lengthInSyllables"
+            this.selectedGenerator() === GeneratorAlgorithmName.REGULAR ? "lengthInLetters" : "lengthInSyllables"
          ).min!;
          if ((this.configFieldsData.minLength.value() as number) < minBound) {
             this.setFormFieldValue("minLength", minBound);
@@ -172,7 +184,7 @@ export class GenerationConfigComponent {
 
       if (field.name === "maxLength") {
          const maxBound = this.getBounds(
-            this.selectedGenerator === GeneratorAlgorithmName.REGULAR ? "lengthInLetters" : "lengthInSyllables"
+            this.selectedGenerator() === GeneratorAlgorithmName.REGULAR ? "lengthInLetters" : "lengthInSyllables"
          ).max!;
          if ((this.configFieldsData.maxLength.value() as number) > maxBound) {
             this.setFormFieldValue("maxLength", maxBound);
@@ -229,7 +241,7 @@ export class GenerationConfigComponent {
 
    private resetField(fieldName: FieldName): void {
       let selectedConfig;
-      switch (this.selectedGenerator) {
+      switch (this.selectedGenerator()) {
          case GeneratorAlgorithmName.JAPANESE:
             selectedConfig = japaneseDefaultConfig;
             break;

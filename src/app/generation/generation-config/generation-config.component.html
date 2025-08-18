@@ -12,6 +12,7 @@
                [label]="field.label"
                [type]="field.type"
                [disabledTooltip]="field.disabledTooltip"
+               [tooltip]="field.tooltip?.()"
                (blur)="onBlur(field)"></ngen-input>
          }
       }
