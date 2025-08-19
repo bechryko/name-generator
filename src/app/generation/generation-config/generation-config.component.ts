@@ -21,6 +21,7 @@ import {
    regularDefaultConfig,
    syllabicDefaultConfig
 } from "./default-configs";
+import { GenerationConfigNoticeComponent } from "./generation-config-notice/generation-config-notice.component";
 import { BoundedConfigProperty, GeneratorConfigFields, PropertyBounds } from "./model";
 import { ConfigTooltipUtils, GenerationConfigUtils } from "./utils";
 
@@ -44,7 +45,7 @@ interface ConfigField {
    templateUrl: "./generation-config.component.html",
    styleUrl: "./generation-config.component.scss",
    changeDetection: ChangeDetectionStrategy.OnPush,
-   imports: [InputComponent]
+   imports: [InputComponent, GenerationConfigNoticeComponent]
 })
 export class GenerationConfigComponent {
    private readonly configStoreService = inject(ConfigurationStoreService);
@@ -57,6 +58,9 @@ export class GenerationConfigComponent {
          this.correctFieldValue(field);
       }
    }
+   public readonly shouldNoticeBeDisplayed = computed(() =>
+      GenerationConfigNoticeComponent.shouldBeDisplayed(this.selectedGenerator())
+   );
 
    public readonly configFields: ConfigField[] = [
       {
