@@ -1,5 +1,6 @@
 export enum GeneratorAlgorithmName {
    JAPANESE = "Japanese",
    SYLLABIC = "Syllabic",
-   REGULAR = "Regular"
+   REGULAR = "Regular",
+   PHONETIC = "Phonetic"
 }

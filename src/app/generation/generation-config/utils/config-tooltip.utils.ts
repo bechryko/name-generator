@@ -2,11 +2,23 @@ import { GeneratorAlgorithmName } from "@ngen-generation/core/enums";
 
 export class ConfigTooltipUtils {
    public static getMinLengthTooltip(selectedGenerator: GeneratorAlgorithmName): string {
-      return `Minimum length in ${this.getGeneratorLengthTypeText(selectedGenerator)} (cannot be more than Maximum length)`;
+      let msg = `Minimum length in ${this.getGeneratorLengthTypeText(selectedGenerator)} (cannot be more than Maximum length)`;
+
+      if (selectedGenerator === GeneratorAlgorithmName.PHONETIC) {
+         msg = this.appendPhoneticGeneratorLengthNotice(msg);
+      }
+
+      return msg;
    }
 
    public static getMaxLengthTooltip(selectedGenerator: GeneratorAlgorithmName): string {
-      return `Maximum length in ${this.getGeneratorLengthTypeText(selectedGenerator)} (cannot be less than Minimum length)`;
+      let msg = `Maximum length in ${this.getGeneratorLengthTypeText(selectedGenerator)} (cannot be less than Minimum length)`;
+
+      if (selectedGenerator === GeneratorAlgorithmName.PHONETIC) {
+         msg = this.appendPhoneticGeneratorLengthNotice(msg);
+      }
+
+      return msg;
    }
 
    public static getExcludedLettersTooltip(selectedGenerator: GeneratorAlgorithmName): string {
@@ -40,7 +52,12 @@ export class ConfigTooltipUtils {
          case GeneratorAlgorithmName.REGULAR:
             return "letters";
          case GeneratorAlgorithmName.SYLLABIC:
+         case GeneratorAlgorithmName.PHONETIC:
             return "syllables";
       }
+   }
+
+   private static appendPhoneticGeneratorLengthNotice(msg: string): string {
+      return msg + ". This length is only phonetic, the actual syllables can differ from this";
    }
 }
