@@ -32,6 +32,11 @@ export class GenerationConfigUtils {
                regularNameBase: true,
                disableLetterWeights: true
             };
+         case GeneratorAlgorithmName.PHONETIC:
+            return {
+               minLength: true,
+               maxLength: true
+            };
          default:
             return {};
       }

@@ -3,6 +3,9 @@
    autocomplete="off">
    <fieldset>
       <legend>Generation configuration</legend>
+      @if (shouldNoticeBeDisplayed()) {
+         <ngen-generation-config-notice [algorithm]="selectedGenerator()"></ngen-generation-config-notice>
+      }
       @for (field of configFields; track $index) {
          @if (generatorConfigFields[field.name]) {
             @let configFieldData = configFieldsData[field.name];

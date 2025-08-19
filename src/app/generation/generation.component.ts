@@ -10,7 +10,12 @@ import { SidebarComponent } from "@ngen-shared/components";
 import { RouteUrl } from "@ngen-shared/enums";
 import { PageStateHandlerService } from "@ngen-shared/services";
 import { BulkGenerationDialogComponent } from "./bulk-generation-dialog/bulk-generation-dialog.component";
-import { japaneseGeneratorAlgorithm, regularGeneratorAlgorithm, syllabicGeneratorAlgorithm } from "./core/algorithms";
+import {
+   japaneseGeneratorAlgorithm,
+   phoneticGeneratorAlgorithm,
+   regularGeneratorAlgorithm,
+   syllabicGeneratorAlgorithm
+} from "./core/algorithms";
 import { GeneratorAlgorithmName } from "./core/enums";
 import { GenerationData, NameGeneratorAlgorithm } from "./core/models";
 import { GenerationConfigComponent } from "./generation-config/generation-config.component";
@@ -52,7 +57,8 @@ export class GenerationComponent {
    private readonly generatorAlgorithms = [
       japaneseGeneratorAlgorithm,
       regularGeneratorAlgorithm,
-      syllabicGeneratorAlgorithm
+      syllabicGeneratorAlgorithm,
+      phoneticGeneratorAlgorithm
    ];
 
    constructor() {

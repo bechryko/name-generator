@@ -3,6 +3,7 @@ import { GeneratorAlgorithmName } from "@ngen-generation/core/enums";
 import { GenerationConfig } from "@ngen-generation/core/models";
 import {
    japaneseDefaultConfig,
+   phoneticDefaultConfig,
    regularDefaultConfig,
    syllabicDefaultConfig
 } from "@ngen-generation/generation-config/default-configs";
@@ -14,7 +15,8 @@ export class ConfigurationStoreService {
    private readonly storedConfigs: Record<GeneratorAlgorithmName, GenerationConfig> = {
       [GeneratorAlgorithmName.JAPANESE]: japaneseDefaultConfig,
       [GeneratorAlgorithmName.SYLLABIC]: syllabicDefaultConfig,
-      [GeneratorAlgorithmName.REGULAR]: regularDefaultConfig
+      [GeneratorAlgorithmName.REGULAR]: regularDefaultConfig,
+      [GeneratorAlgorithmName.PHONETIC]: phoneticDefaultConfig
    };
 
    public saveConfig(generator: GeneratorAlgorithmName, config: GenerationConfig): void {

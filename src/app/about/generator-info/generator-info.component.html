@@ -130,3 +130,30 @@
       algorithm.
    </p>
 </section>
+<section>
+   <h3>
+      Phonetic generator algorithm
+      <mat-icon
+         class="title-icon"
+         [matTooltip]="generationNavigationIconTooltip"
+         matTooltipPosition="right"
+         (click)="navigateToGeneratorAlgorithm(GeneratorAlgorithmName.PHONETIC)"
+         >create</mat-icon
+      >
+   </h3>
+   <p>
+      This generator is based on
+      <a
+         href="https://github.com/TomFrost/node-phonetic"
+         target="_blank"
+         >Tom Shawver's Phonetic NPM package</a
+      >, which creates random, pronounceable words. This generator is only a wrapper around that package to integrate it
+      into the name generator, so all credits go to Tom Shawver.
+   </p>
+   <p>
+      The <strong>minimum and maximum length</strong> value is available here too. The length here is measured in
+      syllables, and can be between {{ configPropertyBounds.lengthInSyllables.min }} and
+      {{ configPropertyBounds.lengthInSyllables.max }}. Note that this is a phonetic syllable amount, the actual one can
+      be outside the set bounds.
+   </p>
+</section>

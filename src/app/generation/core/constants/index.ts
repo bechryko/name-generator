@@ -1,3 +1,4 @@
-//@index("./*.ts", (f, _) => `export { ${_.camelCase(f.name)} } from "${f.path}";`)
-export { japaneseLetterList } from "./japanese-letter-list";
+//@index("./*.ts", (f, _) => `export * from "${f.path}";`)
+export * from "./japanese-letter-list";
+export * from "./phonetics";
 //@endindex
