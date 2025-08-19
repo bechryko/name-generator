@@ -3,6 +3,7 @@ export { BasicLetterFinalizer, BasicLetterFinalizerConfig } from "./basic-letter
 export { Capitalizer, CapitalizerConfig } from "./capitalizer";
 export { JapaneseLetterAssembler, JapaneseLetterAssemblerConfig } from "./japanese-letter-assembler";
 export { NameEndingApplier, NameEndingApplierConfig } from "./name-ending-applier";
+export { PhoneticWordGenerator, PhoneticWordGeneratorConfig } from "./phonetic-word-generator";
 export { ProximityWildcardResolver, ProximityWildcardResolverConfig } from "./proximity-wildcard-resolver";
 export {
    SyllabicRegularStructureGenerator,
