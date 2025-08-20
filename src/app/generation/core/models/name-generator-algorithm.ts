@@ -15,7 +15,8 @@ export class NameGeneratorAlgorithm {
    public generateName(config: GenerationConfig): [string, GenerationData] {
       let currentNameState: any = undefined;
       let generationData: GenerationData = {
-         generationSteps: 0
+         generationSteps: 0,
+         errors: []
       };
 
       this.segments.forEach(segment => {
