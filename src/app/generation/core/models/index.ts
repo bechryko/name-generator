@@ -7,4 +7,5 @@ export { JapaneseLetter } from "./japanese-letter.d";
 export { Letter } from "./letter.d";
 export { NameGeneratorAlgorithm } from "./name-generator-algorithm";
 export { RandomLetterConfig } from "./random-letter-config.d";
+export { ScenarioDescription } from "./scenario-description.d";
 //@endindex
