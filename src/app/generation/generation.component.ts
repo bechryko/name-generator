@@ -19,7 +19,7 @@ import {
    syllabicGeneratorAlgorithm
 } from "./core/algorithms";
 import { GeneratorAlgorithmName } from "./core/enums";
-import { GenerationData, NameGeneratorAlgorithm } from "./core/models";
+import { GenerationData, GenerationErrors, NameGeneratorAlgorithm } from "./core/models";
 import { GenerationConfigComponent } from "./generation-config/generation-config.component";
 import { GenerationOutputComponent } from "./generation-output/generation-output.component";
 import { ConfigurationStoreService } from "./services";
@@ -110,17 +110,17 @@ export class GenerationComponent {
       return algorithm;
    }
 
-   private displayGenerationErrors(errors: string[]): void {
-      if (errors.length === 0) {
+   private displayGenerationErrors(errors: GenerationErrors): void {
+      const currentError = errors.shift();
+      if (!currentError) {
          return;
       }
 
-      const [currentError, ...remainingErrors] = errors;
       const snackbarRef = this.snackbar.open(currentError, "Dismiss", { duration: 5000 });
       this.nameGenerated$.pipe(take(1), takeUntil(snackbarRef.afterDismissed())).subscribe(() => snackbarRef.dismiss());
       snackbarRef
          .afterDismissed()
          .pipe(take(1), takeUntil(this.nameGenerated$))
-         .subscribe(() => this.displayGenerationErrors(remainingErrors));
+         .subscribe(() => this.displayGenerationErrors(errors));
    }
 }

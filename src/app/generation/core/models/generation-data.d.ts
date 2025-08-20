@@ -1,6 +1,8 @@
+import { GenerationErrors } from "./generation-errors";
+
 export interface GenerationData {
    generationSteps: number;
-   errors: string[];
+   errors: GenerationErrors;
    regularTemplate?: string;
    syllabized?: string;
    hiragana?: string;
