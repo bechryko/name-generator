@@ -3,6 +3,7 @@ export { AlgorithmSegment } from "./algorithm-segment";
 export { AvailableLetters } from "./available-letters.d";
 export { GenerationConfig } from "./generation-config.d";
 export { GenerationData } from "./generation-data.d";
+export { GenerationErrors } from "./generation-errors";
 export { JapaneseLetter } from "./japanese-letter.d";
 export { Letter } from "./letter.d";
 export { NameGeneratorAlgorithm } from "./name-generator-algorithm";

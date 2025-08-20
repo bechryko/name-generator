@@ -1,7 +1,8 @@
 import { RegularCharacter, RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
+import { errorMessages } from "../constants";
 import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationConfig, GenerationData, RandomLetterConfig } from "../models";
+import { AlgorithmSegment, GenerationConfig, GenerationData, GenerationErrors, RandomLetterConfig } from "../models";
 import { LetterUtils, NameStartingDoubleConsonantUtils, VoicedUnvoicedPairsUtils } from "../utils";
 
 export type BasicLetterFinalizerConfig = Pick<
@@ -21,6 +22,7 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
    ): [string, GenerationData] {
       const regular = input.clone();
       const characters = regular.getCharacters();
+      const generationErrors = data.errors.clone();
 
       for (let i = 0; i < characters.length; i++) {
          const char = characters[i];
@@ -42,12 +44,13 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
             continue;
          }
 
-         this.finalizeCharacter(i, characters, config);
+         this.finalizeCharacter(i, characters, config, generationErrors);
       }
 
       const newData: GenerationData = {
          ...data,
-         generationSteps: data.generationSteps + 1
+         generationSteps: data.generationSteps + 1,
+         errors: generationErrors
       };
       return [regular.getValue(), newData];
    }
@@ -64,15 +67,23 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
       return char.isReference || LetterUtils.is("letter", char.toString());
    }
 
-   private finalizeCharacter(index: number, characters: RegularCharacter[], config: BasicLetterFinalizerConfig): void {
+   private finalizeCharacter(
+      index: number,
+      characters: RegularCharacter[],
+      config: BasicLetterFinalizerConfig,
+      generationErrors: GenerationErrors
+   ): void {
       const char = characters[index];
 
       if (char.isVowel) {
-         char.assign(LetterUtils.random("vowel", this.getRandomLetterConfig(config)));
+         char.assign(LetterUtils.random("vowel", this.getRandomLetterConfig(config, generationErrors)));
       } else if (char.isConsonant) {
-         char.assign(LetterUtils.random("consonant", this.getRandomLetterConfig(config, characters[index - 1])));
+         char.assign(
+            LetterUtils.random("consonant", this.getRandomLetterConfig(config, generationErrors, characters[index - 1]))
+         );
       } else {
-         throw new Error(`Invalid character during character finalization: '${char}!'`);
+         console.warn(`Invalid character during character finalization: '${char}!'`);
+         char.assign(LetterUtils.random("letter", this.getRandomLetterConfig(config, generationErrors)));
       }
    }
 
@@ -90,6 +101,7 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
 
    private getRandomLetterConfig(
       config: BasicLetterFinalizerConfig,
+      generationErrors: GenerationErrors,
       latestLetter?: RegularCharacter
    ): RandomLetterConfig {
       const genConfig: BasicLetterFinalizerConfig = { ...config };
@@ -111,7 +123,7 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
          ) {
             randConfig.excluded = genConfig.excludedLetters.toString();
          } else {
-            // this.generationError = "LETTER_SET_DEPLETED"; TODO
+            generationErrors.add(errorMessages.generation.letterSetDepleted);
          }
       }
 
@@ -122,7 +134,7 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
          ) {
             randConfig.included = genConfig.includedLetters.toString();
          } else {
-            // this.generationError = "LETTER_SET_DEPLETED"; TODO
+            generationErrors.add(errorMessages.generation.letterSetDepleted);
          }
       }
 

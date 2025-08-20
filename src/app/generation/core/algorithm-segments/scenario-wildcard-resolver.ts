@@ -93,7 +93,8 @@ export class ScenarioWildcardResolver extends AlgorithmSegment<
             return true;
       }
 
-      throw new Error(`Invalid character in scenario: '${scenarioCharacter}'`);
+      console.warn(`Invalid character in scenario: '${scenarioCharacter}'`);
+      return false;
    }
 
    private getScenarioResolution(scenario: ScenarioDescription, config: ScenarioWildcardResolverConfig): string {

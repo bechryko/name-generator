@@ -2,6 +2,7 @@ import { AlgorithmDataType } from "../enums/algorithm-data-type";
 import { AlgorithmSegment } from "./algorithm-segment";
 import { GenerationConfig } from "./generation-config";
 import { GenerationData } from "./generation-data";
+import { GenerationErrors } from "./generation-errors";
 
 export class NameGeneratorAlgorithm {
    constructor(
@@ -15,7 +16,8 @@ export class NameGeneratorAlgorithm {
    public generateName(config: GenerationConfig): [string, GenerationData] {
       let currentNameState: any = undefined;
       let generationData: GenerationData = {
-         generationSteps: 0
+         generationSteps: 0,
+         errors: new GenerationErrors()
       };
 
       this.segments.forEach(segment => {
