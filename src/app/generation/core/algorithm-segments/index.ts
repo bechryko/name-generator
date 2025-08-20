@@ -5,6 +5,7 @@ export { JapaneseLetterAssembler, JapaneseLetterAssemblerConfig } from "./japane
 export { NameEndingApplier, NameEndingApplierConfig } from "./name-ending-applier";
 export { PhoneticWordGenerator, PhoneticWordGeneratorConfig } from "./phonetic-word-generator";
 export { ProximityWildcardResolver, ProximityWildcardResolverConfig } from "./proximity-wildcard-resolver";
+export { ScenarioWildcardResolver, ScenarioWildcardResolverConfig } from "./scenario-wildcard-resolver";
 export {
    SyllabicRegularStructureGenerator,
    SyllabicRegularStructureGeneratorConfig
