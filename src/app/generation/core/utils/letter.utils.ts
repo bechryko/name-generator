@@ -96,4 +96,11 @@ export class LetterUtils {
    public static is(type: LetterType, letter: string): boolean {
       return pluck(this[type], "letter").includes(letter);
    }
+
+   public static deleteNonLetters(str: string): string {
+      return str
+         .split("")
+         .filter(c => this.is("letter", c))
+         .join("");
+   }
 }

@@ -1,15 +1,9 @@
 import { LetterUtils, RegularUtils } from "@ngen-generation/core/utils";
-import { RegularCharacterPriority } from "@ngen-shared/enums";
-
-enum RegularCharacterType {
-   LETTER,
-   REGULAR,
-   REFERENCE
-}
+import { RegularCharacterMatchingPriority, RegularCharacterPriority } from "@ngen-shared/enums";
 
 export class RegularCharacter {
-   private type!: RegularCharacterType;
    private letter!: string;
+   private isBasicRegular = false;
 
    constructor(character: string) {
       this.assign(character);
@@ -20,15 +14,17 @@ export class RegularCharacter {
 
       if (RegularUtils.isReference(character)) {
          throw new Error("Basic regular character cannot be a reference!");
-      } else if (RegularUtils.isBasicRegular(character)) {
-         this.type = RegularCharacterType.REGULAR;
       } else {
-         this.type = RegularCharacterType.LETTER;
+         this.isBasicRegular = RegularUtils.isBasicRegular(character);
       }
       this.letter = character;
    }
 
    public doesMatch(character: RegularCharacter): boolean {
+      if (character.matchingPriority > this.matchingPriority) {
+         return character.doesMatch(this);
+      }
+
       if (this.isWildcard || character.isWildcard) {
          return true;
       }
@@ -37,11 +33,11 @@ export class RegularCharacter {
          return true;
       }
 
-      if (this.type === character.type) {
+      if (this.isBasicRegular === character.isBasicRegular) {
          return false;
       }
 
-      const [regular, letter] = this.type === RegularCharacterType.REGULAR ? [this, character] : [character, this];
+      const [regular, letter] = this.isBasicRegular ? [this, character] : [character, this];
       return regular.isVowel
          ? LetterUtils.is("vowel", letter.getValue())
          : LetterUtils.is("consonant", letter.getValue());
@@ -64,18 +60,18 @@ export class RegularCharacter {
    }
 
    public get priority(): number {
-      switch (this.type) {
-         case RegularCharacterType.REGULAR:
-            if (this.letter === RegularUtils.symbols.wildcard) {
-               return RegularCharacterPriority.WILDCARD;
-            } else {
-               return RegularCharacterPriority.OTHER_BASIC_REGULAR;
-            }
-         case RegularCharacterType.LETTER:
-            return RegularCharacterPriority.LETTER;
+      if (this.isBasicRegular) {
+         if (this.letter === RegularUtils.symbols.wildcard) {
+            return RegularCharacterPriority.WILDCARD;
+         } else {
+            return RegularCharacterPriority.OTHER_BASIC_REGULAR;
+         }
       }
+      return RegularCharacterPriority.LETTER;
+   }
 
-      throw new Error(`Unknown type for regular character: ${this.type}`);
+   public get matchingPriority(): number {
+      return RegularCharacterMatchingPriority.DEFAULT;
    }
 
    public toString(): string {
@@ -95,6 +91,6 @@ export class RegularCharacter {
          return false;
       }
 
-      return this.type === other.type && this.letter === other.letter;
+      return this.isBasicRegular === other.isBasicRegular && this.letter === other.letter;
    }
 }
