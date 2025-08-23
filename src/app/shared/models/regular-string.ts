@@ -34,14 +34,13 @@ export class RegularString {
       return this.substring(this.length - size, undefined, cutReferences);
    }
 
-   public doesMatch(other: string | RegularString): boolean {
+   public doesMatch(other: RegularString): boolean {
       if (other.length > this.length) {
          return false;
       }
 
-      const regularOther = typeof other === "string" ? new RegularString(other) : other;
       for (let i = 0; i < this.length; i++) {
-         if (!this.characters[i].doesMatch(regularOther.characters[i])) {
+         if (!this.characters[i].doesMatch(other.characters[i])) {
             return false;
          }
       }

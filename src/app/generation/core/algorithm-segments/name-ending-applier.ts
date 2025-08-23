@@ -2,7 +2,7 @@ import { RegularString } from "@ngen-shared/models";
 import { RandomUtils } from "@ngen-shared/utils";
 import { AlgorithmDataType } from "../enums";
 import { AlgorithmSegment, GenerationConfig, GenerationData } from "../models";
-import { AvailableLetterUtils, RegularUtils } from "../utils";
+import { AvailableLetterUtils } from "../utils";
 
 export type NameEndingApplierConfig = Pick<GenerationConfig, "excludedLetters" | "includedLetters">;
 
@@ -11,19 +11,18 @@ export class NameEndingApplier extends AlgorithmSegment<
    AlgorithmDataType.REGULAR_STRING,
    NameEndingApplierConfig
 > {
-   private static readonly DOUBLE_CONSONANT_ENDINGS = ["lf", "lv", "lt", "ld", "mn", "rk", "ck"];
    private static readonly NAME_ENDINGS = [
       "in+",
       "ia-+",
       "ni+",
-      "+s",
+      "+(mns)",
       "i+s",
-      "+n",
-      "+m",
       "+nk+",
       "+-+",
       "-ia",
-      ...this.DOUBLE_CONSONANT_ENDINGS.map(e => RegularUtils.symbols.vowel + e)
+      "+l(dftv)",
+      "+mn",
+      "+(cr)k"
    ];
 
    public override transform(
@@ -31,10 +30,9 @@ export class NameEndingApplier extends AlgorithmSegment<
       config: NameEndingApplierConfig,
       data: GenerationData
    ): [RegularString, GenerationData] {
-      const matchingEndings = AvailableLetterUtils.filterByAvailableLetters(
-         NameEndingApplier.NAME_ENDINGS,
-         config
-      ).filter(ending => input.ending(ending.length, true).doesMatch(ending));
+      const matchingEndings = AvailableLetterUtils.filterByAvailableLetters(NameEndingApplier.NAME_ENDINGS, config)
+         .map(ending => new RegularString(ending))
+         .filter(ending => input.ending(ending.length, true).doesMatch(ending));
 
       const regular = input.clone();
       if (matchingEndings.length) {
