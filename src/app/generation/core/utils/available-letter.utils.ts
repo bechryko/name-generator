@@ -33,7 +33,7 @@ export class AvailableLetterUtils {
             const letterSet = getCharacterContainer(str, i, RegularUtils.symbols.setEnd);
             const deletedSet = this.deleteLettersFromSet(letterSet, availableLetters);
             newStr += `(${deletedSet})`;
-            i += deletedSet.length + 1;
+            i += letterSet.length + 1;
          } else {
             newStr += str[i];
          }
