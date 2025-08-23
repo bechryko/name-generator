@@ -1,5 +1,6 @@
 import { RegularUtils } from "@ngen-generation/core/utils";
 import { RegularCharacter } from "./regular-character";
+import { RegularLetterSet } from "./regular-letter-set";
 import { RegularReference } from "./regular-reference";
 
 export class RegularString {
@@ -62,8 +63,7 @@ export class RegularString {
             );
          }
 
-         const matchedCharacter = char.priority > otherChar.priority ? char : otherChar.clone();
-         this.characters[i + startIndex] = matchedCharacter;
+         this.characters[i + startIndex] = this.getMatchedCharacter(char, otherChar);
       }
    }
 
@@ -99,5 +99,19 @@ export class RegularString {
             }
          }
       });
+   }
+
+   private getMatchedCharacter(c1: RegularCharacter, c2: RegularCharacter): RegularCharacter {
+      if (c1 instanceof RegularLetterSet && c2 instanceof RegularLetterSet) {
+         return RegularLetterSet.match(c1, c2);
+      }
+
+      if (c1 instanceof RegularLetterSet || c2 instanceof RegularLetterSet) {
+         const set = (c1 instanceof RegularLetterSet ? c1 : c2).clone() as RegularLetterSet;
+         set.match(c2);
+         return set;
+      }
+
+      return c1.priority > c2.priority ? c1.clone() : c2.clone();
    }
 }

@@ -1,4 +1,5 @@
-import { RegularCharacter, RegularReference } from "@ngen-shared/models";
+import { getCharacterContainer } from "@ngen-shared/functions";
+import { RegularCharacter, RegularLetterSet, RegularReference } from "@ngen-shared/models";
 import { LetterUtils } from "./letter.utils";
 
 interface ReferenceData {
@@ -12,7 +13,9 @@ export class RegularUtils {
       consonant: "-",
       wildcard: "*",
       groupStart: "{",
-      groupEnd: "}"
+      groupEnd: "}",
+      setStart: "(",
+      setEnd: ")"
    } as const;
    public static readonly modifierFlags = {
       externalReference: "e"
@@ -58,7 +61,11 @@ export class RegularUtils {
             const { referenceIndex, isExternal } = this.extractReferenceData(char);
             return new RegularReference(referenceIndex, isExternal);
          } else if (char.length > 1) {
-            throw new Error(`Invalid regular character base: ${char}`);
+            const characters = char
+               .split("")
+               .filter(c => LetterUtils.is("letter", c))
+               .map(c => new RegularCharacter(c));
+            return new RegularLetterSet(characters);
          } else {
             return new RegularCharacter(char);
          }
@@ -137,18 +144,13 @@ export class RegularUtils {
 
       for (let i = 0; i < str.length; i++) {
          if (str[i] === this.symbols.groupStart) {
-            let foundEnd = false;
-            for (let j = i + 1; j < str.length; j++) {
-               if (str[j] === this.symbols.groupEnd) {
-                  characters.push(str.substring(i + 1, j));
-                  foundEnd = true;
-                  i = j;
-               }
-            }
-
-            if (!foundEnd) {
-               throw new Error("Syntax error: regular group is not closed!");
-            }
+            const container = getCharacterContainer(str, i, this.symbols.groupEnd);
+            characters.push(container);
+            i += container.length + 1;
+         } else if (str[i] === this.symbols.setStart) {
+            const container = getCharacterContainer(str, i, this.symbols.setEnd);
+            characters.push(container);
+            i += container.length + 1;
          } else {
             characters.push(str[i]);
          }
