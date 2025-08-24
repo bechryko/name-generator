@@ -1,7 +1,7 @@
 import { GeneratorAlgorithmName } from "@ngen-generation/core/enums";
 import { BoundedConfigProperty, GeneratorConfigFields, PropertyBounds } from "../model";
 
-export class GenerationConfigUtils {
+export class GenerationConfigComponentUtils {
    public static getConfig(generator: GeneratorAlgorithmName | undefined): GeneratorConfigFields {
       switch (generator) {
          case GeneratorAlgorithmName.JAPANESE:

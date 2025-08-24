@@ -5,7 +5,7 @@ import { Router } from "@angular/router";
 import { GeneratorAlgorithmName } from "@ngen-generation/core/enums";
 import { RegularUtils } from "@ngen-generation/core/utils";
 import { BoundedConfigProperty, PropertyBounds } from "@ngen-generation/generation-config/model";
-import { GenerationConfigUtils } from "@ngen-generation/generation-config/utils";
+import { GenerationConfigComponentUtils } from "@ngen-generation/generation-config/utils";
 import { RouteUrl } from "@ngen-shared/enums";
 import { PageStateHandlerService } from "@ngen-shared/services";
 
@@ -27,7 +27,7 @@ export class GeneratorInfoComponent {
 
    constructor() {
       this.configPropertyKeys.forEach(key => {
-         this.configPropertyBounds[key] = GenerationConfigUtils.getConfigPropertyBounds(key);
+         this.configPropertyBounds[key] = GenerationConfigComponentUtils.getConfigPropertyBounds(key);
       });
    }
 
