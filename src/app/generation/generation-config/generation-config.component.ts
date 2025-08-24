@@ -15,12 +15,6 @@ import { InputComponent } from "@ngen-shared/components";
 import { InputType } from "@ngen-shared/components/input";
 import { LetterSet, RegularString } from "@ngen-shared/models";
 import { GeneratorAlgorithmName } from "../core/enums";
-import {
-   basicDefaultConfig,
-   japaneseDefaultConfig,
-   regularDefaultConfig,
-   syllabicDefaultConfig
-} from "./default-configs";
 import { GenerationConfigNoticeComponent } from "./generation-config-notice/generation-config-notice.component";
 import { BoundedConfigProperty, GeneratorConfigFields, PropertyBounds } from "./model";
 import { ConfigTooltipUtils, GenerationConfigComponentUtils } from "./utils";
@@ -162,11 +156,29 @@ export class GenerationConfigComponent {
       }, 0);
    }
 
+   public onAutoModify(fieldName: FieldName): void {
+      switch (fieldName) {
+         case "includedLetters":
+         case "excludedLetters":
+            this.configFieldsData[fieldName].autoModifyWarningMessage.set(
+               "Duplicate and invalid characters deleted from letter set"
+            );
+            break;
+         case "regularNameStart":
+         case "regularNameEnd":
+         case "regularNameBase":
+            this.configFieldsData[fieldName].autoModifyWarningMessage.set(
+               "Invalid expressions, characters and syntax errors deleted and corrected in regular string. For more info, see About page, Generators subpage"
+            );
+            break;
+      }
+   }
+
    public getBounds(property: BoundedConfigProperty): Partial<PropertyBounds> {
       return GenerationConfigComponentUtils.getConfigPropertyBounds(property);
    }
 
-   get generatorConfigFields(): GeneratorConfigFields {
+   public get generatorConfigFields(): GeneratorConfigFields {
       return GenerationConfigComponentUtils.getConfig(this.selectedGenerator());
    }
 
@@ -261,23 +273,5 @@ export class GenerationConfigComponent {
 
    private getField(fieldName: FieldName): ConfigField {
       return this.configFields.find(field => field.name === fieldName)!;
-   }
-
-   private resetField(fieldName: FieldName): void {
-      let selectedConfig;
-      switch (this.selectedGenerator()) {
-         case GeneratorAlgorithmName.JAPANESE:
-            selectedConfig = japaneseDefaultConfig;
-            break;
-         case GeneratorAlgorithmName.REGULAR:
-            selectedConfig = regularDefaultConfig;
-            break;
-         case GeneratorAlgorithmName.SYLLABIC:
-            selectedConfig = syllabicDefaultConfig;
-            break;
-         default:
-            selectedConfig = basicDefaultConfig;
-      }
-      this.setFormFieldValue(fieldName, selectedConfig[fieldName]);
    }
 }

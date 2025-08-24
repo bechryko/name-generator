@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, input, model, output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, computed, effect, input, model, output } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -41,9 +41,21 @@ export class InputComponent implements ControlValueAccessor {
    public readonly disabledTooltip = input<string>();
    public readonly autoModifyWarningMessage = model<string | null>(null);
    public readonly blur = output<void>();
+   public readonly autoModify = output<void>();
    public onChange = (value: any) => {};
    public onTouched = () => {};
    public touched = false;
+   private displayValueCache: any = null;
+
+   constructor() {
+      effect(() => {
+         if (this.displayValueCache !== null && this.displayValue() !== this.displayValueCache) {
+            this.autoModify.emit();
+         }
+
+         this.displayValueCache = null;
+      });
+   }
 
    public writeValue(value: any): void {
       this.value.set(value);
@@ -74,7 +86,9 @@ export class InputComponent implements ControlValueAccessor {
    }
 
    public onInputValueChange(event: any): void {
-      const value = this.transformToValue(event.target.value);
+      const enteredValue: string = event.target.value;
+      this.displayValueCache = enteredValue;
+      const value = this.transformToValue(enteredValue);
       this.onChange(value);
       this.writeValue(value);
    }

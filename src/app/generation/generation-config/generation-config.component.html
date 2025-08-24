@@ -17,7 +17,8 @@
                [type]="field.type"
                [disabledTooltip]="field.disabledTooltip"
                [tooltip]="field.tooltip?.()"
-               (blur)="onBlur(field)"></ngen-input>
+               (blur)="onBlur(field)"
+               (autoModify)="onAutoModify(field.name)"></ngen-input>
          }
       }
    </fieldset>
