@@ -50,6 +50,7 @@ export class GenerationConfigComponent {
       this.selectedGenerator.set(value);
       this.setConfigValue(this.configStoreService.loadConfig(value));
       for (const field of this.configFields) {
+         this.configFieldsData[field.name].autoModifyWarningMessage.set(null);
          this.correctFieldValue(field);
       }
    }

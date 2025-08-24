@@ -49,7 +49,8 @@ export class InputComponent implements ControlValueAccessor {
 
    constructor() {
       effect(() => {
-         if (this.displayValueCache !== null && this.displayValue() !== this.displayValueCache) {
+         const displayValue = this.displayValue();
+         if (this.displayValueCache !== null && displayValue !== this.displayValueCache) {
             this.autoModify.emit();
          }
 
@@ -59,6 +60,7 @@ export class InputComponent implements ControlValueAccessor {
 
    public writeValue(value: any): void {
       this.value.set(value);
+      this.autoModifyWarningMessage.set(null);
    }
 
    public registerOnChange(onChange: typeof this.onChange): void {
