@@ -17,7 +17,7 @@ import { LetterSet, RegularString } from "@ngen-shared/models";
 import { GeneratorAlgorithmName } from "../core/enums";
 import { GenerationConfigNoticeComponent } from "./generation-config-notice/generation-config-notice.component";
 import { BoundedConfigProperty, GeneratorConfigFields, PropertyBounds } from "./model";
-import { ConfigTooltipUtils, GenerationConfigComponentUtils } from "./utils";
+import { ConfigTooltipUtils, GenerationConfigComponentUtils, InputAutoModifyUtils } from "./utils";
 
 type FieldName = keyof GenerationConfig;
 
@@ -160,16 +160,12 @@ export class GenerationConfigComponent {
       switch (fieldName) {
          case "includedLetters":
          case "excludedLetters":
-            this.configFieldsData[fieldName].autoModifyWarningMessage.set(
-               "Duplicate and invalid characters deleted from letter set"
-            );
+            this.configFieldsData[fieldName].autoModifyWarningMessage.set(InputAutoModifyUtils.LETTER_SET_MESSAGE);
             break;
          case "regularNameStart":
          case "regularNameEnd":
          case "regularNameBase":
-            this.configFieldsData[fieldName].autoModifyWarningMessage.set(
-               "Invalid expressions, characters and syntax errors deleted and corrected in regular string. For more info, see About page, Generators subpage"
-            );
+            this.configFieldsData[fieldName].autoModifyWarningMessage.set(InputAutoModifyUtils.REGULAR_STRING_MESSAGE);
             break;
       }
    }
@@ -191,20 +187,11 @@ export class GenerationConfigComponent {
             this.setFormFieldValue("minLength", minBound);
 
             this.configFieldsData.minLength.autoModifyWarningMessage.set(
-               `Minimum length cannot be less than ${minBound}`
+               InputAutoModifyUtils.getMinimumLengthMessage(minBound)
             );
          }
-         if (this.configFieldsData.minLength.value() > this.configFieldsData.maxLength.value()) {
-            this.swapFieldValues("minLength", "maxLength");
-            this.correctFieldValue(this.getField("maxLength"));
 
-            this.configFieldsData.minLength.autoModifyWarningMessage.set(
-               "Minimum length cannot be more than Maximum length"
-            );
-            this.configFieldsData.minLength.autoModifyWarningMessage.set(
-               "Maximum length cannot be less than Minimum length"
-            );
-         }
+         this.correctLengthFieldOrder("minLength");
       }
 
       if (field.name === "maxLength") {
@@ -215,20 +202,11 @@ export class GenerationConfigComponent {
             this.setFormFieldValue("maxLength", maxBound);
 
             this.configFieldsData.maxLength.autoModifyWarningMessage.set(
-               `Maximum length cannot be more than ${maxBound}`
+               InputAutoModifyUtils.getMaximumLengthMessage(maxBound)
             );
          }
-         if (this.configFieldsData.minLength.value() > this.configFieldsData.maxLength.value()) {
-            this.swapFieldValues("minLength", "maxLength");
-            this.correctFieldValue(this.getField("minLength"));
 
-            this.configFieldsData.minLength.autoModifyWarningMessage.set(
-               "Minimum length cannot be more than Maximum length"
-            );
-            this.configFieldsData.minLength.autoModifyWarningMessage.set(
-               "Maximum length cannot be less than Minimum length"
-            );
-         }
+         this.correctLengthFieldOrder("maxLength");
       }
 
       if (field.name === "excludedLetters" || field.name === "includedLetters") {
@@ -252,6 +230,16 @@ export class GenerationConfigComponent {
          this.configFieldsData.maxLength.disabled.set(disabledState);
          this.configFieldsData.regularNameStart.disabled.set(disabledState);
          this.configFieldsData.regularNameEnd.disabled.set(disabledState);
+      }
+   }
+
+   private correctLengthFieldOrder(fieldName: "minLength" | "maxLength"): void {
+      if (this.configFieldsData.minLength.value() > this.configFieldsData.maxLength.value()) {
+         this.swapFieldValues("minLength", "maxLength");
+         this.correctFieldValue(this.getField(fieldName));
+
+         this.configFieldsData.minLength.autoModifyWarningMessage.set(InputAutoModifyUtils.MIN_MAX_LENGTH_MIN_MESSAGE);
+         this.configFieldsData.maxLength.autoModifyWarningMessage.set(InputAutoModifyUtils.MIN_MAX_LENGTH_MAX_MESSAGE);
       }
    }
 
