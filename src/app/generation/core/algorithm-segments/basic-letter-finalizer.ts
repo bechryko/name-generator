@@ -3,7 +3,12 @@ import { RandomUtils } from "@ngen-shared/utils";
 import { errorMessages } from "../constants";
 import { AlgorithmDataType } from "../enums";
 import { AlgorithmSegment, GenerationConfig, GenerationData, GenerationErrors, RandomLetterConfig } from "../models";
-import { LetterUtils, NameStartingDoubleConsonantUtils, VoicedUnvoicedPairsUtils } from "../utils";
+import {
+   GenerationConfigUtils,
+   LetterUtils,
+   NameStartingDoubleConsonantUtils,
+   VoicedUnvoicedPairsUtils
+} from "../utils";
 
 export type BasicLetterFinalizerConfig = Pick<
    GenerationConfig,
@@ -105,7 +110,7 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
       generationErrors: GenerationErrors,
       latestLetter?: RegularCharacter
    ): RandomLetterConfig {
-      const genConfig: BasicLetterFinalizerConfig = { ...config };
+      const genConfig = GenerationConfigUtils.copyConfig(config);
       const randConfig: RandomLetterConfig = {
          disableLetterWeights: config.disableLetterWeights
       };

@@ -23,7 +23,7 @@ import {
 } from "./default-configs";
 import { GenerationConfigNoticeComponent } from "./generation-config-notice/generation-config-notice.component";
 import { BoundedConfigProperty, GeneratorConfigFields, PropertyBounds } from "./model";
-import { ConfigTooltipUtils, GenerationConfigUtils } from "./utils";
+import { ConfigTooltipUtils, GenerationConfigComponentUtils } from "./utils";
 
 type FieldName = keyof GenerationConfig;
 
@@ -161,11 +161,11 @@ export class GenerationConfigComponent {
    }
 
    public getBounds(property: BoundedConfigProperty): Partial<PropertyBounds> {
-      return GenerationConfigUtils.getConfigPropertyBounds(property);
+      return GenerationConfigComponentUtils.getConfigPropertyBounds(property);
    }
 
    get generatorConfigFields(): GeneratorConfigFields {
-      return GenerationConfigUtils.getConfig(this.selectedGenerator());
+      return GenerationConfigComponentUtils.getConfig(this.selectedGenerator());
    }
 
    private correctFieldValue(field: ConfigField): void {
