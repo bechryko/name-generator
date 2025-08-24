@@ -39,6 +39,7 @@ export class InputComponent implements ControlValueAccessor {
    public readonly disabled = model(false);
    public readonly tooltip = input<string>();
    public readonly disabledTooltip = input<string>();
+   public readonly autoModifyWarningMessage = model<string | null>(null);
    public readonly blur = output<void>();
    public onChange = (value: any) => {};
    public onTouched = () => {};
@@ -81,6 +82,10 @@ export class InputComponent implements ControlValueAccessor {
    public onCheckboxValueChange(event: MatCheckboxChange): void {
       this.onChange(event.checked);
       this.writeValue(event.checked);
+   }
+
+   public clearAutoModifyWarningMessage(): void {
+      this.autoModifyWarningMessage.set(null);
    }
 
    private transformToDisplayValue(value: any): any {

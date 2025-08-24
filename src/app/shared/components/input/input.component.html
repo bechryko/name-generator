@@ -25,11 +25,19 @@
    }
    @if (disabled()) {
       <span
-         class="disabled-state-indicator"
+         class="floating-icon"
          [matTooltipDisabled]="!disabledTooltip()"
          [matTooltip]="disabledTooltip()!"
          matTooltipPosition="below"
          >🚫</span
+      >
+   } @else if (autoModifyWarningMessage()) {
+      <span
+         class="floating-icon auto-modify"
+         [matTooltip]="'Auto-modified: ' + autoModifyWarningMessage()!"
+         matTooltipPosition="below"
+         (click)="clearAutoModifyWarningMessage()"
+         >🚧</span
       >
    }
 </div>

@@ -2,7 +2,7 @@
    position: relative;
    width: 100%;
 
-   & > :not(.disabled-state-indicator) {
+   & > :not(.floating-icon) {
       width: 100%;
    }
 
@@ -11,10 +11,14 @@
    }
 }
 
-.disabled-state-indicator {
+.floating-icon {
    position: absolute;
    top: 0;
    right: 0;
    translate: 50% -50%;
    user-select: none;
+
+   &.auto-modify {
+      cursor: pointer;
+   }
 }

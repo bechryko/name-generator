@@ -30,6 +30,7 @@ type FieldName = keyof GenerationConfig;
 interface FieldData<FN extends FieldName> {
    value: WritableSignal<GenerationConfig[FN]>;
    disabled: WritableSignal<boolean>;
+   autoModifyWarningMessage: WritableSignal<string | null>;
 }
 
 interface ConfigField {
@@ -144,7 +145,8 @@ export class GenerationConfigComponent {
             ...previous,
             [field.name]: {
                value: signal(null),
-               disabled: signal(false)
+               disabled: signal(false),
+               autoModifyWarningMessage: signal(null)
             }
          }),
          {} as any
@@ -169,20 +171,27 @@ export class GenerationConfigComponent {
    }
 
    private correctFieldValue(field: ConfigField): void {
-      if (!this.configFieldsData[field.name].value()) {
-         this.resetField(field.name);
-      }
-
       if (field.name === "minLength") {
          const minBound = this.getBounds(
             this.selectedGenerator() === GeneratorAlgorithmName.REGULAR ? "lengthInLetters" : "lengthInSyllables"
          ).min!;
          if ((this.configFieldsData.minLength.value() as number) < minBound) {
             this.setFormFieldValue("minLength", minBound);
+
+            this.configFieldsData.minLength.autoModifyWarningMessage.set(
+               `Minimum length cannot be less than ${minBound}`
+            );
          }
          if (this.configFieldsData.minLength.value() > this.configFieldsData.maxLength.value()) {
             this.swapFieldValues("minLength", "maxLength");
             this.correctFieldValue(this.getField("maxLength"));
+
+            this.configFieldsData.minLength.autoModifyWarningMessage.set(
+               "Minimum length cannot be more than Maximum length"
+            );
+            this.configFieldsData.minLength.autoModifyWarningMessage.set(
+               "Maximum length cannot be less than Minimum length"
+            );
          }
       }
 
@@ -192,10 +201,21 @@ export class GenerationConfigComponent {
          ).max!;
          if ((this.configFieldsData.maxLength.value() as number) > maxBound) {
             this.setFormFieldValue("maxLength", maxBound);
+
+            this.configFieldsData.maxLength.autoModifyWarningMessage.set(
+               `Maximum length cannot be more than ${maxBound}`
+            );
          }
          if (this.configFieldsData.minLength.value() > this.configFieldsData.maxLength.value()) {
             this.swapFieldValues("minLength", "maxLength");
             this.correctFieldValue(this.getField("minLength"));
+
+            this.configFieldsData.minLength.autoModifyWarningMessage.set(
+               "Minimum length cannot be more than Maximum length"
+            );
+            this.configFieldsData.minLength.autoModifyWarningMessage.set(
+               "Maximum length cannot be less than Minimum length"
+            );
          }
       }
 
