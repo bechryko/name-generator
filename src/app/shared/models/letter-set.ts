@@ -69,4 +69,8 @@ export class LetterSet {
       const letters = new Array(...this.innerSet);
       return letters.sort().join("");
    }
+
+   public clone(): LetterSet {
+      return new LetterSet(this.toString());
+   }
 }
