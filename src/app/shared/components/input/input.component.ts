@@ -89,11 +89,11 @@ export class InputComponent implements ControlValueAccessor {
 
    public onInputValueChange(event: any): void {
       const enteredValue: string = event.target.value;
-      this.displayValueCache = enteredValue;
       const value = this.transformToValue(enteredValue);
 
       this.displayValue.set(enteredValue);
       setTimeout(() => {
+         this.displayValueCache = enteredValue;
          this.onChange(value);
          this.writeValue(value);
       }, 0);
