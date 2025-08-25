@@ -10,13 +10,15 @@
          @if (generatorConfigFields[field.name]) {
             @let configFieldData = configFieldsData[field.name];
             <ngen-input
-               [(disabled)]="configFieldData.disabled"
                [(value)]="configFieldData.value"
+               [(disabled)]="configFieldData.disabled"
+               [(autoModifyWarningMessage)]="configFieldData.autoModifyWarningMessage"
                [label]="field.label"
                [type]="field.type"
                [disabledTooltip]="field.disabledTooltip"
                [tooltip]="field.tooltip?.()"
-               (blur)="onBlur(field)"></ngen-input>
+               (blur)="onBlur(field)"
+               (autoModify)="onAutoModify(field.name)"></ngen-input>
          }
       }
    </fieldset>

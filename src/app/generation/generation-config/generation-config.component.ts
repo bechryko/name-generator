@@ -15,21 +15,16 @@ import { InputComponent } from "@ngen-shared/components";
 import { InputType } from "@ngen-shared/components/input";
 import { LetterSet, RegularString } from "@ngen-shared/models";
 import { GeneratorAlgorithmName } from "../core/enums";
-import {
-   basicDefaultConfig,
-   japaneseDefaultConfig,
-   regularDefaultConfig,
-   syllabicDefaultConfig
-} from "./default-configs";
 import { GenerationConfigNoticeComponent } from "./generation-config-notice/generation-config-notice.component";
 import { BoundedConfigProperty, GeneratorConfigFields, PropertyBounds } from "./model";
-import { ConfigTooltipUtils, GenerationConfigComponentUtils } from "./utils";
+import { ConfigTooltipUtils, GenerationConfigComponentUtils, InputAutoModifyUtils } from "./utils";
 
 type FieldName = keyof GenerationConfig;
 
 interface FieldData<FN extends FieldName> {
    value: WritableSignal<GenerationConfig[FN]>;
    disabled: WritableSignal<boolean>;
+   autoModifyWarningMessage: WritableSignal<string | null>;
 }
 
 interface ConfigField {
@@ -55,6 +50,7 @@ export class GenerationConfigComponent {
       this.selectedGenerator.set(value);
       this.setConfigValue(this.configStoreService.loadConfig(value));
       for (const field of this.configFields) {
+         this.configFieldsData[field.name].autoModifyWarningMessage.set(null);
          this.correctFieldValue(field);
       }
    }
@@ -144,7 +140,8 @@ export class GenerationConfigComponent {
             ...previous,
             [field.name]: {
                value: signal(null),
-               disabled: signal(false)
+               disabled: signal(false),
+               autoModifyWarningMessage: signal(null)
             }
          }),
          {} as any
@@ -160,30 +157,42 @@ export class GenerationConfigComponent {
       }, 0);
    }
 
+   public onAutoModify(fieldName: FieldName): void {
+      switch (fieldName) {
+         case "includedLetters":
+         case "excludedLetters":
+            this.configFieldsData[fieldName].autoModifyWarningMessage.set(InputAutoModifyUtils.LETTER_SET_MESSAGE);
+            break;
+         case "regularNameStart":
+         case "regularNameEnd":
+         case "regularNameBase":
+            this.configFieldsData[fieldName].autoModifyWarningMessage.set(InputAutoModifyUtils.REGULAR_STRING_MESSAGE);
+            break;
+      }
+   }
+
    public getBounds(property: BoundedConfigProperty): Partial<PropertyBounds> {
       return GenerationConfigComponentUtils.getConfigPropertyBounds(property);
    }
 
-   get generatorConfigFields(): GeneratorConfigFields {
+   public get generatorConfigFields(): GeneratorConfigFields {
       return GenerationConfigComponentUtils.getConfig(this.selectedGenerator());
    }
 
    private correctFieldValue(field: ConfigField): void {
-      if (!this.configFieldsData[field.name].value()) {
-         this.resetField(field.name);
-      }
-
       if (field.name === "minLength") {
          const minBound = this.getBounds(
             this.selectedGenerator() === GeneratorAlgorithmName.REGULAR ? "lengthInLetters" : "lengthInSyllables"
          ).min!;
          if ((this.configFieldsData.minLength.value() as number) < minBound) {
             this.setFormFieldValue("minLength", minBound);
+
+            this.configFieldsData.minLength.autoModifyWarningMessage.set(
+               InputAutoModifyUtils.getMinimumLengthMessage(minBound)
+            );
          }
-         if (this.configFieldsData.minLength.value() > this.configFieldsData.maxLength.value()) {
-            this.swapFieldValues("minLength", "maxLength");
-            this.correctFieldValue(this.getField("maxLength"));
-         }
+
+         this.correctLengthFieldOrder("minLength");
       }
 
       if (field.name === "maxLength") {
@@ -192,11 +201,13 @@ export class GenerationConfigComponent {
          ).max!;
          if ((this.configFieldsData.maxLength.value() as number) > maxBound) {
             this.setFormFieldValue("maxLength", maxBound);
+
+            this.configFieldsData.maxLength.autoModifyWarningMessage.set(
+               InputAutoModifyUtils.getMaximumLengthMessage(maxBound)
+            );
          }
-         if (this.configFieldsData.minLength.value() > this.configFieldsData.maxLength.value()) {
-            this.swapFieldValues("minLength", "maxLength");
-            this.correctFieldValue(this.getField("minLength"));
-         }
+
+         this.correctLengthFieldOrder("maxLength");
       }
 
       if (field.name === "excludedLetters" || field.name === "includedLetters") {
@@ -223,6 +234,16 @@ export class GenerationConfigComponent {
       }
    }
 
+   private correctLengthFieldOrder(fieldName: "minLength" | "maxLength"): void {
+      if (this.configFieldsData.minLength.value() > this.configFieldsData.maxLength.value()) {
+         this.swapFieldValues("minLength", "maxLength");
+         this.correctFieldValue(this.getField(fieldName));
+
+         this.configFieldsData.minLength.autoModifyWarningMessage.set(InputAutoModifyUtils.MIN_MAX_LENGTH_MIN_MESSAGE);
+         this.configFieldsData.maxLength.autoModifyWarningMessage.set(InputAutoModifyUtils.MIN_MAX_LENGTH_MAX_MESSAGE);
+      }
+   }
+
    private setFormFieldValue(fieldName: FieldName, value: GenerationConfig[FieldName]): void {
       this.configFieldsData[fieldName].value.set(value);
    }
@@ -241,23 +262,5 @@ export class GenerationConfigComponent {
 
    private getField(fieldName: FieldName): ConfigField {
       return this.configFields.find(field => field.name === fieldName)!;
-   }
-
-   private resetField(fieldName: FieldName): void {
-      let selectedConfig;
-      switch (this.selectedGenerator()) {
-         case GeneratorAlgorithmName.JAPANESE:
-            selectedConfig = japaneseDefaultConfig;
-            break;
-         case GeneratorAlgorithmName.REGULAR:
-            selectedConfig = regularDefaultConfig;
-            break;
-         case GeneratorAlgorithmName.SYLLABIC:
-            selectedConfig = syllabicDefaultConfig;
-            break;
-         default:
-            selectedConfig = basicDefaultConfig;
-      }
-      this.setFormFieldValue(fieldName, selectedConfig[fieldName]);
    }
 }
