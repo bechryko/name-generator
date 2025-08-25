@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, input, model, output } from "@angular/core";
+import { ChangeDetectionStrategy, Component, effect, input, linkedSignal, model, output } from "@angular/core";
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from "@angular/forms";
 import { MatCheckboxChange, MatCheckboxModule } from "@angular/material/checkbox";
 import { MatFormFieldModule } from "@angular/material/form-field";
@@ -35,7 +35,7 @@ export class InputComponent implements ControlValueAccessor {
    public readonly label = input("");
    public readonly type = input<InputType>("text");
    public readonly value = model<any>();
-   public readonly displayValue = computed(() => this.transformToDisplayValue(this.value()));
+   public readonly displayValue = linkedSignal(() => this.transformToDisplayValue(this.value()));
    public readonly disabled = model(false);
    public readonly tooltip = input<string>();
    public readonly disabledTooltip = input<string>();
@@ -91,8 +91,12 @@ export class InputComponent implements ControlValueAccessor {
       const enteredValue: string = event.target.value;
       this.displayValueCache = enteredValue;
       const value = this.transformToValue(enteredValue);
-      this.onChange(value);
-      this.writeValue(value);
+
+      this.displayValue.set(enteredValue);
+      setTimeout(() => {
+         this.onChange(value);
+         this.writeValue(value);
+      }, 0);
    }
 
    public onCheckboxValueChange(event: MatCheckboxChange): void {
