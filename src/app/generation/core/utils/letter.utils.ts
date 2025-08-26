@@ -1,5 +1,5 @@
 import { pluck } from "@ngen-shared/functions";
-import { RandomUtils } from "@ngen-shared/utils";
+import { RandomUtils, WeightCalculationUtils } from "@ngen-shared/utils";
 import { GenerationConfig, Letter, RandomLetterConfig } from "../models";
 
 type LetterType = "vowel" | "consonant" | "letter";
@@ -50,10 +50,13 @@ export class LetterUtils {
          array = array.filter(l => config.included!.includes(l.letter));
       }
 
-      if (config.disableLetterWeights) {
-         return RandomUtils.randomIndex(pluck(array, "letter"));
-      }
-      return RandomUtils.randomIndexWeighted(pluck(array, "letter"), pluck(array, "weight"));
+      const weightedLetters = WeightCalculationUtils.assignWeights(array, letter => {
+         if (config.disableLetterWeights) {
+            return 1;
+         }
+         return letter.weight;
+      });
+      return RandomUtils.randomIndexWeighted(weightedLetters).letter;
    }
 
    public static getVowelChance(config: GetVowelChanceConfig): number {
