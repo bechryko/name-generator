@@ -24,9 +24,7 @@ export class NameEndingApplier extends AlgorithmSegment<
       "+mn",
       "+(cr)k"
    ];
-   private static readonly ENDING_WEIGHT_LOOKUP = WeightCalculationUtils.getWeightLookupForRegularTemplates(
-      this.NAME_ENDINGS
-   );
+   private static ENDING_WEIGHT_LOOKUP?: Record<string, number>;
 
    public override transform(
       input: RegularString,
@@ -36,7 +34,7 @@ export class NameEndingApplier extends AlgorithmSegment<
       const availableEndings = AvailableLetterUtils.filterByAvailableLetters(NameEndingApplier.NAME_ENDINGS, config);
       const weightedAvailableEndings = WeightCalculationUtils.addWeightByWeightLookup(
          availableEndings,
-         NameEndingApplier.ENDING_WEIGHT_LOOKUP
+         this.endingWeightLookup
       );
       const weightedMatchingEndings = weightedAvailableEndings
          .map<Weighted<RegularString>>(ending => ({ ...ending, value: new RegularString(ending.value) }))
@@ -62,5 +60,14 @@ export class NameEndingApplier extends AlgorithmSegment<
 
    public override getOutputType(): AlgorithmDataType.REGULAR_STRING {
       return AlgorithmDataType.REGULAR_STRING;
+   }
+
+   private get endingWeightLookup(): Record<string, number> {
+      if (!NameEndingApplier.ENDING_WEIGHT_LOOKUP) {
+         NameEndingApplier.ENDING_WEIGHT_LOOKUP = WeightCalculationUtils.getWeightLookupForRegularTemplates(
+            NameEndingApplier.NAME_ENDINGS
+         );
+      }
+      return NameEndingApplier.ENDING_WEIGHT_LOOKUP;
    }
 }
