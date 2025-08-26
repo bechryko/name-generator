@@ -1,5 +1,5 @@
-import { RegularString } from "@ngen-shared/models";
-import { RandomUtils } from "@ngen-shared/utils";
+import { RegularString, Weighted } from "@ngen-shared/models";
+import { RandomUtils, WeightCalculationUtils } from "@ngen-shared/utils";
 import { AlgorithmDataType } from "../enums";
 import { AlgorithmSegment, GenerationConfig, GenerationData } from "../models";
 import { AvailableLetterUtils } from "../utils";
@@ -24,19 +24,27 @@ export class NameEndingApplier extends AlgorithmSegment<
       "+mn",
       "+(cr)k"
    ];
+   private static readonly ENDING_WEIGHT_LOOKUP = WeightCalculationUtils.getWeightLookupForRegularTemplates(
+      this.NAME_ENDINGS
+   );
 
    public override transform(
       input: RegularString,
       config: NameEndingApplierConfig,
       data: GenerationData
    ): [RegularString, GenerationData] {
-      const matchingEndings = AvailableLetterUtils.filterByAvailableLetters(NameEndingApplier.NAME_ENDINGS, config)
-         .map(ending => new RegularString(ending))
-         .filter(ending => input.ending(ending.length, true).doesMatch(ending));
+      const availableEndings = AvailableLetterUtils.filterByAvailableLetters(NameEndingApplier.NAME_ENDINGS, config);
+      const weightedAvailableEndings = WeightCalculationUtils.addWeightByWeightLookup(
+         availableEndings,
+         NameEndingApplier.ENDING_WEIGHT_LOOKUP
+      );
+      const weightedMatchingEndings = weightedAvailableEndings
+         .map<Weighted<RegularString>>(ending => ({ ...ending, value: new RegularString(ending.value) }))
+         .filter(ending => input.ending(ending.value.length, true).doesMatch(ending.value));
 
       const regular = input.clone();
-      if (matchingEndings.length) {
-         const chosenEnding = RandomUtils.randomIndex(matchingEndings);
+      if (weightedMatchingEndings.length) {
+         const chosenEnding = RandomUtils.randomIndexWeighted2(weightedMatchingEndings);
          regular.match(chosenEnding, regular.length - chosenEnding.length);
       }
 
