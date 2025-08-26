@@ -1,4 +1,5 @@
 import { last } from "@ngen-shared/functions";
+import { Weighted } from "@ngen-shared/models";
 
 interface RandomBetweenConfig {
    isMaxIncluded?: boolean;
@@ -61,6 +62,18 @@ export class RandomUtils {
          }
       }
       return last(array);
+   }
+
+   public static randomIndexWeighted2<T>(array: Weighted<T>[]): T {
+      const values: T[] = [];
+      const weights: number[] = [];
+
+      array.forEach(weighted => {
+         values.push(weighted.value);
+         weights.push(weighted.weight);
+      });
+
+      return this.randomIndexWeighted(values, weights);
    }
 
    /**
