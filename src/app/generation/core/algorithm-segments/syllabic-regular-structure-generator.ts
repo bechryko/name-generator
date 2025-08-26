@@ -67,7 +67,7 @@ export class SyllabicRegularStructureGenerator extends AlgorithmSegment<
       }
 
       const weightedLengths = WeightCalculationUtils.assignWeights([1, 2, 3, 4], (_, index) => weights[index]);
-      let syllableSize = RandomUtils.randomIndexWeighted2(weightedLengths);
+      let syllableSize = RandomUtils.randomIndexWeighted(weightedLengths);
 
       if (config.syllableAlleviation) {
          const consonantsInLastSyllable = lastSyllable ? lastSyllable.length - 1 : 0;

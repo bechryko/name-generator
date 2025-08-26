@@ -98,7 +98,7 @@ export class BasicLetterFinalizer extends AlgorithmSegment<
       config: BasicLetterFinalizerConfig
    ): void {
       const doubleConsonants = NameStartingDoubleConsonantUtils.getNameStartingDoubleConsonants(config);
-      const chosenDoubleConsonant = RandomUtils.randomIndexWeighted2(doubleConsonants);
+      const chosenDoubleConsonant = RandomUtils.randomIndexWeighted(doubleConsonants);
       const nameStart = new RegularString(chosenDoubleConsonant).getValue();
 
       characters[index].assign(nameStart[0]);

@@ -44,36 +44,24 @@ export class RandomUtils {
    }
 
    /**
-    * Gives a random element from an Array based on given weights.
-    * The element array's indexes correspond to the weight array's indexes.
+    * Gives a random element from an Array of weighted elements.
     *
-    * @param array a source array
-    * @param weights an array of weights (their sum is not necessarily 1)
+    * @param array a source array with elements of `Weighted` interface
     * @returns a random element based on the weights
     */
-   public static randomIndexWeighted<T>(array: T[], weights: number[]): T {
-      const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+   public static randomIndexWeighted<T>(array: Weighted<T>[]): T {
+      const totalWeight = array.reduce((sum, element) => sum + element.weight, 0);
       const randomWeight = this.between(0, totalWeight, { isInteger: false, isMaxIncluded: false });
+
       let weightSum = 0;
       for (let i = 0; i < array.length; i++) {
-         weightSum += weights[i];
+         weightSum += array[i].weight;
          if (randomWeight < weightSum) {
-            return array[i];
+            return array[i].value;
          }
       }
-      return last(array);
-   }
 
-   public static randomIndexWeighted2<T>(array: Weighted<T>[]): T {
-      const values: T[] = [];
-      const weights: number[] = [];
-
-      array.forEach(weighted => {
-         values.push(weighted.value);
-         weights.push(weighted.weight);
-      });
-
-      return this.randomIndexWeighted(values, weights);
+      return last(array).value;
    }
 
    /**

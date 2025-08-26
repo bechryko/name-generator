@@ -44,7 +44,7 @@ export class NameEndingApplier extends AlgorithmSegment<
 
       const regular = input.clone();
       if (weightedMatchingEndings.length) {
-         const chosenEnding = RandomUtils.randomIndexWeighted2(weightedMatchingEndings);
+         const chosenEnding = RandomUtils.randomIndexWeighted(weightedMatchingEndings);
          regular.match(chosenEnding, regular.length - chosenEnding.length);
       }
 

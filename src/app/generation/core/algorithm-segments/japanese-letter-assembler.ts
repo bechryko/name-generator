@@ -26,7 +26,7 @@ export class JapaneseLetterAssembler extends AlgorithmSegment<
       );
 
       for (let i = 0; i < length; i++) {
-         const letter = RandomUtils.randomIndexWeighted2(weightedLetters);
+         const letter = RandomUtils.randomIndexWeighted(weightedLetters);
          name.romaji += letter.romaji;
          name.hiragana += letter.hiragana;
          name.katakana += letter.katakana;

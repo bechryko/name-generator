@@ -56,7 +56,7 @@ export class LetterUtils {
          }
          return letter.weight;
       });
-      return RandomUtils.randomIndexWeighted2(weightedLetters).letter;
+      return RandomUtils.randomIndexWeighted(weightedLetters).letter;
    }
 
    public static getVowelChance(config: GetVowelChanceConfig): number {
