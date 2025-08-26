@@ -3,10 +3,10 @@ import { getCharacterContainer } from "@ngen-shared/functions";
 import { Weighted } from "@ngen-shared/models";
 
 export class WeightCalculationUtils {
-   public static assignWeights<T>(array: T[], weightAssignFn: (element: T) => number): Weighted<T>[] {
-      return array.map(value => ({
+   public static assignWeights<T>(array: T[], weightAssignFn: (element: T, index: number) => number): Weighted<T>[] {
+      return array.map((value, index) => ({
          value,
-         weight: weightAssignFn(value)
+         weight: weightAssignFn(value, index)
       }));
    }
 

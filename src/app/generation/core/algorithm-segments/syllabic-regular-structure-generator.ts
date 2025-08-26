@@ -1,5 +1,5 @@
 import { RegularString } from "@ngen-shared/models";
-import { RandomUtils } from "@ngen-shared/utils";
+import { RandomUtils, WeightCalculationUtils } from "@ngen-shared/utils";
 import { AlgorithmDataType } from "../enums";
 import { AlgorithmSegment, GenerationConfig, GenerationData } from "../models";
 import { NameStartingDoubleConsonantUtils } from "../utils";
@@ -66,7 +66,8 @@ export class SyllabicRegularStructureGenerator extends AlgorithmSegment<
          weights[0] = 0;
       }
 
-      let syllableSize = RandomUtils.randomIndexWeighted([1, 2, 3, 4], weights);
+      const weightedLengths = WeightCalculationUtils.assignWeights([1, 2, 3, 4], (_, index) => weights[index]);
+      let syllableSize = RandomUtils.randomIndexWeighted2(weightedLengths);
 
       if (config.syllableAlleviation) {
          const consonantsInLastSyllable = lastSyllable ? lastSyllable.length - 1 : 0;
