@@ -1,4 +1,4 @@
-import { getCharacterContainer } from "@ngen-shared/functions";
+import { deleteChar, getCharacterContainer } from "@ngen-shared/functions";
 import { RegularCharacter, RegularLetterSet, RegularReference } from "@ngen-shared/models";
 import { LetterUtils } from "./letter.utils";
 
@@ -54,7 +54,8 @@ export class RegularUtils {
 
    public static parseStringToRegularCharacters(str: string): RegularCharacter[] {
       const parsedString = this.deleteNonRegulars(str.toLowerCase());
-      const regularCharacterBases = this.splitToRegularCharacterBases(parsedString);
+      const parsedValidRegularString = this.deleteInvalidRegulars(parsedString);
+      const regularCharacterBases = this.splitToRegularCharacterBases(parsedValidRegularString);
       const regularCharacterBasesWithFixedReferences = this.fixReferences(regularCharacterBases);
       return regularCharacterBasesWithFixedReferences.map(char => {
          if (this.isReference(char)) {
@@ -82,6 +83,69 @@ export class RegularUtils {
          }
       }
       return output;
+   }
+
+   private static deleteInvalidRegulars(input: string): string {
+      let groupDepth = 0;
+      let lastGroupStartPos = -1;
+      let setDepth = 0;
+      let lastSetStartPos = -1;
+      let output = "";
+
+      for (let i = 0; i < input.length; i++) {
+         const char = input[i];
+
+         switch (char) {
+            case this.symbols.groupStart:
+               groupDepth++;
+               lastGroupStartPos = i;
+               break;
+            case this.symbols.groupEnd:
+               groupDepth--;
+               break;
+            case this.symbols.setStart:
+               setDepth++;
+               lastSetStartPos = i;
+               break;
+            case this.symbols.setEnd:
+               setDepth--;
+               break;
+         }
+
+         if (groupDepth < 0 || setDepth < 0 || groupDepth > 1 || setDepth > 1 || groupDepth + setDepth === 2) {
+            continue;
+         }
+
+         output += char;
+      }
+
+      if (groupDepth === 1) {
+         output = deleteChar(output, lastGroupStartPos);
+      } else if (setDepth === 1) {
+         output = deleteChar(output, lastSetStartPos);
+      }
+
+      return output;
+   }
+
+   private static splitToRegularCharacterBases(str: string): string[] {
+      const characters: string[] = [];
+
+      for (let i = 0; i < str.length; i++) {
+         if (str[i] === this.symbols.groupStart) {
+            const container = getCharacterContainer(str, i, this.symbols.groupEnd);
+            characters.push(container);
+            i += container.length + 1;
+         } else if (str[i] === this.symbols.setStart) {
+            const container = getCharacterContainer(str, i, this.symbols.setEnd);
+            characters.push(container);
+            i += container.length + 1;
+         } else {
+            characters.push(str[i]);
+         }
+      }
+
+      return characters;
    }
 
    private static fixReferences(input: string[]): string[] {
@@ -137,25 +201,5 @@ export class RegularUtils {
          }
       }
       return output;
-   }
-
-   private static splitToRegularCharacterBases(str: string): string[] {
-      const characters: string[] = [];
-
-      for (let i = 0; i < str.length; i++) {
-         if (str[i] === this.symbols.groupStart) {
-            const container = getCharacterContainer(str, i, this.symbols.groupEnd);
-            characters.push(container);
-            i += container.length + 1;
-         } else if (str[i] === this.symbols.setStart) {
-            const container = getCharacterContainer(str, i, this.symbols.setEnd);
-            characters.push(container);
-            i += container.length + 1;
-         } else {
-            characters.push(str[i]);
-         }
-      }
-
-      return characters;
    }
 }
