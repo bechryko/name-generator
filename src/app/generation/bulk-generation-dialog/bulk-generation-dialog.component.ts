@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, ElementRef, inject, signal, viewChild } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { GenerationData } from "@ngen-generation/core/models";
@@ -19,6 +19,7 @@ export class BulkGenerationDialogComponent {
 
    public readonly generationTimes = signal(5);
    public readonly generatedNames: GeneratedName[] = [];
+   public readonly generatedNamesContainerRef = viewChild.required<ElementRef<HTMLElement>>("generatedNamesContainer");
 
    public onGenerationTimesChange(event: any): void {
       const value: number = event.target.value;
@@ -26,9 +27,13 @@ export class BulkGenerationDialogComponent {
       this.generationTimes.set(clampedRoundedValue);
    }
 
-   public generateName(): void {
+   public generateNames(): void {
       for (let i = 0; i < this.generationTimes(); i++) {
          this.generatedNames.push(this.generationFn());
+      }
+
+      if (this.isScrolledToBottom) {
+         setTimeout(() => this.scrollToBottom(), 0);
       }
    }
 
@@ -38,5 +43,26 @@ export class BulkGenerationDialogComponent {
 
    public exit(): void {
       this.dialogRef.close();
+   }
+
+   private scrollToBottom(): void {
+      this.generatedNamesContainer.scrollBy({
+         top:
+            this.generatedNamesContainer.scrollHeight -
+            this.generatedNamesContainer.scrollTop -
+            this.generatedNamesContainer.clientHeight,
+         behavior: "smooth"
+      });
+   }
+
+   private get isScrolledToBottom(): boolean {
+      return (
+         this.generatedNamesContainer.scrollHeight - this.generatedNamesContainer.scrollTop ===
+         this.generatedNamesContainer.clientHeight
+      );
+   }
+
+   private get generatedNamesContainer(): HTMLElement {
+      return this.generatedNamesContainerRef().nativeElement;
    }
 }

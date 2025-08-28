@@ -1,8 +1,8 @@
 <div class="header-container">
    <button
       mat-raised-button
-      (click)="generateName()">
-      Generate Name
+      (click)="generateNames()">
+      Generate
    </button>
    <span class="generation-times-input-container"
       >Generate
@@ -13,7 +13,9 @@
       name(s)</span
    >
 </div>
-<div class="generated-name-list">
+<div
+   #generatedNamesContainer
+   class="generated-name-list">
    <table>
       @for (generatedName of generatedNames; track $index) {
          <tr>
