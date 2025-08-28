@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, Signal } from "@angular/core";
+import { ChangeDetectionStrategy, Component, inject, Signal } from "@angular/core";
 import { toSignal } from "@angular/core/rxjs-interop";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialog } from "@angular/material/dialog";
@@ -11,18 +11,14 @@ import { SidebarComponent } from "@ngen-shared/components";
 import { RouteUrl } from "@ngen-shared/enums";
 import { PageStateHandlerService } from "@ngen-shared/services";
 import { Subject, take, takeUntil } from "rxjs";
+import { BulkGenerationDialogData } from "./bulk-generation-dialog/bulk-generation-dialog-data.d";
 import { BulkGenerationDialogComponent } from "./bulk-generation-dialog/bulk-generation-dialog.component";
-import {
-   japaneseGeneratorAlgorithm,
-   phoneticGeneratorAlgorithm,
-   regularGeneratorAlgorithm,
-   syllabicGeneratorAlgorithm
-} from "./core/algorithms";
 import { GeneratorAlgorithmName } from "./core/enums";
-import { GenerationData, GenerationErrors, NameGeneratorAlgorithm } from "./core/models";
+import { GenerationData, GenerationErrors } from "./core/models";
 import { GenerationConfigComponent } from "./generation-config/generation-config.component";
 import { GenerationOutputComponent } from "./generation-output/generation-output.component";
 import { ConfigurationStoreService } from "./services";
+import { GenerationUtils } from "./utils";
 
 @Component({
    selector: "ngen-generation",
@@ -47,22 +43,8 @@ export class GenerationComponent {
 
    public readonly GENERATORS: { label: string; value: GeneratorAlgorithmName }[] = [];
    public readonly selectedGenerator: Signal<GeneratorAlgorithmName | undefined>;
-   public readonly generationFn = computed(() => {
-      const generator = this.selectedGenerator();
-      if (!generator) {
-         return null;
-      }
-
-      return () => this.findAlgorithm(generator).generateName(this.configurationStoreService.loadConfig(generator));
-   });
    public generatedName?: string;
    public generationData?: GenerationData;
-   private readonly generatorAlgorithms = [
-      japaneseGeneratorAlgorithm,
-      regularGeneratorAlgorithm,
-      syllabicGeneratorAlgorithm,
-      phoneticGeneratorAlgorithm
-   ];
    private readonly nameGenerated$ = new Subject<void>();
 
    constructor() {
@@ -77,37 +59,35 @@ export class GenerationComponent {
    }
 
    public generateName(): void {
-      const generationFn = this.generationFn();
-      if (!generationFn) {
+      const generatorName = this.selectedGenerator();
+      if (!generatorName) {
          return;
       }
 
-      [this.generatedName, this.generationData] = generationFn();
+      const generator = GenerationUtils.findAlgorithm(generatorName);
+      const config = this.configurationStoreService.loadConfig(generatorName);
+      [this.generatedName, this.generationData] = generator.generateName(config);
       this.nameGenerated$.next();
       this.displayGenerationErrors(this.generationData!.errors);
    }
 
    public openBulkGenerationDialog(): void {
-      const generationFn = this.generationFn();
-      if (!generationFn) {
+      const algorithmName = this.selectedGenerator();
+      if (!algorithmName) {
          return;
       }
 
+      const config = this.configurationStoreService.loadConfig(algorithmName);
       this.dialog.open(BulkGenerationDialogComponent, {
-         data: generationFn
+         data: {
+            algorithmName,
+            config
+         } satisfies BulkGenerationDialogData
       });
    }
 
    public selectGenerator(generator: GeneratorAlgorithmName): void {
       this.pageStateHandlerService.setGenerator(generator);
-   }
-
-   private findAlgorithm(algorithmName: GeneratorAlgorithmName): NameGeneratorAlgorithm {
-      const algorithm = this.generatorAlgorithms.find(algorithm => algorithm.name === algorithmName);
-      if (!algorithm) {
-         throw new Error("Cannot find generator algorithm: " + algorithmName);
-      }
-      return algorithm;
    }
 
    private displayGenerationErrors(errors: GenerationErrors): void {

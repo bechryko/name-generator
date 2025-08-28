@@ -17,7 +17,7 @@
    #generatedNamesContainer
    class="generated-name-list">
    <table>
-      @for (generatedName of generatedNames; track $index) {
+      @for (generatedName of generatedNames(); track $index) {
          <tr>
             @let name = generatedName[0];
             <td class="number">{{ $index + 1 }}.</td>

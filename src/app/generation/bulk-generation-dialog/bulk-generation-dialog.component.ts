@@ -1,10 +1,11 @@
 import { ChangeDetectionStrategy, Component, ElementRef, inject, signal, viewChild } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
-import { GenerationData } from "@ngen-generation/core/models";
+import { GenerationUtils } from "@ngen-generation/utils";
 import { InteractiveIconComponent } from "@ngen-shared/components";
-
-type GeneratedName = [string, GenerationData];
+import { BulkGenerationDialogData } from "./bulk-generation-dialog-data";
+import { BulkGenerationWorkerData, GeneratedName } from "./models";
+import { BulkGenerationWorkerUtils } from "./worker/bulk-generation.worker.utils";
 
 @Component({
    selector: "ngen-bulk-generation-dialog",
@@ -14,12 +15,13 @@ type GeneratedName = [string, GenerationData];
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BulkGenerationDialogComponent {
-   private readonly generationFn: () => GeneratedName = inject(MAT_DIALOG_DATA);
+   private readonly data: BulkGenerationDialogData = inject(MAT_DIALOG_DATA);
    private readonly dialogRef = inject(MatDialogRef);
 
    public readonly generationTimes = signal(5);
-   public readonly generatedNames: GeneratedName[] = [];
+   public readonly generatedNames = signal<GeneratedName[]>([]);
    public readonly generatedNamesContainerRef = viewChild.required<ElementRef<HTMLElement>>("generatedNamesContainer");
+   private readonly worker = this.initWorker();
 
    public onGenerationTimesChange(event: any): void {
       const value: number = event.target.value;
@@ -28,21 +30,33 @@ export class BulkGenerationDialogComponent {
    }
 
    public generateNames(): void {
-      for (let i = 0; i < this.generationTimes(); i++) {
-         this.generatedNames.push(this.generationFn());
-      }
+      const workerData: BulkGenerationWorkerData = {
+         algorithmName: this.data.algorithmName,
+         generationTimes: this.generationTimes(),
+         configJSON: GenerationUtils.configToJSON(this.data.config)
+      };
 
-      if (this.isScrolledToBottom) {
-         setTimeout(() => this.scrollToBottom(), 0);
+      if (this.worker) {
+         this.worker.postMessage(workerData);
+      } else {
+         this.onGenerationComplete(BulkGenerationWorkerUtils.generate(workerData));
       }
    }
 
    public deleteName(index: number): void {
-      this.generatedNames.splice(index, 1);
+      this.generatedNames.update(names => names.filter((_, idx) => idx !== index));
    }
 
    public exit(): void {
       this.dialogRef.close();
+   }
+
+   private onGenerationComplete(names: GeneratedName[]): void {
+      this.generatedNames.update(oldNames => [...oldNames, ...names]);
+
+      if (this.isScrolledToBottom) {
+         setTimeout(() => this.scrollToBottom(), 0);
+      }
    }
 
    private scrollToBottom(): void {
@@ -64,5 +78,15 @@ export class BulkGenerationDialogComponent {
 
    private get generatedNamesContainer(): HTMLElement {
       return this.generatedNamesContainerRef().nativeElement;
+   }
+
+   private initWorker(): Worker | null {
+      if (typeof Worker === undefined) {
+         return null;
+      }
+
+      const worker = new Worker(new URL("./worker/bulk-generation.worker", import.meta.url));
+      worker.onmessage = ({ data }: { data: GeneratedName[] }) => this.onGenerationComplete(data);
+      return worker;
    }
 }
