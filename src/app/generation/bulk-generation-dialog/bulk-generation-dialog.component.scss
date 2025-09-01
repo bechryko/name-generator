@@ -35,20 +35,31 @@ $table-height: 80dvh;
       }
    }
 
-   .generation-times-input-container {
+   .generation-data-container {
       grid-area: generation-times-input;
-      font-size: 1.25rem;
+      display: flex;
+      flex-direction: column;
       user-select: none;
       text-align: center;
 
-      input {
-         font-size: inherit;
-         text-align: center;
-         max-width: 5rem;
-         border: none;
-         border-radius: 0.25rem;
-         outline: none;
-         margin-inline: 0.25rem;
+      .generation-times-input-container {
+         font-size: 1.25rem;
+
+         input {
+            font-size: inherit;
+            text-align: center;
+            max-width: 5rem;
+            border: none;
+            border-radius: 0.25rem;
+            outline: none;
+            margin-inline: 0.25rem;
+         }
+      }
+
+      .generation-time-approximation {
+         color: var(--clr-primary-darker);
+         font-size: 0.875rem;
+         padding-top: 0.25rem;
       }
    }
 }

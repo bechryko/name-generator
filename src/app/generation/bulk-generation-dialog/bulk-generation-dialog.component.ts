@@ -4,18 +4,22 @@ import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { GenerationUtils } from "@ngen-generation/utils";
 import { InteractiveIconComponent } from "@ngen-shared/components";
+import { Stopwatch } from "@ngen-shared/models";
 import { BulkGenerationDialogData } from "./bulk-generation-dialog-data";
 import { BulkGenerationWorkerData, GeneratedName } from "./models";
+import { GetApproxGenerationTimePipe } from "./pipes";
 import { BulkGenerationWorkerUtils } from "./worker/bulk-generation.worker.utils";
 
 @Component({
    selector: "ngen-bulk-generation-dialog",
-   imports: [MatButtonModule, InteractiveIconComponent, MatProgressSpinnerModule],
    templateUrl: "./bulk-generation-dialog.component.html",
    styleUrl: "./bulk-generation-dialog.component.scss",
+   imports: [MatButtonModule, InteractiveIconComponent, MatProgressSpinnerModule, GetApproxGenerationTimePipe],
    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class BulkGenerationDialogComponent {
+   private static readonly GENERATION_TIME_APPROXIMATION_NAME_THRESHOLD = 100;
+
    private readonly data: BulkGenerationDialogData = inject(MAT_DIALOG_DATA);
    private readonly dialogRef = inject(MatDialogRef);
 
@@ -23,8 +27,12 @@ export class BulkGenerationDialogComponent {
    public readonly generationTimes = signal(5);
    public readonly generatedNames = signal<GeneratedName[]>([]);
    public readonly isLoading = signal(false);
+   public readonly approxGenerationTimePerName = signal<number | null>(null);
    public readonly generatedNamesContainerRef = viewChild.required<ElementRef<HTMLElement>>("generatedNamesContainer");
    private readonly worker = this.initWorker();
+   private readonly stopwatch = new Stopwatch();
+   private totalGenerationTime = 0;
+   private totalNamesGenerated = 0;
 
    public onGenerationTimesChange(event: any): void {
       const value: number = event.target.value;
@@ -40,6 +48,7 @@ export class BulkGenerationDialogComponent {
       };
 
       this.isLoading.set(true);
+      this.stopwatch.start();
       if (this.worker) {
          this.worker.postMessage(workerData);
       } else {
@@ -56,12 +65,25 @@ export class BulkGenerationDialogComponent {
    }
 
    private onGenerationComplete(names: GeneratedName[]): void {
+      this.totalGenerationTime += this.stopwatch.stop();
+      this.totalNamesGenerated += names.length;
+
       this.generatedNames.update(oldNames => [...oldNames, ...names]);
       this.isLoading.set(false);
 
       if (this.isScrolledToBottom) {
          setTimeout(() => this.scrollToBottom(), 0);
       }
+
+      this.setApproxGenerationTime();
+   }
+
+   private setApproxGenerationTime(): void {
+      if (this.totalNamesGenerated < BulkGenerationDialogComponent.GENERATION_TIME_APPROXIMATION_NAME_THRESHOLD) {
+         return;
+      }
+
+      this.approxGenerationTimePerName.set(this.totalGenerationTime / this.totalNamesGenerated);
    }
 
    private scrollToBottom(): void {

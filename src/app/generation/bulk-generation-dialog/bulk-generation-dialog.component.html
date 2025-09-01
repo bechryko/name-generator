@@ -9,16 +9,21 @@
          Generate
       }
    </button>
-   <span class="generation-times-input-container"
-      >Generate
-      <input
-         type="number"
-         [value]="generationTimes()"
-         [min]="1"
-         [max]="maxGenerationTimes"
-         (change)="onGenerationTimesChange($event)" />
-      name(s)</span
-   >
+   <div class="generation-data-container">
+      <span class="generation-times-input-container"
+         >Generate
+         <input
+            type="number"
+            [value]="generationTimes()"
+            [min]="1"
+            [max]="maxGenerationTimes"
+            (change)="onGenerationTimesChange($event)" />
+         name(s)</span
+      >
+      <span class="generation-time-approximation">{{
+         approxGenerationTimePerName() | getApproxGenerationTime: generationTimes()
+      }}</span>
+   </div>
 </div>
 <div
    #generatedNamesContainer

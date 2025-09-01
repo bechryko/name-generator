@@ -5,5 +5,6 @@ export { RegularCharacter } from "./regular-character";
 export { RegularLetterSet } from "./regular-letter-set";
 export { RegularReference } from "./regular-reference";
 export { RegularString } from "./regular-string";
+export { Stopwatch } from "./stopwatch";
 export { Weighted } from "./weighted.d";
 //@endindex
