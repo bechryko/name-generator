@@ -26,6 +26,13 @@ $table-height: 80dvh;
    button {
       grid-area: generate-name;
       width: 100%;
+
+      mat-spinner {
+         $size: 1.75rem;
+
+         width: $size !important;
+         height: $size !important;
+      }
    }
 
    .generation-times-input-container {
