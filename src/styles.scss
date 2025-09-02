@@ -53,6 +53,7 @@ router-outlet {
 
 input {
    font-family: var(--fnt-default) !important;
+   caret-color: var(--mat-form-field-filled-caret-color);
 }
 
 button {
