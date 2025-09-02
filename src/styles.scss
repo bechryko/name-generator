@@ -1,5 +1,6 @@
 @use "general";
 @use "themes";
+@use "typography";
 @use "material-override";
 
 html {
@@ -7,6 +8,7 @@ html {
    --ngen-container-border-radius: 1rem;
    --ngen-container-border-width: 0.25rem;
 
+   font-family: var(--fnt-default);
    overflow: hidden;
 }
 
@@ -34,6 +36,14 @@ h4 {
 
 router-outlet {
    position: absolute;
+}
+
+input {
+   font-family: var(--fnt-default) !important;
+}
+
+button {
+   font-family: var(--fnt-button);
 }
 
 .buttons-container {

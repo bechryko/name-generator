@@ -2,6 +2,7 @@ $snackbar-font-size: 1rem;
 
 :root {
    --mat-snackbar-container-color: var(--clr-primary-darkest);
+   --mat-snack-bar-supporting-text-font: var(--fnt-default);
    --mat-snackbar-supporting-text-color: var(--clr-primary-darker-contrast);
    --mat-snackbar-supporting-text-size: $snackbar-font-size;
    --mat-snack-bar-button-color: var(--clr-primary);

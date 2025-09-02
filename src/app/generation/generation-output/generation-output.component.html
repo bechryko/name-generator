@@ -3,7 +3,11 @@
    <div class="display-name">
       <p>{{ name }}</p>
       @for (data of displayedGenerationData(); track $index) {
-         <p class="generation-data">{{ data[0] }}: {{ data[1] }}</p>
+         <p
+            class="generation-data"
+            [attr.data-generation-data-key]="data[0]">
+            {{ data[0] }}: <span class="value">{{ data[1] }}</span>
+         </p>
       }
    </div>
    <div class="icons">

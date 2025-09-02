@@ -6,6 +6,8 @@
 }
 
 mat-checkbox {
+   --mat-checkbox-label-text-font: var(--fnt-default);
+
    --mat-checkbox-selected-focus-icon-color: var(--ngen-checkbox-color);
    --mat-checkbox-selected-focus-state-layer-color: var(--ngen-checkbox-color);
    --mat-checkbox-unselected-focus-icon-color: var(--ngen-checkbox-unselected-color);

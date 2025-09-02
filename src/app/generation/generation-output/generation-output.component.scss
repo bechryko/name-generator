@@ -40,6 +40,10 @@
 
       &.generation-data {
          font-size: 1rem;
+
+         &:is([data-generation-data-key="Katakana"], [data-generation-data-key="Hiragana"]) .value {
+            font-family: var(--fnt-japanese);
+         }
       }
    }
 }
