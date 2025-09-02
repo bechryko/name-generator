@@ -1,3 +1,9 @@
 :root {
    --mat-tooltip-supporting-text-font: var(--fnt-tooltip);
+   --mat-tooltip-supporting-text-size: 0.875rem;
+}
+
+.mat-mdc-tooltip-surface.mdc-tooltip__surface {
+   padding: 0.375rem 0.5rem;
+   max-width: 300px;
 }
