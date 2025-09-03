@@ -1,7 +1,6 @@
 import { getCharacterContainer } from "@ngen-shared/functions";
+import { LetterUtils, RegularUtils } from "@ngen-shared/utils";
 import { AvailableLetters } from "../models";
-import { LetterUtils } from "./letter.utils";
-import { RegularUtils } from "./regular.utils";
 
 export class AvailableLetterUtils {
    public static filterByAvailableLetters(strings: string[], availableLetters: AvailableLetters): string[] {

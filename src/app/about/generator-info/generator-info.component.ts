@@ -3,11 +3,11 @@ import { MatIconModule } from "@angular/material/icon";
 import { MatTooltipModule } from "@angular/material/tooltip";
 import { Router } from "@angular/router";
 import { GeneratorAlgorithmName } from "@ngen-generation/core/enums";
-import { RegularUtils } from "@ngen-generation/core/utils";
 import { BoundedConfigProperty, PropertyBounds } from "@ngen-generation/generation-config/model";
 import { GenerationConfigComponentUtils } from "@ngen-generation/generation-config/utils";
 import { RouteUrl } from "@ngen-shared/enums";
 import { PageStateHandlerService } from "@ngen-shared/services";
+import { RegularUtils } from "@ngen-shared/utils";
 
 @Component({
    selector: "ngen-generator-info",

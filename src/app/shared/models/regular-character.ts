@@ -1,5 +1,5 @@
-import { LetterUtils, RegularUtils } from "@ngen-generation/core/utils";
-import { RegularCharacterMatchingPriority, RegularCharacterPriority } from "@ngen-shared/enums";
+import { RegularCharacterMatchingPriority, RegularCharacterPriority } from "../enums";
+import { LetterUtils, RegularUtils } from "../utils";
 
 export class RegularCharacter {
    private letter!: string;

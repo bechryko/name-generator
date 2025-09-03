@@ -1,5 +1,5 @@
-import { LetterUtils, RegularUtils } from "@ngen-generation/core/utils";
-import { deleteChar, getCharacterContainer } from "@ngen-shared/functions";
+import { deleteChar, getCharacterContainer } from "../functions";
+import { LetterUtils, RegularUtils } from "../utils";
 import { RegularCharacter } from "./regular-character";
 import { RegularLetterSet } from "./regular-letter-set";
 import { RegularReference } from "./regular-reference";

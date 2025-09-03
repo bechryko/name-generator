@@ -1,6 +1,7 @@
-import { pluck } from "@ngen-shared/functions";
-import { RandomUtils, WeightCalculationUtils } from "@ngen-shared/utils";
-import { GenerationConfig, Letter, RandomLetterConfig } from "../models";
+import { GenerationConfig } from "@ngen-generation/core/models";
+import { pluck } from "../functions";
+import { Letter, RandomLetterConfig } from "../models";
+import { RandomUtils, WeightCalculationUtils } from "../utils";
 
 type LetterType = "vowel" | "consonant" | "letter";
 
