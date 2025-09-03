@@ -3,12 +3,17 @@
 }
 
 .mdc-button {
+   --mat-button-text-label-text-font: var(--fnt-button);
+   --mat-button-protected-label-text-font: var(--fnt-button);
    --mat-button-protected-container-color: var(--clr-primary);
+   --mat-button-protected-label-text-tracking: 0;
 }
 
 .mat-mdc-outlined-button {
+   --mat-button-outlined-label-text-font: var(--fnt-button);
    --mat-button-outlined-state-layer-color: var(--clr-primary-lightest);
    --mat-button-outlined-ripple-color: var(--clr-primary-lighter);
+   --mat-button-outlined-label-text-tracking: 0;
 
    .mat-ripple {
       opacity: 0.3;

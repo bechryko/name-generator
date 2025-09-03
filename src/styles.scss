@@ -1,5 +1,6 @@
 @use "general";
 @use "themes";
+@use "typography";
 @use "material-override";
 
 html {
@@ -7,6 +8,8 @@ html {
    --ngen-container-border-radius: 1rem;
    --ngen-container-border-width: 0.25rem;
 
+   font-family: var(--fnt-default);
+   font-weight: var(--fw-normal);
    overflow: hidden;
 }
 
@@ -23,7 +26,8 @@ body {
 h1,
 h2,
 h3,
-h4 {
+h4,
+.app-version {
    text-wrap: balance;
 
    &::selection {
@@ -32,8 +36,29 @@ h4 {
    }
 }
 
+h1,
+h2 {
+   font-weight: var(--fw-bold);
+}
+
+h3,
+legend {
+   font-weight: var(--fw-semi-bold);
+   text-decoration: underline;
+}
+
 router-outlet {
    position: absolute;
+}
+
+input {
+   font-family: var(--fnt-default) !important;
+   caret-color: var(--mat-form-field-filled-caret-color);
+}
+
+button {
+   font-family: var(--fnt-button);
+   font-weight: var(--fw-semi-bold);
 }
 
 .buttons-container {

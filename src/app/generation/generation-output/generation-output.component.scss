@@ -34,12 +34,16 @@
       overflow: hidden;
 
       @include mixins.mq(medium) {
-         font-size: 1.25rem;
+         font-size: 1.75rem;
          margin-block: 0;
       }
 
       &.generation-data {
          font-size: 1rem;
+
+         &:is([data-generation-data-key="Katakana"], [data-generation-data-key="Hiragana"]) .value {
+            font-family: var(--fnt-japanese);
+         }
       }
    }
 }

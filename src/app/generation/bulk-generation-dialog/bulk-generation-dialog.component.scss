@@ -25,6 +25,7 @@ $table-height: 80dvh;
 
    button {
       grid-area: generate-name;
+      font-size: 1.5rem;
       width: 100%;
 
       mat-spinner {
@@ -103,7 +104,24 @@ $table-height: 80dvh;
          }
 
          ngen-interactive-icon {
+            color: var(--clr-primary-darker);
             cursor: pointer;
+         }
+      }
+
+      &.no-names {
+         height: 100%;
+
+         div {
+            display: grid;
+            place-items: center;
+            height: 100%;
+
+            .no-generated-name {
+               font-size: 1.75rem;
+               color: var(--clr-primary-darker);
+               font-style: italic;
+            }
          }
       }
    }

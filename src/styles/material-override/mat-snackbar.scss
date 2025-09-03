@@ -1,19 +1,21 @@
-$snackbar-font-size: 1rem;
+$snackbar-font-size: 1.125rem;
 
 :root {
-   --mat-snackbar-container-color: var(--clr-primary-darkest);
-   --mat-snackbar-supporting-text-color: var(--clr-primary-darker-contrast);
-   --mat-snackbar-supporting-text-size: $snackbar-font-size;
+   --mat-snack-bar-container-color: var(--clr-primary-darkest);
+   --mat-snack-bar-supporting-text-font: var(--fnt-default);
+   --mat-snack-bar-supporting-text-color: var(--clr-primary-darker-contrast);
+   --mat-snack-bar-supporting-text-size: #{$snackbar-font-size};
+   --mat-snack-bar-supporting-text-weight: 300;
    --mat-snack-bar-button-color: var(--clr-primary);
 }
 
 .ngen-error-snackbar {
-   --mat-snackbar-container-color: var(--clr-error-darker);
+   --mat-snack-bar-container-color: var(--clr-error-darker);
    --mat-snack-bar-button-color: var(--clr-error-darker-contrast);
 }
 
 button[matsnackbaraction] .mdc-button__label {
-   font-size: $snackbar-font-size;
+   font-size: #{$snackbar-font-size};
 }
 
 mat-snack-bar-container.mat-mdc-snack-bar-container .mdc-snackbar__surface {
