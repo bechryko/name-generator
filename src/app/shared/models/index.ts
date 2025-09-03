@@ -1,4 +1,4 @@
-//@index("./*", (f, _) => `export { ${_.pascalCase(f.name.split(".")[0])} } from "${f.path}";`)
+//@index(["./*", "!./*.spec.ts"], (f, _) => `export { ${_.pascalCase(f.name.split(".")[0])} } from "${f.path}";`)
 export { LetterSet } from "./letter-set";
 export { NgenSidebarSelectable } from "./ngen-sidebar-selectable";
 export { RegularCharacter } from "./regular-character";
