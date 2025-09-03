@@ -3,4 +3,5 @@ export { deleteChar } from "./delete-char";
 export { getCharacterContainer } from "./get-character-container";
 export { last } from "./last";
 export { pluck } from "./pluck";
+export { pluckSum } from "./pluck-sum";
 //@endindex
