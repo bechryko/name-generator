@@ -28,7 +28,7 @@
 <div
    #generatedNamesContainer
    class="generated-name-list">
-   <table>
+   <table [class.no-names]="generatedNames().length === 0">
       @for (generatedName of generatedNames(); track $index) {
          <tr>
             @let name = generatedName[0];
@@ -51,6 +51,10 @@
                   (iconClick)="deleteName($index)"></ngen-interactive-icon>
             </td>
          </tr>
+      } @empty {
+         <div>
+            <span class="no-generated-name">No names generated yet!</span>
+         </div>
       }
    </table>
 </div>
