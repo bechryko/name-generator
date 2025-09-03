@@ -28,15 +28,33 @@ describe("RegularString", () => {
       });
 
       it("should delete invalid regular group characters", () => {
-         const regular = new RegularString("a)*((bc)*{");
+         const regular = new RegularString("a)*((bc)*{d");
 
-         expect(regular.toString()).toEqual("a*(bc)*");
+         expect(regular.toString()).toEqual("a*(bc)*d");
+      });
+
+      it("should replace invalid regular groups with wildcards", () => {
+         const regular = new RegularString("{b}+{l8}");
+
+         expect(regular.toString()).toEqual("*+*");
       });
 
       it("should switch reference order if needed", () => {
          const regular = new RegularString("-2+");
 
          expect(regular.toString()).toEqual("-+1");
+      });
+
+      it("should reduce 1-member sets to characters", () => {
+         const regular = new RegularString("*(a)*");
+
+         expect(regular.toString()).toEqual("*a*");
+      });
+
+      it("should format sets as letter sets", () => {
+         const regular = new RegularString("(aaab)(cd8+😋)");
+
+         expect(regular.toString()).toEqual("(ab)(cd)");
       });
    });
 
