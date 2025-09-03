@@ -19,6 +19,9 @@ export class RegularString {
                .split("")
                .filter(c => LetterUtils.is("letter", c))
                .map(c => new RegularCharacter(c));
+            if (characters.length === 1) {
+               return characters[0];
+            }
             return new RegularLetterSet(characters);
          } else {
             return new RegularCharacter(char);
@@ -45,20 +48,22 @@ export class RegularString {
       let lastSetStartPos = -1;
       let output = "";
 
-      for (let i = 0; i < input.length; i++) {
+      for (let i = 0, j = 0; i < input.length; i++, j++) {
          const char = input[i];
+
+         const [oldGroupDepth, oldSetDepth] = [groupDepth, setDepth];
 
          switch (char) {
             case RegularUtils.symbols.groupStart:
                groupDepth++;
-               lastGroupStartPos = i;
+               lastGroupStartPos = j;
                break;
             case RegularUtils.symbols.groupEnd:
                groupDepth--;
                break;
             case RegularUtils.symbols.setStart:
                setDepth++;
-               lastSetStartPos = i;
+               lastSetStartPos = j;
                break;
             case RegularUtils.symbols.setEnd:
                setDepth--;
@@ -66,6 +71,8 @@ export class RegularString {
          }
 
          if (groupDepth < 0 || setDepth < 0 || groupDepth > 1 || setDepth > 1 || groupDepth + setDepth === 2) {
+            [groupDepth, setDepth] = [oldGroupDepth, oldSetDepth];
+            j--;
             continue;
          }
 
@@ -111,7 +118,7 @@ export class RegularString {
       for (let i = 0; i < input.length; i++) {
          if (RegularUtils.isReference(input[i], false)) {
             const referenceTo = Number(input[i]);
-            if (referenceTo === i || referenceTo >= input.length) {
+            if (referenceTo === i || referenceTo >= input.length || referenceTo < 0) {
                referenceRegularChars.push(RegularUtils.symbols.wildcard);
                continue;
             } else {
@@ -140,7 +147,7 @@ export class RegularString {
       const output: string[] = [];
       for (let i = 0; i < referenceRegularChars.length; i++) {
          if (RegularUtils.isReference(referenceRegularChars[i], false)) {
-            output.push(String(referencingNumbers[i]) ?? RegularUtils.symbols.wildcard);
+            output.push(String(referencingNumbers[i] ?? RegularUtils.symbols.wildcard));
          } else if (referencingNumbers[i] === undefined) {
             output.push(referenceRegularChars[i]);
          } else {
