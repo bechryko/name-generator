@@ -33,7 +33,11 @@
          <tr>
             @let name = generatedName[0];
             <td class="number">{{ $index + 1 }}.</td>
-            <td class="name">{{ name }}</td>
+            <td
+               class="name"
+               [title]="name">
+               {{ name }}
+            </td>
             <td>
                <ngen-interactive-icon
                   class="small"
