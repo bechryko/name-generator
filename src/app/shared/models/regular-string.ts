@@ -1,9 +1,161 @@
-import { RegularUtils } from "@ngen-generation/core/utils";
+import { LetterUtils, RegularUtils } from "@ngen-generation/core/utils";
+import { deleteChar, getCharacterContainer } from "@ngen-shared/functions";
 import { RegularCharacter } from "./regular-character";
 import { RegularLetterSet } from "./regular-letter-set";
 import { RegularReference } from "./regular-reference";
 
 export class RegularString {
+   private static parseStringToRegularCharacters(str: string): RegularCharacter[] {
+      const parsedString = this.deleteNonRegulars(str.toLowerCase());
+      const parsedValidRegularString = this.deleteInvalidRegulars(parsedString);
+      const regularCharacterBases = this.splitToRegularCharacterBases(parsedValidRegularString);
+      const regularCharacterBasesWithFixedReferences = this.fixReferences(regularCharacterBases);
+      return regularCharacterBasesWithFixedReferences.map(char => {
+         if (RegularUtils.isReference(char)) {
+            const { referenceIndex, isExternal } = RegularUtils.extractReferenceData(char);
+            return new RegularReference(referenceIndex, isExternal);
+         } else if (char.length > 1) {
+            const characters = char
+               .split("")
+               .filter(c => LetterUtils.is("letter", c))
+               .map(c => new RegularCharacter(c));
+            return new RegularLetterSet(characters);
+         } else {
+            return new RegularCharacter(char);
+         }
+      });
+   }
+
+   private static deleteNonRegulars(input: string): string {
+      let output = "";
+      for (let i = 0; i < input.length; i++) {
+         if (LetterUtils.is("letter", input[i]) || RegularUtils.isRegular(input[i])) {
+            output += input[i];
+         } else {
+            output += RegularUtils.symbols.wildcard;
+         }
+      }
+      return output;
+   }
+
+   private static deleteInvalidRegulars(input: string): string {
+      let groupDepth = 0;
+      let lastGroupStartPos = -1;
+      let setDepth = 0;
+      let lastSetStartPos = -1;
+      let output = "";
+
+      for (let i = 0; i < input.length; i++) {
+         const char = input[i];
+
+         switch (char) {
+            case RegularUtils.symbols.groupStart:
+               groupDepth++;
+               lastGroupStartPos = i;
+               break;
+            case RegularUtils.symbols.groupEnd:
+               groupDepth--;
+               break;
+            case RegularUtils.symbols.setStart:
+               setDepth++;
+               lastSetStartPos = i;
+               break;
+            case RegularUtils.symbols.setEnd:
+               setDepth--;
+               break;
+         }
+
+         if (groupDepth < 0 || setDepth < 0 || groupDepth > 1 || setDepth > 1 || groupDepth + setDepth === 2) {
+            continue;
+         }
+
+         output += char;
+      }
+
+      if (groupDepth === 1) {
+         output = deleteChar(output, lastGroupStartPos);
+      } else if (setDepth === 1) {
+         output = deleteChar(output, lastSetStartPos);
+      }
+
+      return output;
+   }
+
+   private static splitToRegularCharacterBases(str: string): string[] {
+      const characters: string[] = [];
+
+      for (let i = 0; i < str.length; i++) {
+         if (str[i] === RegularUtils.symbols.groupStart) {
+            const container = getCharacterContainer(str, i, RegularUtils.symbols.groupEnd);
+            characters.push(container);
+            i += container.length + 1;
+         } else if (str[i] === RegularUtils.symbols.setStart) {
+            const container = getCharacterContainer(str, i, RegularUtils.symbols.setEnd);
+            characters.push(container);
+            i += container.length + 1;
+         } else {
+            characters.push(str[i]);
+         }
+      }
+
+      return characters;
+   }
+
+   private static fixReferences(input: string[]): string[] {
+      const referenceRegularChars: string[] = [];
+      const referencingSets: Set<number>[] = [];
+
+      for (let i = 0; i < input.length; i++) {
+         referencingSets[i] = new Set();
+      }
+      for (let i = 0; i < input.length; i++) {
+         if (RegularUtils.isReference(input[i], false)) {
+            const referenceTo = Number(input[i]);
+            if (referenceTo === i || referenceTo >= input.length) {
+               referenceRegularChars.push(RegularUtils.symbols.wildcard);
+               continue;
+            } else {
+               if (referenceTo > i) {
+                  referencingSets[referenceTo].add(i);
+               } else {
+                  referencingSets[i].add(referenceTo);
+               }
+            }
+         }
+         referenceRegularChars.push(input[i]);
+      }
+
+      for (let i = referencingSets.length - 1; i >= 0; i--) {
+         if (referencingSets[i].size <= 1) {
+            continue;
+         }
+         const references = referencingSets[i];
+         const nextReferenceInChain = Math.max(...Array.from(references));
+         referencingSets[i] = new Set([nextReferenceInChain]);
+         references.delete(nextReferenceInChain);
+         references.forEach(ref => referencingSets[nextReferenceInChain].add(ref));
+      }
+
+      const referencingNumbers: (number | undefined)[] = referencingSets.map(references => Array.from(references)[0]);
+      const output: string[] = [];
+      for (let i = 0; i < referenceRegularChars.length; i++) {
+         if (RegularUtils.isReference(referenceRegularChars[i], false)) {
+            output.push(String(referencingNumbers[i]) ?? RegularUtils.symbols.wildcard);
+         } else if (referencingNumbers[i] === undefined) {
+            output.push(referenceRegularChars[i]);
+         } else {
+            const letterToReference = referenceRegularChars[i];
+            let idx = i;
+            while (referencingNumbers[idx] !== undefined) {
+               idx = referencingNumbers[idx]!;
+            }
+            output[idx] = letterToReference;
+            output.push(String(referencingNumbers[i]));
+         }
+      }
+      return output;
+   }
+
    private readonly characters: RegularCharacter[] = [];
 
    constructor(str?: string) {
@@ -11,7 +163,7 @@ export class RegularString {
          return;
       }
 
-      this.characters.push(...RegularUtils.parseStringToRegularCharacters(str));
+      this.characters.push(...RegularString.parseStringToRegularCharacters(str));
       this.assignReferences();
    }
 
