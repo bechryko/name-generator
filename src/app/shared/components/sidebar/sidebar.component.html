@@ -3,13 +3,13 @@
       (click)="onSelect(item.value)"
       [matTooltipDisabled]="!item.description"
       [matTooltip]="item.description!"
-      matTooltipPosition="right"
+      [matTooltipPosition]="tooltipPosition"
       [class.selected]="item.value === selectedValue()">
       {{ item.label }}
    </button>
 } @empty {
    <p id="placeholder">{{ placeholderText() }}</p>
 }
-@if (selectableList().length > 0) {
-   <p>And more to come!</p>
+@if (footerText()) {
+   <p class="footer-text">{{ footerText() }}</p>
 }

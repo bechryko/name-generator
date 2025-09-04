@@ -61,6 +61,10 @@ button {
    font-weight: var(--fw-semi-bold);
 }
 
+strong {
+   font-weight: var(--fw-bold);
+}
+
 .buttons-container {
    display: flex;
    gap: 1rem;

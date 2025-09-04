@@ -1,0 +1,17 @@
+<p>
+   You generated <strong>{{ generatedNames }} name(s)</strong> in the bulk generation dialog. By closing the dialog,
+   <strong> all generated names will be lost</strong>. Are you sure you want to close it?
+</p>
+<div class="buttons-container">
+   <button
+      class="warning"
+      mat-raised-button
+      (click)="confirm()">
+      Confirm
+   </button>
+   <button
+      mat-raised-button
+      (click)="cancel()">
+      Cancel
+   </button>
+</div>

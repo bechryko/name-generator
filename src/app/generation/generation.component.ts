@@ -82,7 +82,8 @@ export class GenerationComponent {
          data: {
             algorithmName,
             config
-         } satisfies BulkGenerationDialogData
+         } satisfies BulkGenerationDialogData,
+         disableClose: true
       });
    }
 
