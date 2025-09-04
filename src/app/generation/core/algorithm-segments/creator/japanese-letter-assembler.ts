@@ -1,7 +1,7 @@
 import { RandomUtils, WeightCalculationUtils } from "@ngen-shared/utils";
-import { japaneseLetterList } from "../constants";
-import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationConfig, GenerationData, JapaneseLetter } from "../models";
+import { japaneseLetterList } from "../../constants";
+import { AlgorithmDataType } from "../../enums";
+import { AlgorithmSegment, GenerationConfig, GenerationData, JapaneseLetter } from "../../models";
 
 export type JapaneseLetterAssemblerConfig = Pick<GenerationConfig, "minLength" | "maxLength" | "disableLetterWeights">;
 

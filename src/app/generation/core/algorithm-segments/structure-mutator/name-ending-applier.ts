@@ -1,8 +1,8 @@
 import { RegularString, Weighted } from "@ngen-shared/models";
 import { RandomUtils, WeightCalculationUtils } from "@ngen-shared/utils";
-import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationConfig, GenerationData } from "../models";
-import { AvailableLetterUtils } from "../utils";
+import { AlgorithmDataType } from "../../enums";
+import { AlgorithmSegment, GenerationConfig, GenerationData } from "../../models";
+import { AvailableLetterUtils } from "../../utils";
 
 export type NameEndingApplierConfig = Pick<GenerationConfig, "excludedLetters" | "includedLetters">;
 

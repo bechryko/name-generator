@@ -1,6 +1,6 @@
-import { RegularUtils } from "@ngen-generation/core/utils";
 import { getCharacterContainer } from "@ngen-shared/functions";
 import { Weighted } from "@ngen-shared/models";
+import { RegularUtils } from "./regular.utils";
 
 export class WeightCalculationUtils {
    public static assignWeights<T>(array: T[], weightAssignFn: (element: T, index: number) => number): Weighted<T>[] {

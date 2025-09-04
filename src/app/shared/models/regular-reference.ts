@@ -1,5 +1,5 @@
-import { RegularUtils } from "@ngen-generation/core/utils";
-import { RegularCharacterPriority } from "@ngen-shared/enums";
+import { RegularCharacterPriority } from "../enums";
+import { RegularUtils } from "../utils";
 import { RegularCharacter } from "./regular-character";
 import { RegularString } from "./regular-string";
 

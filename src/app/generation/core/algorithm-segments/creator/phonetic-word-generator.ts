@@ -7,9 +7,9 @@ import {
    phoneticPre,
    phoneticPreSimpleLength,
    phoneticReplacements
-} from "../constants";
-import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationConfig, GenerationData } from "../models";
+} from "../../constants";
+import { AlgorithmDataType } from "../../enums";
+import { AlgorithmSegment, GenerationConfig, GenerationData } from "../../models";
 
 export type PhoneticWordGeneratorConfig = Pick<GenerationConfig, "minLength" | "maxLength">;
 

@@ -1,6 +1,7 @@
-import { pluck } from "@ngen-shared/functions";
-import { RandomUtils, WeightCalculationUtils } from "@ngen-shared/utils";
-import { GenerationConfig, Letter, RandomLetterConfig } from "../models";
+import { GenerationConfig } from "@ngen-generation/core/models";
+import { pluck, pluckSum } from "../functions";
+import { Letter, RandomLetterConfig } from "../models";
+import { RandomUtils, WeightCalculationUtils } from "../utils";
 
 type LetterType = "vowel" | "consonant" | "letter";
 
@@ -74,7 +75,7 @@ export class LetterUtils {
             !config.excludedLetters.has(l.letter) &&
             (config.includedLetters.isEmpty() || config.includedLetters.has(l.letter))
       );
-      return usableVowels.reduce((acc, v) => acc + v.weight, 0) / usableLetters.reduce((acc, l) => acc + l.weight, 0); //TODO: pluckSum function
+      return pluckSum(usableVowels, "weight") / pluckSum(usableLetters, "weight");
    }
 
    /**

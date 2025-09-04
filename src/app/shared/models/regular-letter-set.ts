@@ -1,6 +1,5 @@
-import { LetterUtils, RegularUtils } from "@ngen-generation/core/utils";
-import { RegularCharacterMatchingPriority } from "@ngen-shared/enums";
-import { RandomUtils } from "@ngen-shared/utils";
+import { RegularCharacterMatchingPriority } from "../enums";
+import { LetterUtils, RandomUtils, RegularUtils } from "../utils";
 import { RegularCharacter } from "./regular-character";
 
 export class RegularLetterSet extends RegularCharacter {

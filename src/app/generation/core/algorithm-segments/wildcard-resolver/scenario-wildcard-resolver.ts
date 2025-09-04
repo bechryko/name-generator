@@ -1,9 +1,8 @@
 import { RegularCharacter, RegularString } from "@ngen-shared/models";
-import { RandomUtils } from "@ngen-shared/utils";
-import { scenarioDescriptions } from "../constants";
-import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationConfig, GenerationData, ScenarioDescription } from "../models";
-import { LetterUtils, RegularUtils } from "../utils";
+import { LetterUtils, RandomUtils, RegularUtils } from "@ngen-shared/utils";
+import { scenarioDescriptions } from "../../constants";
+import { AlgorithmDataType } from "../../enums";
+import { AlgorithmSegment, GenerationConfig, GenerationData, ScenarioDescription } from "../../models";
 
 export type ScenarioWildcardResolverConfig = Pick<
    GenerationConfig,
