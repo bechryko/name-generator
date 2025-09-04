@@ -31,6 +31,8 @@ hgroup {
 }
 
 nav {
+   display: flex;
+   justify-content: center;
    padding: 1rem;
    user-select: none;
 
@@ -43,8 +45,12 @@ nav {
       font-weight: var(--fw-semi-bold);
       border-radius: 0;
       padding: 0.5rem;
-      width: 25%;
+      flex-basis: 25%;
       min-width: fit-content;
       color: var(--clr-primary-contrast);
+
+      @include mixins.mq(medium) {
+         flex: 1;
+      }
    }
 }
