@@ -18,12 +18,17 @@ $table-height: 80dvh;
 .header-container {
    display: grid;
    grid-template-columns: 1fr 1fr 1fr;
-   grid-template-areas: ". generate-name generation-times-input";
+   grid-template-areas: "close-button generate-name generation-times-input";
    gap: 1rem;
    place-items: center;
    padding: 1rem;
 
-   button {
+   .close-button {
+      grid-area: close-button;
+      width: 50%;
+   }
+
+   .generate-name-button {
       grid-area: generate-name;
       font-size: 1.5rem;
       width: 100%;

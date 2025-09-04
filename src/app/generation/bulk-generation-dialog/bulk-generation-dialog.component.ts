@@ -40,6 +40,10 @@ export class BulkGenerationDialogComponent {
       this.generationTimes.set(clampedRoundedValue);
    }
 
+   public close(): void {
+      this.dialogRef.close();
+   }
+
    public generateNames(): void {
       const workerData: BulkGenerationWorkerData = {
          algorithmName: this.data.algorithmName,
@@ -58,10 +62,6 @@ export class BulkGenerationDialogComponent {
 
    public deleteName(index: number): void {
       this.generatedNames.update(names => names.filter((_, idx) => idx !== index));
-   }
-
-   public exit(): void {
-      this.dialogRef.close();
    }
 
    private onGenerationComplete(names: GeneratedName[]): void {

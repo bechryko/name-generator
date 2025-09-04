@@ -1,6 +1,13 @@
 <div class="header-container">
    <button
       mat-raised-button
+      class="close-button"
+      (click)="close()">
+      Close
+   </button>
+   <button
+      mat-raised-button
+      class="generate-name-button"
       [disabled]="isLoading()"
       (click)="generateNames()">
       @if (isLoading()) {
