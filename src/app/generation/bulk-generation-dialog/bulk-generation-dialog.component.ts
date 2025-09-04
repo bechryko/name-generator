@@ -1,11 +1,12 @@
 import { ChangeDetectionStrategy, Component, ElementRef, inject, signal, viewChild } from "@angular/core";
 import { MatButtonModule } from "@angular/material/button";
-import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from "@angular/material/dialog";
 import { MatProgressSpinnerModule } from "@angular/material/progress-spinner";
 import { GenerationUtils } from "@ngen-generation/utils";
 import { InteractiveIconComponent } from "@ngen-shared/components";
 import { Stopwatch } from "@ngen-shared/models";
 import { BulkGenerationDialogData } from "./bulk-generation-dialog-data";
+import { BulkGenerationDialogExitConfirmationComponent } from "./bulk-generation-dialog-exit-confirmation/bulk-generation-dialog-exit-confirmation.component";
 import { BulkGenerationWorkerData, GeneratedName } from "./models";
 import { GetApproxGenerationTimePipe } from "./pipes";
 import { BulkGenerationWorkerUtils } from "./worker/bulk-generation.worker.utils";
@@ -22,6 +23,7 @@ export class BulkGenerationDialogComponent {
 
    private readonly data: BulkGenerationDialogData = inject(MAT_DIALOG_DATA);
    private readonly dialogRef = inject(MatDialogRef);
+   private readonly dialog = inject(MatDialog);
 
    public readonly maxGenerationTimes = 2_000;
    public readonly generationTimes = signal(5);
@@ -41,7 +43,22 @@ export class BulkGenerationDialogComponent {
    }
 
    public close(): void {
-      this.dialogRef.close();
+      const generatedNamesAmount = this.generatedNames().length;
+
+      if (generatedNamesAmount > 0) {
+         this.dialog
+            .open(BulkGenerationDialogExitConfirmationComponent, {
+               data: generatedNamesAmount
+            })
+            .afterClosed()
+            .subscribe(confirmed => {
+               if (confirmed) {
+                  this.dialogRef.close();
+               }
+            });
+      } else {
+         this.dialogRef.close();
+      }
    }
 
    public generateNames(): void {

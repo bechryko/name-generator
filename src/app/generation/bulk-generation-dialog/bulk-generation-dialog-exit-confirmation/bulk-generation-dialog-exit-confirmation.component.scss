@@ -1,0 +1,26 @@
+$font-size: 1.125rem;
+
+:host {
+   display: block;
+   font-size: $font-size;
+   background-color: var(--clr-primary-lighter-alt);
+   max-width: 30rem;
+   padding: 2rem;
+}
+
+p {
+   text-align: justify;
+}
+
+.buttons-container {
+   margin-top: 2rem;
+
+   button {
+      font-size: $font-size;
+   }
+
+   .warning {
+      color: var(--clr-error-darker-contrast);
+      background-color: var(--clr-error-darker);
+   }
+}
