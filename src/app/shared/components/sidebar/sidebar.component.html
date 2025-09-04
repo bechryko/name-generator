@@ -3,7 +3,7 @@
       (click)="onSelect(item.value)"
       [matTooltipDisabled]="!item.description"
       [matTooltip]="item.description!"
-      matTooltipPosition="right"
+      [matTooltipPosition]="tooltipPosition"
       [class.selected]="item.value === selectedValue()">
       {{ item.label }}
    </button>
