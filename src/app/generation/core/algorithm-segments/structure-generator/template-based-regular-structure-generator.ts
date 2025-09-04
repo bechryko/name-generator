@@ -1,7 +1,7 @@
 import { RegularString } from "@ngen-shared/models";
 import { RandomUtils, RegularUtils } from "@ngen-shared/utils";
-import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationConfig, GenerationData } from "../models";
+import { AlgorithmDataType } from "../../enums";
+import { AlgorithmSegment, GenerationConfig, GenerationData } from "../../models";
 
 export type TemplateBasedRegularStructureGeneratorConfig = Pick<
    GenerationConfig,

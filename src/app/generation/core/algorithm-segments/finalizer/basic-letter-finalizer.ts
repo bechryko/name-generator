@@ -1,9 +1,9 @@
 import { RandomLetterConfig, RegularCharacter, RegularString } from "@ngen-shared/models";
 import { LetterUtils, RandomUtils } from "@ngen-shared/utils";
-import { errorMessages } from "../constants";
-import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationConfig, GenerationData, GenerationErrors } from "../models";
-import { GenerationConfigUtils, NameStartingDoubleConsonantUtils, VoicedUnvoicedPairsUtils } from "../utils";
+import { errorMessages } from "../../constants";
+import { AlgorithmDataType } from "../../enums";
+import { AlgorithmSegment, GenerationConfig, GenerationData, GenerationErrors } from "../../models";
+import { GenerationConfigUtils, NameStartingDoubleConsonantUtils, VoicedUnvoicedPairsUtils } from "../../utils";
 
 export type BasicLetterFinalizerConfig = Pick<
    GenerationConfig,

@@ -1,8 +1,8 @@
 import { RegularCharacter, RegularString } from "@ngen-shared/models";
 import { LetterUtils, RandomUtils, RegularUtils } from "@ngen-shared/utils";
-import { AlgorithmDataType } from "../enums";
-import { AlgorithmSegment, GenerationConfig, GenerationData } from "../models";
-import { NameStartingDoubleConsonantUtils } from "../utils";
+import { AlgorithmDataType } from "../../enums";
+import { AlgorithmSegment, GenerationConfig, GenerationData } from "../../models";
+import { NameStartingDoubleConsonantUtils } from "../../utils";
 
 export type ProximityWildcardResolverConfig = Pick<
    GenerationConfig,
