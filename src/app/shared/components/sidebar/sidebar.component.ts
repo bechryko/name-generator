@@ -18,6 +18,7 @@ export class SidebarComponent<T> {
    public readonly selectableList = input.required<NgenSidebarSelectable<T>[]>();
    public readonly selectedValue = input<T>();
    public readonly placeholderText = input("");
+   public readonly footerText = input<string | null>(null);
    public readonly select = output<T>();
    public tooltipPosition = this.calculateTooltipPosition();
 

@@ -10,6 +10,6 @@
 } @empty {
    <p id="placeholder">{{ placeholderText() }}</p>
 }
-@if (selectableList().length > 0) {
-   <p>And more to come!</p>
+@if (footerText()) {
+   <p class="footer-text">{{ footerText() }}</p>
 }
