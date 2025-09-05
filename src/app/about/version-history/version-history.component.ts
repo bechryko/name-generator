@@ -2,7 +2,6 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 interface VersionDetails {
    id: string;
-   name?: string;
    date?: Date;
    content: string[];
 }
@@ -18,12 +17,15 @@ export class VersionHistoryComponent {
       {
          id: "1.0",
          content: [
-            "Where it all began",
-            "Added japanese generator algorithm (on version 1.0)",
-            "Added syllabic generator algorithm (on version 1.0)",
-            "Added regular generator algorithm (on version 1.0)",
-            "Added Database page with the best names saved",
-            "Added About page with loads of information"
+            "Added Japanese generator algorithm",
+            "Added syllabic generator algorithm",
+            "Added regular generator algorithm",
+            "Added phonetic generator algorithm by Tom Shawver",
+            "Added 10 generation config fields",
+            "Introduced letter set inputs",
+            "Introduced regular string inputs and a name generation-specific regular language",
+            "Added bulk generation dialog",
+            "Added About page with introduction, generator descriptions and version history"
          ]
       }
    ];
