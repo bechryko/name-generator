@@ -21,23 +21,28 @@ export class RegularCharacter {
    }
 
    public doesMatch(character: RegularCharacter): boolean {
-      if (character.matchingPriority > this.matchingPriority) {
-         return character.doesMatch(this);
+      const thisMatchingCharacter = this.matchingCharacter;
+      const otherMatchingCharacter = character.matchingCharacter;
+
+      if (otherMatchingCharacter.matchingPriority > thisMatchingCharacter.matchingPriority) {
+         return otherMatchingCharacter.doesMatch(thisMatchingCharacter);
       }
 
-      if (this.isWildcard || character.isWildcard) {
+      if (thisMatchingCharacter.isWildcard || otherMatchingCharacter.isWildcard) {
          return true;
       }
 
-      if (this.getValue() === character.getValue()) {
+      if (thisMatchingCharacter.getValue() === otherMatchingCharacter.getValue()) {
          return true;
       }
 
-      if (this.isBasicRegular === character.isBasicRegular) {
+      if (thisMatchingCharacter.isBasicRegular === otherMatchingCharacter.isBasicRegular) {
          return false;
       }
 
-      const [regular, letter] = this.isBasicRegular ? [this, character] : [character, this];
+      const [regular, letter] = thisMatchingCharacter.isBasicRegular
+         ? [thisMatchingCharacter, otherMatchingCharacter]
+         : [otherMatchingCharacter, thisMatchingCharacter];
       return regular.isVowel
          ? LetterUtils.is("vowel", letter.getValue())
          : LetterUtils.is("consonant", letter.getValue());
@@ -92,5 +97,9 @@ export class RegularCharacter {
       }
 
       return this.isBasicRegular === other.isBasicRegular && this.letter === other.letter;
+   }
+
+   public get matchingCharacter(): RegularCharacter {
+      return this;
    }
 }

@@ -45,6 +45,10 @@ export class RegularReference extends RegularCharacter {
       return RegularCharacterPriority.REFERENCE;
    }
 
+   public getReferenceIndex(): number {
+      return this.referenceIndex;
+   }
+
    public override toString(): string {
       let str = String(this.referenceIndex);
 
@@ -56,7 +60,7 @@ export class RegularReference extends RegularCharacter {
    }
 
    public override getValue(): string {
-      return this.dereference();
+      return this.dereference().getValue();
    }
 
    public override clone(): RegularReference {
@@ -71,11 +75,15 @@ export class RegularReference extends RegularCharacter {
       throw new Error("Equality check not implemented for regular references!");
    }
 
-   private dereference(): string {
+   public override get matchingCharacter(): RegularCharacter {
+      return this.dereference();
+   }
+
+   private dereference(): RegularCharacter {
       if (!this.regularString) {
          throw new Error("Cannot dereference without an assigned regular string!");
       }
 
-      return this.regularString.getCharacters()[this.referenceIndex].toString();
+      return this.regularString.getCharacters()[this.referenceIndex];
    }
 }

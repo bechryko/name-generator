@@ -9,6 +9,7 @@ export class RegularLetterSet extends RegularCharacter {
    }
 
    private set: RegularCharacter[];
+   private decidedValue?: RegularCharacter;
 
    constructor(characters: RegularCharacter[]) {
       super("");
@@ -25,29 +26,31 @@ export class RegularLetterSet extends RegularCharacter {
    public override assign(character: string): void {}
 
    public override doesMatch(character: RegularCharacter): boolean {
-      if (character.isWildcard) {
+      const otherMatchingCharacter = character.matchingCharacter;
+
+      if (otherMatchingCharacter.isWildcard) {
          return true;
       }
 
-      if (character.isReference) {
-         return this.has(character.getValue());
+      if (otherMatchingCharacter.isReference) {
+         return this.has(otherMatchingCharacter.getValue());
       }
 
-      if (LetterUtils.is("letter", character.toString())) {
-         return this.has(character);
+      if (LetterUtils.is("letter", otherMatchingCharacter.toString())) {
+         return this.has(otherMatchingCharacter);
       }
 
-      if (character.toString() === RegularUtils.symbols.vowel) {
+      if (otherMatchingCharacter.toString() === RegularUtils.symbols.vowel) {
          return this.isVowel;
       }
 
-      if (character.toString() === RegularUtils.symbols.consonant) {
+      if (otherMatchingCharacter.toString() === RegularUtils.symbols.consonant) {
          return this.isConsonant;
       }
 
-      if (character instanceof RegularLetterSet) {
+      if (otherMatchingCharacter instanceof RegularLetterSet) {
          for (const char of this.set) {
-            if (character.has(char)) {
+            if (otherMatchingCharacter.has(char)) {
                return true;
             }
          }
@@ -101,7 +104,11 @@ export class RegularLetterSet extends RegularCharacter {
    }
 
    public override getValue(): string {
-      return RandomUtils.randomIndex(this.set).getValue();
+      if (!this.decidedValue) {
+         this.decidedValue = RandomUtils.randomIndex(this.set);
+      }
+
+      return this.decidedValue.toString();
    }
 
    public override clone(): RegularLetterSet {
