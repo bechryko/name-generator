@@ -39,6 +39,10 @@
       text-wrap: pretty;
       font-size: 1.3rem;
       margin: 0;
+
+      &.generator-description {
+         margin-bottom: 1.5rem;
+      }
    }
 
    li {

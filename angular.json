@@ -117,6 +117,14 @@
               "includePaths": ["src/styles"]
             }
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy",
+          "options": {
+            "buildTarget": "name-generator:build:production",
+            "dir": "dist/name-generator/browser",
+            "baseHref": "/name-generator/"
+          }
         }
       }
     }

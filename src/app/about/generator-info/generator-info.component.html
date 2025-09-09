@@ -1,7 +1,7 @@
 @let generationNavigationIconTooltip = "Try the generator!";
 
 <h2>Generators</h2>
-<p>Here you can find everything about your favorite generator algorithms and their configuration.</p>
+<p>Here you can find everything about all the generator algorithms and their configuration.</p>
 <section>
    <h3>
       Japanese generator algorithm
@@ -13,12 +13,12 @@
          >create</mat-icon
       >
    </h3>
-   <p>
-      This algorithm is based on the japanese letters. It is a syllabic alphabet, which means that letters placed after
+   <p class="generator-description">
+      This algorithm is based on the Japanese letters. It is a syllabic alphabet, which means that letters placed after
       each other create an easily pronounceable word - a name.
    </p>
    <p>
-      The <strong>minimum and maximum length</strong> value configures how many japanese letters can be placed in the
+      The <strong>minimum and maximum length</strong> values configure how many Japanese letters can be placed in the
       name. The length can be between {{ configPropertyBounds.lengthInSyllables.min }} and
       {{ configPropertyBounds.lengthInSyllables.max }}.
    </p>
@@ -39,14 +39,12 @@
          >create</mat-icon
       >
    </h3>
-   <p>
-      This algorithm manually creates syllables and places them after each other. It uses a special regular language to
-      decide if the given letter should be vowel or consonant. This means it is highly configurable in terms of the used
-      letters.
+   <p class="generator-description">
+      This algorithm creates syllables and places them after each other, resulting in a pronounceable name.
    </p>
    <p>
-      The <strong>minimum and maximum length</strong> value is available here too. The length here is measured in
-      syllables, and can be between {{ configPropertyBounds.lengthInSyllables.min }} and
+      The <strong>minimum and maximum length</strong> values configure how many syllables can be placed in the name. The
+      length can be between {{ configPropertyBounds.lengthInSyllables.min }} and
       {{ configPropertyBounds.lengthInSyllables.max }}.
    </p>
    <p>
@@ -67,9 +65,9 @@
       with only short or only long syllables.
    </p>
    <p>
-      The <strong>Disable letter weights</strong> checkbox is available here too, which works the same as for the
-      Japanese generator. In this generator the letter weights are calculated using English texts, checking this rule
-      disables it.
+      The <strong>Disable letter weights</strong> checkbox makes it possible to ignore the default weights for each
+      letter. By default, there is a weight assigned to each letter, based on English texts. By checking this rule,
+      these weights are not taken into account when choosing each letter for the generated word.
    </p>
 </section>
 <section>
@@ -83,20 +81,28 @@
          >create</mat-icon
       >
    </h3>
-   <p>
-      This algorithm uses the full potential of the application's regular language. It has a lot of customizability,
-      although it is built more for customization, than to generate names with the basic configs. So with this
-      algorithm, it is crucial to be familiar with the configuration options.
+   <p class="generator-description">
+      This algorithm uses the full potential of the application's special regular language. It has a lot of
+      customizability, although it is built more for customization, than to generate names with the basic configs. So
+      with this algorithm, it is crucial to be familiar with the configuration options, and use them for the best,
+      custom results!
    </p>
    <p>
-      The <strong>minimum and maximum length</strong> value is available here too, but here it means the length of the
-      name in letters. Its minimum value is {{ configPropertyBounds.lengthInLetters.min }} and the maximum is
+      The <strong>minimum and maximum length</strong> values configure how many letters can be placed in the name. The
+      length can be between {{ configPropertyBounds.lengthInLetters.min }} and
       {{ configPropertyBounds.lengthInLetters.max }}.
    </p>
    <p>
-      The <strong>excluded letters</strong>, <strong>included letters</strong> and
-      <strong>Ignore voiced-unvoiced neighbors</strong> options are exactly the same as in the syllabic generator
-      algorithm.
+      The <strong>excluded and included letters</strong> fields are used to configure the used letters. These can't be
+      both used, you can only exclude or include letters to generate the name from. Also, if there are not enough
+      letters to generate the name from, the generator will use the default letters and pop up a warning.
+   </p>
+   <p>
+      The <strong>Ignore voiced-unvoiced neighbors</strong> checkbox is used to configure if the generator should ignore
+      the voiced-unvoiced neighbor rule. This rule means that after a voiced/unvoiced consonant, the next consonant
+      can't be its pair. For example, after a letter 'g' the next consonant can't be 'k', because they are a
+      voiced-unvoiced pair. If this checkbox is checked, the generator will ignore this rule and may generate names with
+      voiced-unvoiced neighbors.
    </p>
    <p>
       The <strong>regular name start/end/skeleton</strong> lets you customize how you want your name to be built. The
@@ -104,18 +110,19 @@
       (overriding the set length options).
    </p>
    <p>
-      The regular language, which you can use in the above fields, consists of three types of characters: letters, basic
-      regular symbols and regular reference symbols. The letters are explicitly telling the generator to put the given
-      letter in the given place in the name. With the basic regular symbols you can define sets of letters to put in the
-      given place. The <code>{{ regulars.wildcard }}</code> (wildcard) symbol tells that any letter (taking into account
-      other configuration rules) can be placed there, while <code>{{ regulars.vowel }}</code> and
-      <code>{{ regulars.consonant }}</code> mean a random vowel or consonant, respectively. Using regular reference
-      symbols you can reference to other parts of your name, using <code>0</code> and positive integer numbers.
-      (Indexing starts from 0.) (If you are using references with higher index than 9, you have to put curly brackets
-      around them, like <code>{{ "{11}" }}</code
-      >.) For an example, if your regular structure is "<code>+--0</code>", the first letter will be a random vowel, the
-      second and third a random consonant which are independent, and the last letter references the first (the one with
-      index 0), so they will always be the same. One possible name generated with this structure is "Ansa".
+      The regular language, which you can use in the above fields, consists of four types of characters: letters, basic
+      regular symbols, regular reference symbols and regular letter sets. The letters are explicitly telling the
+      generator to put the given letter in the given place in the name. With the basic regular symbols you can define
+      sets of letters to put in the given place. The <code>{{ regulars.wildcard }}</code> (wildcard) symbol tells that
+      any letter (taking into account other configuration rules) can be placed there, while
+      <code>{{ regulars.vowel }}</code> and <code>{{ regulars.consonant }}</code> mean a random vowel or consonant,
+      respectively. Using regular reference symbols you can reference to other parts of your name, using non-negative
+      integer numbers. (Indexing starts from 0.) For an example, if your regular structure is "<code>+--0</code>", the
+      first letter will be a random vowel, the second and third a random consonant which are independent, and the last
+      letter references the first (the one with index 0), so they will always be the same. One possible name generated
+      with this structure is "Ansa". (If you are using references with higher index than 9, you have to put curly
+      brackets around them, like <code>{{ "{11}" }}</code
+      >.)
    </p>
    <p>
       Note that, regular name start and end are regular strings on their own. So if you write a <code>0</code> in the
@@ -132,8 +139,9 @@
       letters, no regular characters.
    </p>
    <p>
-      The <strong>Disable letter weights</strong> checkbox works exactly the same as for the Syllabic generator
-      algorithm.
+      The <strong>Disable letter weights</strong> checkbox makes it possible to ignore the default weights for each
+      letter. By default, there is a weight assigned to each letter, based on English texts. By checking this rule,
+      these weights are not taken into account when choosing each letter for the generated word.
    </p>
 </section>
 <section>
@@ -147,7 +155,7 @@
          >create</mat-icon
       >
    </h3>
-   <p>
+   <p class="generator-description">
       This generator is based on
       <a
          href="https://github.com/TomFrost/node-phonetic"
@@ -157,8 +165,8 @@
       into the name generator, so all credits go to Tom Shawver.
    </p>
    <p>
-      The <strong>minimum and maximum length</strong> value is available here too. The length here is measured in
-      syllables, and can be between {{ configPropertyBounds.lengthInSyllables.min }} and
+      The <strong>minimum and maximum length</strong> values configure how many syllables can be placed in the name. The
+      length can be between {{ configPropertyBounds.lengthInSyllables.min }} and
       {{ configPropertyBounds.lengthInSyllables.max }}. Note that this is a phonetic syllable amount, the actual one can
       be outside the set bounds.
    </p>

@@ -5,13 +5,7 @@
 </p>
 @for (version of namedVersions; track $index) {
    <section class="version-details">
-      <h3>
-         @if (version.name) {
-            {{ version.id }}: {{ version.name }}
-         } @else {
-            {{ version.id }}
-         }
-      </h3>
+      <h3>{{ version.id }}</h3>
       <p>Release date: {{ version.date ?? "not yet released" }}</p>
       <ul>
          @for (contentElement of version.content; track $index) {
@@ -21,7 +15,7 @@
       @for (patch of getPatchVersions(version); track $index) {
          <section>
             <h4>{{ patch.id }}</h4>
-            <p>Released: {{ patch.date ?? "not yet released" }}</p>
+            <p>Release date: {{ patch.date ?? "not yet released" }}</p>
             <ul>
                @for (contentElement of patch.content; track $index) {
                   <li>{{ contentElement }}</li>
