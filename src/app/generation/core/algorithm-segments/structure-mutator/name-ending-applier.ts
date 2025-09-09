@@ -31,6 +31,8 @@ export class NameEndingApplier extends AlgorithmSegment<
       config: NameEndingApplierConfig,
       data: GenerationData
    ): [RegularString, GenerationData] {
+      const errors = data.errors.clone();
+
       const availableEndings = AvailableLetterUtils.filterByAvailableLetters(NameEndingApplier.NAME_ENDINGS, config);
       const weightedAvailableEndings = WeightCalculationUtils.addWeightByWeightLookup(
          availableEndings,
@@ -43,13 +45,18 @@ export class NameEndingApplier extends AlgorithmSegment<
       const regular = input.clone();
       if (weightedMatchingEndings.length) {
          const chosenEnding = RandomUtils.randomIndexWeighted(weightedMatchingEndings);
-         regular.match(chosenEnding, regular.length - chosenEnding.length);
+         const matchingErrorMessages = regular.match(chosenEnding, regular.length - chosenEnding.length);
+
+         if (matchingErrorMessages.length) {
+            errors.add(matchingErrorMessages);
+         }
       }
 
       const newData: GenerationData = {
          ...data,
          generationSteps: data.generationSteps + 1,
-         regularTemplate: regular.toString()
+         regularTemplate: regular.toString(),
+         errors
       };
       return [regular, newData];
    }

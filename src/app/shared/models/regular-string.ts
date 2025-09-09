@@ -263,23 +263,33 @@ export class RegularString {
       return true;
    }
 
-   public match(other: string | RegularString, startIndex = 0): void {
-      if (other.length > this.length) {
+   public match(other: string | RegularString, startIndex = 0): string[] {
+      const matchingErrorMessages: string[] = [];
+      const regularOther = typeof other === "string" ? new RegularString(other) : other;
+
+      if (regularOther.length > this.length + startIndex) {
          throw new Error("Matched ending's length is larger than the length of this!");
       }
 
-      const regularOther = typeof other === "string" ? new RegularString(other) : other;
       for (let i = 0; i < regularOther.length && i + startIndex < this.length; i++) {
          const char = this.characters[i + startIndex];
          const otherChar = regularOther.characters[i];
          if (!char.doesMatch(otherChar)) {
-            throw new Error(
-               `Cannot match '${regularOther.toString()}' to '${this.toString()}' from position ${startIndex}!`
+            matchingErrorMessages.push(
+               `Character matching on position ${i + startIndex} failed! Try using less regular references for better custom matching!`
             );
+            continue;
          }
 
-         this.characters[i + startIndex] = this.getMatchedCharacter(char, otherChar);
+         this.matchCharacter(
+            i + startIndex,
+            startIndex,
+            otherChar,
+            this.getMatchedCharacter(char.matchingCharacter, otherChar.matchingCharacter)
+         );
       }
+
+      return matchingErrorMessages;
    }
 
    public getCharacters(clone = false): RegularCharacter[] {
@@ -323,10 +333,28 @@ export class RegularString {
 
       if (c1 instanceof RegularLetterSet || c2 instanceof RegularLetterSet) {
          const set = (c1 instanceof RegularLetterSet ? c1 : c2).clone() as RegularLetterSet;
-         set.match(c2);
+         const other = c1 instanceof RegularLetterSet ? c2 : c1;
+         set.match(other);
          return set;
       }
 
-      return c1.priority > c2.priority ? c1.clone() : c2.clone();
+      return c1.priority >= c2.priority ? c1.clone() : c2.clone();
+   }
+
+   private matchCharacter(
+      index: number,
+      strIndexDifference: number,
+      otherChar: RegularCharacter,
+      matchedChar: RegularCharacter
+   ): void {
+      const characterToReplace = this.characters[index];
+
+      if (otherChar instanceof RegularReference) {
+         this.characters[index] = new RegularReference(otherChar.getReferenceIndex() + strIndexDifference, false);
+      } else if (characterToReplace instanceof RegularReference) {
+         this.characters[characterToReplace.getReferenceIndex()] = matchedChar;
+      } else {
+         this.characters[index] = matchedChar;
+      }
    }
 }

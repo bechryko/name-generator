@@ -1,7 +1,12 @@
 export class GenerationErrors {
    private errors: string[] = [];
 
-   public add(error: string): void {
+   public add(error: string | string[]): void {
+      if (Array.isArray(error)) {
+         error.forEach(err => this.add(err));
+         return;
+      }
+
       if (!this.errors.includes(error)) {
          this.errors.push(error);
       }
