@@ -18,11 +18,16 @@ export class NameEndingApplier extends AlgorithmSegment<
       "+(mns)",
       "i+s",
       "+nk+",
-      "+-+",
       "-ia",
       "+l(dftv)",
       "+mn",
-      "+(cr)k"
+      "+(cr)k",
+      "+(pv)+",
+      "+(dknz)ra",
+      "+(rt)a",
+      "(bdlnpz)0+",
+      "tt(io)",
+      "(cs)0(aeio)"
    ];
    private static ENDING_WEIGHT_LOOKUP?: Record<string, number>;
 
