@@ -78,12 +78,57 @@ describe("RegularString", () => {
       });
 
       it("should correctly match regulars with references", () => {
-         const regular = new RegularString("+0**");
-         const regularToMatch = "+*-*";
+         const regular = new RegularString("+0*");
+         const regularToMatch = "+*-";
 
          regular.match(regularToMatch);
 
-         expect(regular.toString()).toEqual("+0-*");
+         expect(regular.toString()).toEqual("+0-");
+      });
+
+      it("should correctly match basic regular with a letter set", () => {
+         const regular = new RegularString("*+");
+         const regularToMatch = "*(abcde)";
+
+         regular.match(regularToMatch);
+
+         expect(regular.toString()).toEqual("*(ae)");
+      });
+
+      it("should correctly match regular reference (referencing a letter set) with a basic regular", () => {
+         const regular = new RegularString("(abc)0");
+         const regularToMatch = "*-";
+
+         regular.match(regularToMatch);
+
+         expect(regular.toString()).toEqual("(bc)0");
+      });
+
+      it("should correctly match a basic regular with a regular reference (referencing a letter set) with a startIndex", () => {
+         const regular = new RegularString("+-*");
+         const regularToMatch = "(abc)0";
+
+         regular.match(regularToMatch, 1);
+
+         expect(regular.toString()).toEqual("+(bc)1");
+      });
+
+      it("should correctly match regular reference (referencing a letter set) with a letter set", () => {
+         const regular = new RegularString("(abc)0");
+         const regularToMatch = "*(cde)";
+
+         regular.match(regularToMatch);
+
+         expect(regular.toString()).toEqual("(c)0");
+      });
+
+      it("should correctly match regular reference (referencing a letter set) with a reference (referencing a letter set)", () => {
+         const regular = new RegularString("(abc)0");
+         const regularToMatch = "(cde)0";
+
+         regular.match(regularToMatch);
+
+         expect(regular.toString()).toEqual("(c)0");
       });
    });
 });
