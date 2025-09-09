@@ -15,7 +15,7 @@
       @for (patch of getPatchVersions(version); track $index) {
          <section>
             <h4>{{ patch.id }}</h4>
-            <p>Released: {{ patch.date ?? "not yet released" }}</p>
+            <p>Release date: {{ patch.date ?? "not yet released" }}</p>
             <ul>
                @for (contentElement of patch.content; track $index) {
                   <li>{{ contentElement }}</li>

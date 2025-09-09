@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component } from "@angular/core";
 
 interface VersionDetails {
    id: string;
-   date?: Date;
+   date?: string;
    content: string[];
 }
 
@@ -16,6 +16,7 @@ export class VersionHistoryComponent {
    private readonly versions: VersionDetails[] = [
       {
          id: "1.0",
+         date: "2025-09-09",
          content: [
             "Added Japanese generator algorithm",
             "Added syllabic generator algorithm",
