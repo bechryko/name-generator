@@ -1,6 +1,7 @@
 import { LetterSet, RegularString } from "@ngen-shared/models";
 
 export interface GenerationConfig {
+   seed: string;
    minLength: number;
    maxLength: number;
    excludedLetters: LetterSet;

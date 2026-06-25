@@ -1,6 +1,10 @@
 import { GeneratorAlgorithmName } from "@ngen-generation/core/enums";
 
 export class ConfigTooltipUtils {
+   public static getSeedTooltip(selectedGenerator: GeneratorAlgorithmName): string {
+      return "Using the same seed with the same config will always yield the same name";
+   }
+
    public static getMinLengthTooltip(selectedGenerator: GeneratorAlgorithmName): string {
       let msg = `Minimum length in ${this.getGeneratorLengthTypeText(selectedGenerator)} (cannot be more than Maximum length)`;
 

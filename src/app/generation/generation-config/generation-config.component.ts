@@ -60,6 +60,12 @@ export class GenerationConfigComponent {
 
    public readonly configFields: ConfigField[] = [
       {
+         name: "seed",
+         label: "Generation seed",
+         type: "text",
+         tooltip: computed(() => ConfigTooltipUtils.getSeedTooltip(this.selectedGenerator()))
+      },
+      {
          name: "minLength",
          label: "Minimum length",
          type: "number",

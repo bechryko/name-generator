@@ -1,6 +1,7 @@
 import { GenerationConfig } from "@ngen-generation/core/models";
 
 const fields = [
+   "seed",
    "minLength",
    "maxLength",
    "excludedLetters",
