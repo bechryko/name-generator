@@ -1,6 +1,7 @@
 import { GenerationErrors } from "./generation-errors";
 
 export interface GenerationData {
+   seed: string;
    generationSteps: number;
    errors: GenerationErrors;
    regularTemplate?: string;

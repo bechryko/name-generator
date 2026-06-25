@@ -24,12 +24,14 @@
     "@angular/platform-browser-dynamic": "^22.0.2",
     "@angular/router": "^22.0.2",
     "rxjs": "~7.8.0",
+    "seed-random": "^2.2.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
     "@angular/build": "^22.0.4",
     "@angular/cli": "^22.0.4",
     "@angular/compiler-cli": "^22.0.2",
+    "@types/seed-random": "^2.2.4",
     "@vitest/coverage-istanbul": "^4.1.9",
     "angular-cli-ghpages": "^3.1.0",
     "istanbul-lib-instrument": "^6.0.3",
