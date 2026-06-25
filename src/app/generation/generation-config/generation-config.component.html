@@ -16,7 +16,7 @@
                [label]="field.label"
                [type]="field.type"
                [disabledTooltip]="field.disabledTooltip"
-               [tooltip]="field.tooltip?.()"
+               [tooltip]="field.tooltip?.() ?? ''"
                (blur)="onBlur(field)"
                (autoModify)="onAutoModify(field.name)"></ngen-input>
          }
