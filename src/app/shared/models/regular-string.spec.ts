@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { RegularString } from "./regular-string";
 
 describe("RegularString", () => {
@@ -8,7 +9,7 @@ describe("RegularString", () => {
          for (const str of correctlyFormattedStrings) {
             const regular = new RegularString(str);
 
-            expect(regular.toString()).withContext(`string: ${str}`).toEqual(str);
+            expect(regular.toString(), `string: ${str}`).toEqual(str);
          }
       });
 

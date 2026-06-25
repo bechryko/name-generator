@@ -1,4 +1,5 @@
-import { AlgorithmDataType } from "../enums/algorithm-data-type";
+import { RandomUtils } from "@ngen-shared/utils";
+import { AlgorithmDataType } from "../enums";
 import { AlgorithmSegment } from "./algorithm-segment";
 import { GenerationConfig } from "./generation-config";
 import { GenerationData } from "./generation-data";
@@ -14,8 +15,12 @@ export class NameGeneratorAlgorithm {
    }
 
    public generateName(config: GenerationConfig): [string, GenerationData] {
+      const seed = config.seed || String(Math.random()).slice(2);
+      RandomUtils.setSeed(seed);
+
       let currentNameState: any = undefined;
       let generationData: GenerationData = {
+         seed,
          generationSteps: 0,
          errors: new GenerationErrors()
       };
@@ -28,6 +33,7 @@ export class NameGeneratorAlgorithm {
          generationData = this.postGenerationDataModifier(currentNameState, generationData);
       }
 
+      RandomUtils.clearSeed();
       return [currentNameState, generationData];
    }
 

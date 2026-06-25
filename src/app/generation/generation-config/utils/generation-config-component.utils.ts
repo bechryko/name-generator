@@ -6,12 +6,14 @@ export class GenerationConfigComponentUtils {
       switch (generator) {
          case GeneratorAlgorithmName.JAPANESE:
             return {
+               seed: true,
                minLength: true,
                maxLength: true,
                disableLetterWeights: true
             };
          case GeneratorAlgorithmName.SYLLABIC:
             return {
+               seed: true,
                minLength: true,
                maxLength: true,
                excludedLetters: true,
@@ -22,6 +24,7 @@ export class GenerationConfigComponentUtils {
             };
          case GeneratorAlgorithmName.REGULAR:
             return {
+               seed: true,
                minLength: true,
                maxLength: true,
                excludedLetters: true,
@@ -34,6 +37,7 @@ export class GenerationConfigComponentUtils {
             };
          case GeneratorAlgorithmName.PHONETIC:
             return {
+               seed: true,
                minLength: true,
                maxLength: true
             };

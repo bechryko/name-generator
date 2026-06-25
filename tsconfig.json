@@ -2,6 +2,7 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "rootDir": ".",
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,
     "strict": true,
@@ -18,13 +19,11 @@
     "target": "ES2022",
     "module": "ES2022",
     "useDefineForClassFields": false,
-    "lib": ["ES2022", "dom"],
-    "baseUrl": "./src",
     "paths": {
-      "@ngen-about/*": ["app/about/*"],
-      "@ngen-shared/*": ["app/shared/*"],
-      "@ngen-generation/*": ["app/generation/*"],
-      "@ngen-header/*": ["app/header/*"]
+      "@ngen-about/*": ["./src/app/about/*"],
+      "@ngen-shared/*": ["./src/app/shared/*"],
+      "@ngen-generation/*": ["./src/app/generation/*"],
+      "@ngen-header/*": ["./src/app/header/*"]
     }
   },
   "angularCompilerOptions": {

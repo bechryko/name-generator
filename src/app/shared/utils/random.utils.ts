@@ -1,5 +1,6 @@
 import { last } from "@ngen-shared/functions";
 import { Weighted } from "@ngen-shared/models";
+import seedRandom from "seed-random";
 
 interface RandomBetweenConfig {
    isMaxIncluded?: boolean;
@@ -11,6 +12,14 @@ interface RandomBetweenConfig {
  * Should be used instead of a plain Math.random().
  */
 export class RandomUtils {
+   public static setSeed(seed: string): void {
+      seedRandom(seed, { global: true });
+   }
+
+   public static clearSeed(): void {
+      seedRandom.resetGlobal();
+   }
+
    /**
     * Generates a random number in the given interval.
     *
