@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { getCharacterContainer } from "./get-character-container";
 
 describe("getCharacterContainer", () => {
@@ -13,6 +14,6 @@ describe("getCharacterContainer", () => {
       } catch (error) {
          hasError = true;
       }
-      expect(hasError).toBeTrue();
+      expect(hasError).toBe(true);
    });
 });

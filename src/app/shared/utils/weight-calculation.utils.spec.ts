@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { WeightCalculationUtils } from "./weight-calculation.utils";
 
 describe("WeightCalculationUtils", () => {
@@ -10,9 +11,9 @@ describe("WeightCalculationUtils", () => {
 
          const lookup = WeightCalculationUtils.getWeightLookupForRegularTemplates(templates);
 
-         expect(lookup[simpleTemplate]).withContext("simple template").toBe(1);
-         expect(lookup[templateWithOneLetterSet]).withContext("template with 1 letter set").toBe(2);
-         expect(lookup[templateWithMultipleLetterSets]).withContext("template with multiple letter sets").toBe(8);
+         expect(lookup[simpleTemplate], "simple template").toBe(1);
+         expect(lookup[templateWithOneLetterSet], "template with 1 letter set").toBe(2);
+         expect(lookup[templateWithMultipleLetterSets], "template with multiple letter sets").toBe(8);
       });
    });
 });

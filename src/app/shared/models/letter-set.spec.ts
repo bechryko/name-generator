@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { LetterSet } from "./letter-set";
 
 describe("LetterSet", () => {
@@ -32,23 +33,23 @@ describe("LetterSet", () => {
          const set = new LetterSet();
 
          set.add("a");
-         expect(set.toString()).withContext("added letter 'a'").toEqual("a");
+         expect(set.toString(), "added letter 'a'").toEqual("a");
 
          set.add("y");
-         expect(set.toString()).withContext("added letter 'y'").toEqual("ay");
+         expect(set.toString(), "added letter 'y'").toEqual("ay");
 
          set.add("k");
-         expect(set.toString()).withContext("added letter 'k'").toEqual("aky");
+         expect(set.toString(), "added letter 'k'").toEqual("aky");
       });
 
       it("should not add duplicate letters", () => {
          const set = new LetterSet(formattedLetters);
 
          set.add("a");
-         expect(set.toString()).withContext("added letter 'a'").toEqual(formattedLetters);
+         expect(set.toString(), "added letter 'a'").toEqual(formattedLetters);
 
          set.add("c");
-         expect(set.toString()).withContext("added letter 'c'").toEqual(formattedLetters);
+         expect(set.toString(), "added letter 'c'").toEqual(formattedLetters);
       });
 
       it("should throw error from non-letters", () => {
@@ -60,7 +61,7 @@ describe("LetterSet", () => {
          } catch (error) {
             hasError = true;
          }
-         expect(hasError).withContext("trying to add 'text'").toBeTrue();
+         expect(hasError, "trying to add 'text'").toBe(true);
 
          hasError = false;
          try {
@@ -68,7 +69,7 @@ describe("LetterSet", () => {
          } catch (error) {
             hasError = true;
          }
-         expect(hasError).withContext("trying to add '7'").toBeTrue();
+         expect(hasError, "trying to add '7'").toBe(true);
 
          hasError = false;
          try {
@@ -76,7 +77,7 @@ describe("LetterSet", () => {
          } catch (error) {
             hasError = true;
          }
-         expect(hasError).withContext("trying to add '*'").toBeTrue();
+         expect(hasError, "trying to add '*'").toBe(true);
       });
    });
 });

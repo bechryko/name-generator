@@ -1,3 +1,4 @@
+import { describe, expect, it } from "vitest";
 import { deleteChar } from "./delete-char";
 
 describe("deleteChar", () => {
